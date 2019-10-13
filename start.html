@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+	<title>E-learning</title>
+
+	<!--aqui se especifica el icono a utilizar-->
+	<link id="icon" rel="icon" type="image/png" href="icon.png" />
+	<!-- write your code here -->
+
+	<script src="js/jquery.js"></script>
+	<script src="js/libs/createjs-2015.11.26.min.js"></script>
+	
+	<!-- Comienzan librerías para PRELOADER -->
+	<script src="js/main.js"></script><!-- Necesario para preloader -->
+	<link rel="stylesheet" href="css/normalize.css"><!-- Estilos de los navegadores -->
+	<link rel="stylesheet" href="css/Animate.css"> <!--Animaciones para Swal-->
+	<link rel="stylesheet" href="css/main.css"><!-- Necesario para preloader -->
+	<script src="js/modernizr-2.6.2.min.js"></script><!-- Necesario para preloader -->
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">  
+	<script src="js/bootstrap.min.js"></script> 
+	<script src="temas/template_barra_canvas.js?1479836981087"></script> <!-- Barra de botones en start REQS -->
+	<script src="js/sweetalert2.all.min.js"></script>
+	<!-- GLOSARIO REQS -->
+	<!-- ya no exixten en la carpeta -->
+	<!-- <script src="libs/jquery.min.js"></script>
+	<script src="libs/bootstrap.min.js"></script>
+	<script src="libs/jquery-1.12.4g.js"></script> 
+	<script src="libs/jquery-1.11.1.min.js"></script> -->
+	
+	<!-- Librerías mobile -->
+	<!-- <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" /> no esta en la carpeta  -->
+	<!-- <script src="js/jquery.mobile-1.4.5.min.js"></script> no esta en la carpeta borrar  -->
+
+	<!--  Librerías de JQWERY UI-->
+	<!-- no se encuentra en carpeta 
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<script src="libs/jquery-ui.js"></script> -->
+	<script src="configJson.js"></script>	<!-- contiene el json generado por el addin de c#/excel -->
+	<script src="js/api.js"></script> <!-- Api comunicaciones LMS REQ -->	
+	<script src="js/start.js"></script> <!-- Funciones del Start -->
+	<script src="js/barrajs.js"></script>  <!--carga la funcionalidad de la barra-->
+<!--quita la Scroll Bar , ya que no sera utilizada-->
+	<style type="text/css"> 
+		html { overflow-y: hidden; }
+	</style>
+
+</head>
+
+<body  onload="SCOInitialize();	init_barra(); InitApi();"> 
+
+	<center>
+		<div data-role="controlgroup">
+			<a class="btn btn-info btn-lg" id="btnGlos" data-icon="bullets" data-toggle="modal" data-target="#GlosarioModal" data-role="button" style="display: none;">Glosario</a>
+		</div>
+
+		<!-- Modal DEL GLOSARIO-->   
+		<div data-backdrop="static" id="GlosarioModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content ">
+
+					<div class="modal-header"> 
+						<h2 data-dismiss="modal" class="close" onclick="Cierra();" class="modal-title ng-binding"> 
+							<a title="Close"> <i class="glyphicon glyphicon-remove icon-arrow-right pull-right"></i></a> 
+						</h2>
+						<h4 class="modal-title">Glosario</h4>
+					</div>
+					<div class="container">    <!-- Modal Body--> 
+						<iframe class="embed-responsive-item " frameborder="0" width="950" height="550" name="contenedor" id="glosario"></iframe>
+					</div> <!-- Termina Body--><!--  <div class="modal-footer"></div>  -->
+				</div>
+			</div>
+		</div>
+
+		<div id="content" class="contenedor">
+			<!--Barra-->
+			<div id="div_barra" class="container">
+				<div class="embed-responsive embed-responsive-4by3" style="padding-bottom: 5.1%;">
+					<iframe frameborder="0" width="980" height="50" name="Barra" id="Barra" onload=""></iframe>
+				</div>
+			</div>
+
+			<!--Mensajes-->
+			<div id="div_mensajes" class="container theme-showcase" style="position: absolute; top: 50px; z-index: 2; width: 980px; height: 60px;">
+				<div  style="width: 980px; height: 60px;">
+					<iframe frameborder="0" width="980" height="60" name="mensajes" id="mensajes" style="width: 980px; height: 60px;"></iframe>
+				</div>
+			</div>
+			
+			<!--Alertas-->
+			<div id="div_alerta" class="container theme-showcase" style="position: absolute; left: 0px; top: 0px; z-index: 5;">
+				<div class="embed-responsive-16by9">
+					<iframe frameborder="0" width="950" height="550" name="alertas" id="alertas"></iframe>
+				</div>
+			</div>
+
+			<!--Retros-->
+			<div id="div_retro" class="container theme-showcase" style="position: absolute; left: 0px; top: 0px; z-index: 3;">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe frameborder="0" width="950" height="550" name="retros" id="retros"></iframe>
+				</div>
+			</div>
+
+			<!--Contenido-->
+			<div id="div_contenido" class="container theme-showcase">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" frameborder="0" width="950" height="550"  name="Contenido" id="Contenido" onload=""></iframe>
+				</div>
+			</div>
+
+			<!--Menu-->
+			<div id="div_menu" class="container theme-showcase" style="position: relative; left: 0px; top: 0px; z-index: 4;">
+				
+			</style>
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe frameborder="0" width="950" height="550" name="menu" id="menu"></iframe>
+				</div>
+			</div>
+
+
+			<!--Simulacion-->
+			<div id="div_sim" class="container theme-showcase">
+				<div class="">
+					<iframe frameborder="0" width="950" height="550" name="Simulacion" id="sim"></iframe>
+				</div>
+			</div>
+
+			<!--Video-->
+			<div id="div_vid" class="container theme-showcase">
+				<div class="embed-responsive embed-responsive-16by9">
+					<video src="" frameborder="0" width="950" height="550" name="Videos" id="vid" autoplay></video>
+				</div>
+			</div>
+
+			<!--Glosario-->
+			<div id="div_glosario" class="container theme-showcase">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" src="" frameborder="0" width="950" height="550" name="glosario" id="glosario"></iframe>
+				</div>
+			</div>
+
+		</div>
+	</center>
+
+	<div id="loader-wrapper">
+		<div id="loader"></div>
+		<div class="loader-section section-left"></div>
+		<div class="loader-section section-right"></div>
+	</div>
+</body>
+</html>

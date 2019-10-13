@@ -1,0 +1,121 @@
+/*
+
+
+  Siempre que queramos cambiar algo y que bootstrap choque con lo que queremos hacer y queremos hacer ciertos arreglos
+  ponemos la misma regla que bootrstrap solo dandole en la linea de codigo !important, y el .html tomara como 
+  principal esta linea dejando a un lado la de bootstrap sin modificar lo demas.
+
+
+
+  en .container se establece el tamaño del frame dentro de la pagina , se maneja en porcentaje
+  */
+  .contenedor
+  {
+     width:90%;
+    margin: 0;
+    padding: 0;
+     max-width: 980px;
+  }
+ 
+  .container         
+  {
+    width:100%;
+    margin: 0;
+    padding: 0;
+  }
+
+
+/*  .modal-dialog {
+    height: 80% !important;
+    padding-top:1%;
+  }
+
+  .modal-content {
+    height: 100% !important;
+  }
+
+  .modal-body {
+    height: 80%;
+    overflow: auto;
+  }
+
+Esta parte decide cuanta opacidad dara a los modal dentro del glosario el mismo bootstrap decide esa opacidad pero al darle esta regla y diciendole !important toma primero esta linea que la de bootstrap
+
+.modal-backdrop
+{
+  opacity:0.8 !important;
+}*/
+
+
+body
+{
+	background-color: white;
+	width:100%;
+}
+
+h1
+{
+	color: white;
+}
+
+/*Esta parte le dice que  */
+.barra
+{
+	background-color: white;
+  border-radius: 0px;
+  display: block;
+  font-size: 1.7vw;
+  height: 25px;
+  text-align: center;
+  width: 80%;
+}
+
+#principal
+{
+	border-radius: 0px;
+  background-color: #CECECE;
+  margin-top: 1%;
+  margin-bottom: 0%;
+  padding: 1%;
+  width: 60%;
+  text-align: center;
+}
+
+
+/*
+Estos contenedores son la parte izq y derecha del preloader principal que determina si los xml se parsearon correctamente
+*/
+.Contenedor1
+{
+	margin-top: 2%;
+	width:100%;
+}
+
+.Contenedor2
+{
+	margin-top: 2%;
+	width:100%;
+}
+/*
+ Y aqui se decide que colores iran en las lineas del preloader 
+ */
+
+ .back-link a {
+  color: #4ca340;
+  text-decoration: none; 
+  border-bottom: 1px #4ca340 solid;
+}
+.back-link a:hover,
+.back-link a:focus {
+  color: #408536; 
+  text-decoration: none;
+  border-bottom: 1px #408536 solid;
+}
+.entry-header {
+  text-align: left;
+  
+  width: 80%;
+  max-width: 978px;
+  position: relative;
+  z-index: 10001;
+}
