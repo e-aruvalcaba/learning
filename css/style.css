@@ -119,3 +119,74 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   position: relative;
   z-index: 10001;
 }
+
+/* BARRA HTML */
+
+.barraHTML{
+  max-width: 950px;
+  padding: 0%;
+  margin: 0%;
+  background-color: #d6d6d6;
+  height: 52px;
+}
+
+.barraHTMLLogoBackground{
+  background-color: white;
+  -webkit-border-top-right-radius: 125px;
+  -webkit-border-bottom-right-radius: 125px;
+  -moz-border-radius-topright: 125px;
+  -moz-border-radius-bottomright: 125px;
+  border-top-right-radius: 125px;
+  border-bottom-right-radius: 125px;
+}
+
+.barraHTMLLogo{
+  float: none;
+  padding: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.barraIcons>li{
+  float: right!important;
+}
+
+.iconStyle{
+  background-color: gray!important; 
+  border-radius: 76px!important;
+  padding: 0%!important;
+  padding-left: 10px!important;
+  padding-right: 11px!important;
+  padding-bottom: 8px!important;
+  padding-top: 8px!important;
+  margin-top: 7px!important;
+  margin-right: 10px;
+}
+
+.iconStyle:hover{
+  background-color: crimson!important;
+  transition: 0.5s;
+}
+
+.iconColor{
+  color: white;
+  padding: 0%;
+  font-size: 15px;
+}
+
+.Title{
+  font-weight: bold;
+  color: black!important;
+}
+
+@media only screen and (max-width: 768px) {
+  .CourseTitle{
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .Title{
+    font-size: 14px!important;
+  }
+}

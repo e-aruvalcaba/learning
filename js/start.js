@@ -78,6 +78,7 @@ var checkboxText = ""; //se guardan las eqituetas HTML para backdoor de EVAL
 var controlEvalArray = 0; //controla las posiciones del arreglo de preguntas en EVAL (solo desde el start)
 var controlIrUltimo = false; // controlador para que te mande a la ultima pagina del ultimo tema que visitaste
 var contControlCheckbox = 0; //contador controlador para backdoor de evaluacion
+var closeType=0;
 // se confirma en que navegador se esta viendo el curso
 //funcion de comandos para que sea mas facil para DI
 function comando(hacer, objetivo) {
@@ -116,7 +117,7 @@ function comando(hacer, objetivo) {
 
 }
 
-var getBrowserInfo = function() {
+var getBrowserInfo = function () {
 	var ua = navigator.userAgent,
 		tem,
 		M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
@@ -342,7 +343,7 @@ function ir(id) {
 	console.log("ir " + id);
 	var iframe = document.getElementById("Contenido");
 	iframe.src = Rutas[id];
-	iframe.onload = function() {
+	iframe.onload = function () {
 		$('#div_contenido').fadeIn();
 	};
 	_root.IDActual = id;
@@ -398,7 +399,7 @@ function Cierra() {
 	$('#Palabra').hide();
 }
 //Funcion para cargar simulación
-window.Cargar_Sim = function(URLS, finalizoS, LASTMCS) {
+window.Cargar_Sim = function (URLS, finalizoS, LASTMCS) {
 	console.log("cargar Sim");
 	setEdo_botones(); //llama la funcion para guardar el estado de los botones
 	canvasBarra.deshabilitar_atras();
@@ -422,7 +423,7 @@ function simFinalizada() {
 	canvasBarra.habilitar_cerrar();
 }
 //funcion encargada de cargar un video
-window.cargar_video = function(URLS, finalizoS, LASTMCS) {
+window.cargar_video = function (URLS, finalizoS, LASTMCS) {
 	console.log("cargar video");
 	setEdo_botones();
 	canvasBarra.deshabilitar_atras();
@@ -435,7 +436,7 @@ window.cargar_video = function(URLS, finalizoS, LASTMCS) {
 	$('#div_vid').fadeIn();
 	var simulacion = document.getElementById("vid");
 	simulacion.src = URLS;
-	simulacion.onended = function() {
+	simulacion.onended = function () {
 		console.log("finalizo? desde start " + finalizoS);
 		canvasBarra.habilitar_cerrar();
 		if (finalizoS) {
@@ -481,7 +482,7 @@ function Cierra_Sim() {
 	}
 }
 
-function checarTerminacion(){
+function checarTerminacion() {
 	//revisar si ya se termino el curso
 	var creditosActuales = 0;
 	var creditosMinimos = TRAK.length * 2;
@@ -584,7 +585,7 @@ function llamar_Portada() {
 }
 //llama a la evaluacion
 function llamar_evaluacion() {
-	$('#div_contenido').fadeOut("slow", function() {
+	$('#div_contenido').fadeOut("slow", function () {
 		intentoAct++;
 		if (intentoAct <= oportunidades) {
 			limpiarContenido();
@@ -594,7 +595,7 @@ function llamar_evaluacion() {
 			console.log("temas/" + obj.NombreEval + ".html");
 			iframe.src = "temas/" + obj.NombreEval + ".html";
 			terminado = true; // la variable de curso terminado se habilita
-			iframe.onload = function() {
+			iframe.onload = function () {
 				$('#div_contenido').fadeIn();
 			};
 		} else {
@@ -909,7 +910,7 @@ function siguiente_frame() {
 		canvasContenido.gotoAndStop(pagActual + 1);
 	} else {
 		// en este caso avanza al siguiente tema
-		$('#div_contenido').fadeOut("slow", function() {
+		$('#div_contenido').fadeOut("slow", function () {
 			ir(_root.IDActual + 1);
 		});
 	}
@@ -1299,7 +1300,7 @@ function toggleCheckbox(element) {
 //document.getElementById("content").onkeyup  = tecup(event);
 
 
-window.onkeyup = function(event) {
+window.onkeyup = function (event) {
 	if (event.keyCode == 17) {
 		console.log("CONTROL UP");
 		validar_control = false;
@@ -1312,7 +1313,7 @@ window.onkeyup = function(event) {
 
 //backdoor
 //window.onkeydown = teclas(event);
-window.onkeydown = function(event) {
+window.onkeydown = function (event) {
 	if (event.keyCode == 17) {
 		console.log("CONTROL");
 		validar_control = true;
@@ -1361,3 +1362,43 @@ function getPreguntas() {
 	console.log("el numero de preguntas es:" + NumPreguntas);
 
 }
+
+// NUEVAS FUNCIONES PARA LA BARRA HTML
+
+//Funcion para cargar portada
+function home() {
+	$('#div_barra').hide();
+	$('#div_menu').hide();
+	$('#div_contenido').fadeIn();
+	llamar_Portada();
+}
+
+//Funcion para salir de la simulación o cerrar curso
+function cerrar() {
+	Cierra_Sim();
+	// root.cambio_cerrar(0);
+	// cambio_cerrar(0);
+}
+
+//Función de manipulación del menú
+// function llamar_menu() {
+// 	parent.ocultarMostrar_menu();
+// 	parent.llamar_menu();
+// }
+
+//Función para el cambio de estado del botón cerrar. Entre Cerrar sim, y cerrar curso
+// function cambio_cerrar(paso) {
+// 	if (paso == 1) {
+// 		//console.log("paso 1");
+// 		// root.btn_cerrar.gotoAndStop(2);
+// 		btn_cerrar.estado = 2;
+// 		// root.btn_cerrar.addEventListener("mouseover", cerrarOver2);
+// 		// root.btn_cerrar.addEventListener("mouseout", cerrarOut2);
+// 	} else {
+// 		//console.log("paso 0");
+// 		// root.btn_cerrar.gotoAndStop(0);
+// 		btn_cerrar.estado = 1;
+// 		// root.btn_cerrar.addEventListener("mouseover", cerrarOver);
+// 		// root.btn_cerrar.addEventListener("mouseout", cerrarOut);
+// 	}
+// }
