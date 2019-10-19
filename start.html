@@ -50,6 +50,10 @@
 	<script src="configJson.js"></script> <!-- contiene el json generado por el addin de c#/excel -->
 	<script src="js/api.js"></script> <!-- Api comunicaciones LMS REQ -->
 	<script src="js/start.js"></script> <!-- Funciones del Start -->
+	<script src="libs/TweenLite.min.js"></script>
+	<script src="libs/CSSPlugin.min.js"></script>
+	<script src="libs/TweenMax.min.js"></script>
+
 	<script src="js/barrajs.js"></script>
 	<!--carga la funcionalidad de la barra-->
 	<!--quita la Scroll Bar , ya que no sera utilizada-->
@@ -61,11 +65,10 @@
 
 </head>
 
-<body onload="SCOInitialize();	init_barra(); InitApi();">
+<body onload="SCOInitialize(); init_barra(); InitApi();">
 
 	<center>
-
-		<!--  -->
+		<!-- NAVBAR HTML  -->
 		<div class="container" style=" max-width: 950px;">
 			<div class="row">
 				<nav class="navbar navbar-default barraHTML">
@@ -74,24 +77,35 @@
 					</div>
 
 					<div class="CourseTitle col-sm-4 col-md-4">
-						<a class="navbar-brand Title"> Talent Management Review </a>					
+						<a class="navbar-brand Title"> Talent Management Review </a>
 					</div>
 
 					<ul class="nav navbar-nav navbar-right  col-xs-8 col-sm-4 col-md-4 barraIcons"
 						style="margin-right: 0%!important; cursor: pointer; padding: 0%!important; margin-top: 0%!important;">
-						<li class="reset"><a onclick="cerrar()" class="iconStyle" style="padding-left: 12px!important; padding-right: 13px!important;"><i class="fas fa-times iconColor"></i></a></li>
-						<li class="reset"><a onclick="siguiente_frame()" class="iconStyle" style="padding-left: 12px!important; padding-right: 13px!important;"><i class="fas fa-chevron-right iconColor"></i></a></li>
-						<li class="reset"><a onclick="anterior_frame()" class="iconStyle" style="padding-left: 12px!important; padding-right: 13px!important;"><i class="fas fa-chevron-left iconColor"></i></a></li>
-						<li class="reset"><a onclick="llamar_menu()" class="iconStyle"><i class="fas fa-ellipsis-h iconColor"></i></a></li>
-						<li class="reset"><a onclick="home()" class="iconStyle" style="padding-left: 9px!important; padding-right: 9px!important;"><i class="fas fa-home iconColor"></i></a></li>
-						<li class="reset"><a onclick="alert('Lanzar la Evaluacion')" class="iconStyle" style="padding-left: 8px!important; padding-right: 8px!important;"><i class="fas fa-graduation-cap iconColor"></i></a></li>
+						<li class="reset"><a id="btnCerrar" onclick="cerrar()" class="iconStyle"
+								style="padding-left: 12px!important; padding-right: 13px!important;"><i
+									class="fas fa-times iconColor"></i></a></li>
+						<li class="reset"><a id="btnSiguiente" onclick="siguiente_frame()" class="iconStyle"
+								style="padding-left: 12px!important; padding-right: 13px!important;"><i
+									class="fas fa-chevron-right iconColor"></i></a></li>
+						<li class="reset"><a id="btnAtras" onclick="anterior_frame()" class="iconStyle"
+								style="padding-left: 12px!important; padding-right: 13px!important;"><i
+									class="fas fa-chevron-left iconColor"></i></a></li>
+						<li class="reset"><a id="btnMenu" onclick="llamar_menuHTML()" class="iconStyle"><i
+									class="fas fa-ellipsis-h iconColor"></i></a></li>
+						<li class="reset"><a id="btnHome" onclick="home()" class="iconStyle"
+								style="padding-left: 9px!important; padding-right: 9px!important;"><i
+									class="fas fa-home iconColor"></i></a></li>
+						<li class="reset"><a id="btnEval" onclick="alert('Lanzar la Evaluacion')" class="iconStyle"
+								style="padding-left: 8px!important; padding-right: 8px!important;"><i
+									class="fas fa-graduation-cap iconColor"></i></a></li>
 					</ul>
 
 
 				</nav>
 			</div>
 		</div>
-		<!-- -------------------------------------------------------------------- -->
+
 		<div data-role="controlgroup">
 			<a class="btn btn-info btn-lg" id="btnGlos" data-icon="bullets" data-toggle="modal"
 				data-target="#GlosarioModal" data-role="button" style="display: none;">Glosario</a>
@@ -155,7 +169,17 @@
 
 			<!--Contenido-->
 			<div id="div_contenido" class="container theme-showcase">
-				<div class="embed-responsive embed-responsive-16by9">
+				<!-- Nuevo Menu HTML  -->
+				<div class="embed-responsive embed-responsive-16by9" style="position: relative;">
+					
+					<div class="container menuHTML " id="menuHTML"
+						style=" max-width: 450px; position: absolute; margin-left: 15px; z-index: 9999;">
+						
+						<div id="menuContainer" class="row">
+								<!-- El contenido se clona apartir de aqui -->
+						</div>
+					</div>
+
 					<iframe class="embed-responsive-item" frameborder="0" width="950" height="550" name="Contenido"
 						id="Contenido" onload=""></iframe>
 				</div>
@@ -195,6 +219,43 @@
 			</div>
 
 		</div>
+		<!-- NAVBAR HTML 
+		<div class="container" style=" max-width: 950px;">
+				<div class="row">
+					<nav class="navbar navbar-default barraHTML">
+						<div class="barraHTMLLogoBackground col-xs-4 col-sm-3 col-md-3">
+							<img class="navbar-brand barraHTMLLogo" src="img/ac.png" alt="" width="50%">
+						</div>
+	
+						<div class="CourseTitle col-sm-4 col-md-4">
+							<a class="navbar-brand Title"> Talent Management Review </a>
+						</div>
+	
+						<ul class="nav navbar-nav navbar-right  col-xs-8 col-sm-4 col-md-4 barraIcons"
+							style="margin-right: 0%!important; cursor: pointer; padding: 0%!important; margin-top: 0%!important;">
+							<li class="reset"><a id="btnCerrar" onclick="cerrar()" class="iconStyle"
+									style="padding-left: 12px!important; padding-right: 13px!important;"><i
+										class="fas fa-times iconColor"></i></a></li>
+							<li class="reset"><a id="btnSiguiente" onclick="siguiente_frame()" class="iconStyle"
+									style="padding-left: 12px!important; padding-right: 13px!important;"><i
+										class="fas fa-chevron-right iconColor"></i></a></li>
+							<li class="reset"><a id="btnAtras" onclick="anterior_frame()" class="iconStyle"
+									style="padding-left: 12px!important; padding-right: 13px!important;"><i
+										class="fas fa-chevron-left iconColor"></i></a></li>
+							<li class="reset"><a id="btnMenu" onclick="llamar_menu()" class="iconStyle"><i
+										class="fas fa-ellipsis-h iconColor"></i></a></li>
+							<li class="reset"><a id="btnHome" onclick="home()" class="iconStyle"
+									style="padding-left: 9px!important; padding-right: 9px!important;"><i
+										class="fas fa-home iconColor"></i></a></li>
+							<li class="reset"><a id="btnEval" onclick="alert('Lanzar la Evaluacion')" class="iconStyle"
+									style="padding-left: 8px!important; padding-right: 8px!important;"><i
+										class="fas fa-graduation-cap iconColor"></i></a></li>
+						</ul>
+	
+	
+					</nav>
+				</div>
+			</div> -->
 	</center>
 
 	<div id="loader-wrapper">

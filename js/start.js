@@ -9,12 +9,19 @@ Notas:
 */
 //Variables Globales
 window.start = this;
+var NombreCurso = "ARCA_CONTINENTAL_TMR_ANIMATECC";
 var termino = false;
 var Rutas = new Array();
 var Pag = new Array();
 var TRAK = new Array();
+var NombreModulos = new Array();
+var NombresTemas = new Array();
+var Modulos = new Array();
+var menu_open = false;
+var bussy = false;
 var Total;
 var TRAKtmp = new Array();
+var Evals = new Array();
 var ULTIMO = null;
 var ONLINE = false;
 var sData;
@@ -78,45 +85,139 @@ var checkboxText = ""; //se guardan las eqituetas HTML para backdoor de EVAL
 var controlEvalArray = 0; //controla las posiciones del arreglo de preguntas en EVAL (solo desde el start)
 var controlIrUltimo = false; // controlador para que te mande a la ultima pagina del ultimo tema que visitaste
 var contControlCheckbox = 0; //contador controlador para backdoor de evaluacion
-var closeType=0;
-// se confirma en que navegador se esta viendo el curso
-//funcion de comandos para que sea mas facil para DI
-function comando(hacer, objetivo) {
-	switch (hacer) {
-		case "iniciar":
-			try {
-				console.log("Se inicio el tema");
-				getCanvas(objetivo);
-				reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
-				inicio_tema();
-			} catch (err) {
-				console.log("No se pudo iniciar el tema correctamente :", err);
-			}
-			break;
-		case "resetear":
-			try {
-				console.log("Se avanzo en el tema");
-				reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
-			} catch (err) {
-				console.log("No se pudo reiniciar la barra :", err);
-			}
-			break;
-		case "terminar":
-			try {
-				console.log("Termino el tema");
+var closeType = 0;
+var btnAtras;
+var btnSiguiente;
+var btnMenu;
+var btnEval;
+var btnHome;
+var btnCerrar;
+var EdoBtns = {
+	btnAtras: true,
+	btnSiguiente: true,
+	btnMenu: true,
+	btnEval: true,
+	btnCerrar: true,
+	btnHome: true,
+	barra: true
+};
+var btnArray = [];
+var libre = false;
 
-				final_tema();
-			} catch (err) {
-				console.log("nose pudo finalizar el tema correctamente :", err);
-			}
-			break;
-		default:
-			console.log("Asegurate dde escribir la palabra exacta en la funcion 'comando'");
-			break;
-	}
+window.onresize = function () {
 
+	var menu = document.getElementById("menuHTML");
+	var contenido = document.getElementById("div_contenido");
+
+	console.log("--------------------------------------");
+	console.log($("#menuHTML").height());
+	console.log($("#div_contenido").height());
+	// console.log($("#menuHTML").height);
+	// console.log($("#contenido").height);
+	console.log("--------------------------------------");
+
+	$("#menuHTML").height($("#div_contenido").height());
+	// var newHeight = $(".input-height").val();
+	// $(".box").height(newHeight);
 }
 
+function populateMenu(jsonob) {
+	// debugger;
+	// Agregar Nombre del Curso
+	$("#menuContainer").append("<div id='menuTitle' class='col-xs-12 menuTitle'>Menú del curso </div>");
+	let consecutivo = 0;
+	for (let index = 0; index < jsonob.Modulos.length; index++) {
+		//pintar nombre de modulo1
+		if (NombreModulos[index] !== "" && NombreModulos[index] !== null && NombreModulos[index] !== undefined) {
+			//
+			$("#menuContainer").append("	<div id='Modulo" + (index + 1) + "' class='col-xs-12 tituloModulo'>" +
+				"<div class='col-xs-1'>" +
+				"<a	>" +
+				"<i class='fas fa-circle menuIconStyle'></i>" +
+				"</a>" +
+				"</div>" +
+				"<div class='col-xs-8' style='color:white'>" +
+				"<p class='reset' style='float: left;'>" + NombreModulos[index] + "</p>" +
+				"</div>" +
+				"</div>");
+		} //end if Nombre para modulos
+		//pintar Nombre del modulo
+		for (let j = 0; j < jsonob.Modulos[index]['Mod' + (index + 1)].length; j++) {
+			//pintar cada tema del modulo
+			id = consecutivo; //onclick='alert('Modulo" + (consecutivo) + "')'
+			// $("#menuContainer").append("	<div id='Tema" + (consecutivo+1) + "' class='col-xs-12 tituloTemaMenu'>" + //respaldo
+			$("#menuContainer").append("	<div id='" + (consecutivo + 1) + "' onclick='llamarTema(" + (consecutivo) + ")' class='col-xs-12 tituloTemaMenu menuIconStyleDisabled'>" +
+				"<div class='col-xs-1' style='padding-top: 8px'>" +
+				"<a>" +
+				"<i class='fas fa-circle menuIconStyle'></i>" +
+				"</a>" +
+				"</div>" +
+				"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px;'>" +
+				"<p class='reset' style='float: left;'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
+				"</div>" +
+				"</div>");
+
+			// $("#bfCaptchaEntry").on("click", function(){ myFunction(); });
+			consecutivo++;
+			console.log(jsonob.Modulos[index]['Mod' + (index + 1)][j]);
+		}// end for Temas
+
+		//Pintar las evaluaciones
+		if (jsonob.Evaluaciones.length > 0) { // Exists evals on object??		
+			for (let t = 0; t < jsonob.Evaluaciones.length; t++) {
+				if (jsonob.Evaluaciones[t]["Aplica"] && jsonob.Evaluaciones[t]["Modulo"] === (index + 1)) {// Si aplica y es para el modulo que se esta recorriendo se genera 
+					let NombreEvaluacionActual = jsonob.Evaluaciones[t]["Nombre"] !== "" &&
+						jsonob.Evaluaciones[t]["Nombre"] !== undefined &&
+						jsonob.Evaluaciones[t]["Nombre"] !== null &&
+						jsonob.Evaluaciones[t]["Nombre"] !== NaN ? Evals[t]["Nombre"] : "Modulo " + index + ": Evaluacion";
+
+					$("#menuContainer").append("	<div id='Evaluacion" + (consecutivo + 1) + "' onclick='llamarEval(" + (jsonob.Evaluaciones[t]["ID"]) + ")' class='col-xs-12 tituloTemaMenu'>" +
+						"<div class='col-xs-1' style='padding-top: 8px'>" +
+						"<a id='btnHome' class='menuIconStyle'>" +
+						"<i class='fas fa-circle menuIconStyl'></i>" +
+						"</a>" +
+						"</div>" +
+						"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px;'>" +
+						"<p class='reset' style='float: left;'>" + NombreEvaluacionActual + "</p>" +
+						"</div>" +
+						"</div>");
+				}// if eval apply
+			}//end for evals			
+		}// end if evals exists
+
+
+	}//End Main For
+}// end PopulateMenu function
+
+/**
+ * @param id:Number
+ * @returns void
+ * @description Carga el tema en el iframe contenido basandose en el id que recibe. 
+ */
+function llamarTema(id) {
+	// id = id === 0 || id < 0 ? 1 : id;
+	ir(id);
+	llamar_menuHTML();
+}
+/**
+ * @param id:Number
+ * @returns void
+ * @description Carga la evaluacion el iframe contenido basandose en el id que recibe. [Funcion para multi evaluaciones]
+ */
+function llamarEval(id) {
+	if (id === 0) {
+		console.log("Parametro para inicializar evaluacion incorrecto.");
+		return false;
+	}
+	alert("Funcionalidad no implementada. ID: " + id);
+}
+
+/**
+ * @param NA
+ * @returns void
+ * @description Obtiene la informacion del navegador en el cual esta corriendo el contenido.
+ * se confirma en que navegador se esta viendo el curso
+ */
 var getBrowserInfo = function () {
 	var ua = navigator.userAgent,
 		tem,
@@ -134,18 +235,31 @@ var getBrowserInfo = function () {
 	return M.join(' ');
 };
 
-console.log("el navegador usado y la verison son");
+console.log("el navegador usado y la version son");
 console.log(getBrowserInfo());
 console.log(getBrowserInfo().split(" ")[0]);
-//Función para iniciarlizar API
+
+/**
+ * @param NA
+ * @returns void
+ * @description Inicializa la aplicacion.
+ * Función para iniciarlizar API
+ *  */
 function InitApi() {
-	console.log("------Paso1------");
+	console.log("------Inicializacion------");
 	getAPI(); //Inicializa el API para el uso de las funciones con SCORM que se encuentran en api.JS.
 	IdentificarEstado();
+	// Setear el height del menu html igual al tamaño del contenido.
+	document.getElementById("menuHTML").style.height = document.getElementById("div_contenido").style.height + 'px';
 }
-//Función para validar si se navega de manera local o en linea
+/**
+ * @param NA
+ * @returns void
+ * @description Identifica la plataforma de ejecucion del contenido [Local/Online].
+ * Función para validar si se navega de manera local o en linea
+ *  */
 function IdentificarEstado() {
-	console.log("------Paso2------");
+	console.log("------Identificado la Ejecucion del Curso------");
 	//se determina si el curso corre en local o en linea
 	if (String(URLactual).indexOf("http://localhost") == 0) {
 		leeLocal();
@@ -162,29 +276,53 @@ function IdentificarEstado() {
 		}
 	}
 }
-
-
-//aqui se colocan todos los archivos SWF que se veran en el curso
+/**
+ * @param JSON Config
+ * @returns void
+ * @description Obtiene y establece los datos contenidos en el archivo de configuraciones para su uso global.
+ * @legacy aqui se colocan todos los archivos SWF que se veran en el curso
+ *  */
 function initConfig(jsonob) {
+	// TweenLite.fromTo($("#menuHTML"), 0.2, {x:0}, {x:-100});
+	// TweenMax.to($("#menuHTML"), 0.75, { scaleX: 1.5, scaleY: 1.5, ease: Back.easeOut })
+	// TweenMax.to($("#menuHTML"), 2, { x: 100 }, Back.easeOut)
+
 	//el arreglo modulos se trata en dos partes, una de rutas y otra de nombres
 	console.log("numero de modulos:" + jsonob.Modulos.length / 2);
-	var numModulos = jsonob.Modulos.length;
-	var indexRutas = 1; // el index de rutas es el segundo objeto en modulos por eso empieza en 1
-	var index = 0; // index general en 0
-	console.log("Las rutas de los archivos leidos son:");
-	for (var i = 1; i <= numModulos; i += 2) { // for que avanza de 2 en 2 para solo leer los modulos de las rutas
-		for (var j = 0; j < jsonob["Modulos"][i]["Rut" + indexRutas].length; j++) { //recorre el objeto por modulo
-			Rutas[index] = jsonob["Modulos"][i]["Rut" + indexRutas][j]; // se guardan en un arreglo
-			console.log(Rutas[index]);
+	let numModulos = jsonob.Modulos.length;
+	let indexRutas = 0; // el index de rutas es el segundo objeto en modulos por eso empieza en 1
+	let index = 0; // index general en 0
+	// console.log("Las rutas de los archivos leidos son:");	
+	// for (var i = 1; i <= numModulos; i += 2) { // for que avanza de 2 en 2 para solo leer los modulos de las rutas
+	// 	for (var j = 0; j < jsonob["Modulos"][i]["Rut" + indexRutas].length; j++) { //recorre el objeto por modulo
+	// 		Rutas[index] = jsonob["Modulos"][i]["Rut" + indexRutas][j]; // se guardan en un arreglo
+
+	// 		console.log(Rutas[index]);
+	// 		index++;
+	// 	}
+	// 	indexRutas++;
+	// }
+
+	for (let i = 0; i < jsonob["Rutas"].length; i++) {//New Rutas obtaining method
+		// debugger;
+		for (var j = 0; j < (jsonob["Rutas"][i]["Rut" + (i + 1)]).length; j++) { //recorre el objeto por modulo
+
+			Rutas.push((jsonob["Rutas"][i]["Rut" + (i + 1)])[j]); // se guardan en un arreglo
 			index++;
 		}
-		indexRutas++;
+		// Rutas[i] = jsonob["Rutas"][i]["Rut" + indexRutas][j];
+		// indexRutas++;
 	}
 	Total = Rutas.length; // total de rutas/temas
 	TotalArchivos = Rutas.length; // se guarda el total de los archivos no borrar!  
+	console.log("Dato de las rutas: ");
+	console.log(Rutas);
+	console.log("Nombre de los temas: ");
+	console.log(NombresTemas);
 	console.log("json trak es:  " + jsonob.Trak);
-}
 
+	initbarra(jsonob);
+}
 
 //Esta funcion es para la lectura de datos en modo local
 function leeLocal() {
@@ -207,22 +345,29 @@ function leeLocal() {
 //esta funcion asigna los valores del JSON  a las variables para ser utilizados
 function setValues(ob) {
 	ULTIMO = ob.Ultimo;
-	oportunidades = ob.Evaluaciones[0].MaxIntentos;
-	intentoAct = ob.Evaluaciones[0].IntentoActual;
-	SCORE = ob.Evaluaciones[0].CalActual;
-	califMinima = ob.Evaluaciones[0].CalMinima;
+	oportunidades = ob.Evaluaciones[0].MaxIntentos; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
+	intentoAct = ob.Evaluaciones[0].IntentoActual; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
+	SCORE = ob.Evaluaciones[0].CalActual; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
+	califMinima = ob.Evaluaciones[0].CalMinima; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
 	TRAK = ob.Trak;
 	Pag = ob.Pag;
+	TEMAS = ob.Temas;
+	libre = ob.Libre;
+	NombreModulos = ob.NombreModulos;
+	NombresTemas = ob.NombreTemas;
+	Modulos = ob.Modulos;
+	Evals = ob.Evaluaciones; //New implemented feature multi eval
 }
 //esta funcion asigna los valores al json para ser guardado
 function setObject() {
 	obj.Trak = TRAK;
 	obj.Ultimo = ULTIMO;
-	obj.Evaluaciones[0]["CalActual"] = SCORE;
-	obj.Evaluaciones[0]["MaxIntentos"] = oportunidades;
-	obj.Evaluaciones[0]["IntentoActual"] = intentoAct;
-	obj.Evaluaciones[0].CalMinima = califMinima;
+	obj.Evaluaciones[0]["CalActual"] = SCORE; //Will be deprecated, not functional for multiple evals::: SCORES MUST BE AN ARRAY
+	obj.Evaluaciones[0]["MaxIntentos"] = oportunidades;  //Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
+	obj.Evaluaciones[0]["IntentoActual"] = intentoAct;  //Will be deprecated, not functional for multiple evals MUST BE AN ARRAY
+	obj.Evaluaciones[0].CalMinima = califMinima;  //Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
 	obj.Pag = Pag;
+	obj.Libre = libre;
 }
 
 //esta funcion se encarga de leer el localStorage
@@ -233,9 +378,9 @@ function leeLocalStorage() {
 		if (nav == "IE") {
 			console.log("leyendo cookie");
 			retorno = (document.cookie.indexOf('data=') === -1 ? '' : ("; " + document.cookie).split('; data=')[1].split(';')[0]);
-		} else if (nav == "Firefox") {
+		} else {
 			console.log("leyendo LocalStorage");
-			retorno = window.localStorage.data;
+			retorno = window.localStorage.getItem(NombreCurso);
 		}
 	} catch (e) {
 		console.log("error al leer local storage:" + e.text);
@@ -245,16 +390,16 @@ function leeLocalStorage() {
 //Esta funcion se encarga de Guradar el localStorage
 function guardaLocalStorage(clave) {
 	try {
-
 		var nav = getBrowserInfo().split(" ")[0];
 		if (nav == "IE") {
 			console.log("se guarda en cookie");
 			var expiration_date = new Date();
 			expiration_date.setFullYear(expiration_date.getFullYear() + 1);
 			document.cookie = "data=" + JSON.stringify(clave) + "; expires=" + expiration_date.toGMTString();
-		} else if (nav == "Firefox") {
+		} else { //Fixed para chrome
 			console.log("se guarda en LocalStorage");
-			window.localStorage.data = JSON.stringify(clave);
+			// window.localStorage.data = JSON.stringify(clave);
+			window.localStorage.setItem(NombreCurso, JSON.stringify(clave));
 		}
 	} catch (e) {
 		console.log("no pudo guardar archivos en local storage:" + e.text);
@@ -358,9 +503,11 @@ function inicio_tema() {
 	//se cambia el estado del tema a 1 lo que significa "tema iniciado"
 	if (TRAK[IDActual] < 1) {
 		TRAK[IDActual] = 1;
-		console.log("se cambio a 1");
+		// console.log("se cambio a 1");
 		_root.ULTIMO = _root.IDActual;
+		console.log("ultimo" + _root.ULTIMO)
 		guardarDatos();
+		actualizar_menuHTML(TRAK); // actualizar el menu
 	}
 	//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
 	if (controlAtras || controlIrUltimo) {
@@ -376,6 +523,36 @@ function inicio_tema() {
 	}
 	console.log("fin inicio tema");
 }
+//funcion para dar inicio a un tema 
+function _inicio_tema(canvasTema) {
+	try {
+		console.log("inicio_tema", _root.IDActual);
+		getCanvas(canvasTema);
+		actualizarNavegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+		//se cambia el estado del tema a 1 lo que significa "tema iniciado"
+		if (TRAK[IDActual] < 1) {
+			TRAK[IDActual] = 1;
+			_root.ULTIMO = _root.IDActual;
+			guardarDatos();
+		}
+		//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
+		if (controlAtras || controlIrUltimo) {
+			console.log("entro a control atras");
+			canvasContenido.gotoAndStop(Pag[IDActual]);
+			controlAtras = false;
+		}
+		//en caso de venir desde la opcion de ultimo tema, va a la ultima pagina visitada
+		if (controlIrUltimo) {
+			console.log("llendo a la ultima pagina desde reset_navegacion");
+			canvasContenido.gotoAndStop(Pag[IDActual]);
+			controlIrUltimo = false;
+		}
+		console.log("fin inicio tema");
+	} catch (error) {
+		console.warn("Error iniciando tema: " + error);
+	}
+
+}
 //Funcion para terminar un tema
 function final_tema() {
 	console.log("*********************FINAL TEMA", _root.IDActual);
@@ -385,6 +562,7 @@ function final_tema() {
 	}
 	_root.ULTIMO = _root.IDActual; // se actualiza el ultimo tema
 	console.log(_root.ULTIMO, _root.IDActual, TRAK, TRAK[_root.IDActual]);
+	actualizar_menuHTML(TRAK); // actualizar el menu
 	guardarDatos();
 }
 //Funcion para el glosario
@@ -398,14 +576,35 @@ function glosarioX() {
 function Cierra() {
 	$('#Palabra').hide();
 }
+// //Funcion para cargar simulación
+// window.Cargar_Sim = function (URLS, finalizoS, LASTMCS) {
+// 	console.log("cargar Sim");
+// 	setEdo_botones(); //llama la funcion para guardar el estado de los botones
+// 	canvasBarra.deshabilitar_atras();
+// 	canvasBarra.deshabilitar_siguiente();
+// 	canvasBarra.cambio_cerrar(1);
+// 	canvasBarra.deshabilitar_cerrar();
+// 	estadoSim = true;
+// 	$('#div_contenido').hide();
+// 	$('#div_sim').fadeIn();
+// 	var simulacion = document.getElementById("sim");
+// 	simulacion.src = URLS;
+// 	console.log("Fin cargar Sim");
+// 	LastMCVid = LASTMCS;
+// 	if (finalizoS) { //con esto sabemos si es la ultima simulacion
+// 		VidLast = true;
+// 	}
+// }
 //Funcion para cargar simulación
 window.Cargar_Sim = function (URLS, finalizoS, LASTMCS) {
 	console.log("cargar Sim");
 	setEdo_botones(); //llama la funcion para guardar el estado de los botones
-	canvasBarra.deshabilitar_atras();
-	canvasBarra.deshabilitar_siguiente();
-	canvasBarra.cambio_cerrar(1);
-	canvasBarra.deshabilitar_cerrar();
+	// canvasBarra.deshabilitar_atras();
+	// canvasBarra.deshabilitar_siguiente();
+	// canvasBarra.cambio_cerrar(1);
+	// canvasBarra.deshabilitar_cerrar();
+
+	this.habilitar_deshabilitar_btns(this.getBtnArray(this.btnAtras, this.btnSiguiente, this.btnCerrar), "d", "Cargar_Sim");
 	estadoSim = true;
 	$('#div_contenido').hide();
 	$('#div_sim').fadeIn();
@@ -426,10 +625,11 @@ function simFinalizada() {
 window.cargar_video = function (URLS, finalizoS, LASTMCS) {
 	console.log("cargar video");
 	setEdo_botones();
-	canvasBarra.deshabilitar_atras();
-	canvasBarra.deshabilitar_siguiente();
-	canvasBarra.cambio_cerrar(1);
-	canvasBarra.deshabilitar_cerrar();
+	// canvasBarra.deshabilitar_atras();
+	// canvasBarra.deshabilitar_siguiente();
+	// canvasBarra.cambio_cerrar(1);
+	// canvasBarra.deshabilitar_cerrar();
+	this.habilitar_deshabilitar_btns(this.getBtnArray(this.btnAtras, this.btnSiguiente, this.btnCerrar), "d", "cargar_video");
 	LastMCVid = LASTMCS;
 	estadoSim = true;
 	$('#div_contenido').hide();
@@ -438,7 +638,8 @@ window.cargar_video = function (URLS, finalizoS, LASTMCS) {
 	simulacion.src = URLS;
 	simulacion.onended = function () {
 		console.log("finalizo? desde start " + finalizoS);
-		canvasBarra.habilitar_cerrar();
+		// canvasBarra.habilitar_cerrar();
+		this.habilitar_deshabilitar_btns(getBtnArray(this.btnCerrar), "h", "Cargar_Sim");
 		if (finalizoS) {
 			VidLast = true;
 		}
@@ -549,23 +750,44 @@ function getCanvas(valor) {
 	canvasContenido = valor;
 }
 //Manda llamar el menú y lo muetra en pantalla ocultando los no correspondientes
-function llamar_menu() {
+function llamar_menuHTML() {
 	console.log("LLAMAR MENU");
-	$('#div_menu').fadeIn();
-	$('#div_loader').hide();
-	$('#div_retro').hide();
-	$('#div_contenido').hide();
-	$('#div_sim').hide();
-	$('#div_vid').hide();
-	if (canvasBarra != undefined) { //Valida si se ha cargado previamente la barra
-		canvasBarra.cambio_cerrar(0);
+	// $('#div_menu').fadeIn();
+	// $('#div_loader').hide();
+	// $('#div_retro').hide();
+	// $('#div_contenido').hide();
+	// $('#div_sim').hide();
+	// $('#div_vid').hide();
+	// if (canvasBarra != undefined) { //Valida si se ha cargado previamente la barra
+	// 	canvasBarra.cambio_cerrar(0);
+	// }
+	// //se llama al menu 
+	// var menu = document.getElementById("menu");
+	// console.log("MENU" + menu.src + "|" + menu.src.indexOf("start.html"));
+	// if (menu.src == "" || menu.src == null || menu.src == undefined || menu.src.indexOf("start.html") > 1) {
+	// 	menu.src = "temas/template_menu.html";
+	// }
+	if (!bussy) {
+		if (!menu_open) {
+			// debugger;
+			// $("#menuHTML").addClass("menu-open");
+			$("#menuHTML").addClass("menu-open");
+			TweenLite.from($("#menuHTML"), 0.5, { opacity: 0, left: '-300px' });
+			this.menu_open = true;
+		} else {
+			TweenLite.to($("#menuHTML"), 0.5, { opacity: 0, left: '-300px' });
+			bussy = false;// Deshabilitar el boton menu
+			// $("#btnMenu").css("pointer-events", "none");
+			setTimeout(() => {
+				this.menu_open = false;
+				$("#menuHTML").removeClass("menu-open");
+				$("#btnMenu").css("pointer-events", "all");
+				TweenLite.to($("#menuHTML"), 0.01, { opacity: 0.75, left: "0px" });
+				bussy = false;
+			}, 500);
+		}
 	}
-	//se llama al menu 
-	var menu = document.getElementById("menu");
-	console.log("MENU" + menu.src + "|" + menu.src.indexOf("start.html"));
-	if (menu.src == "" || menu.src == null || menu.src == undefined || menu.src.indexOf("start.html") > 1) {
-		menu.src = "temas/template_menu.html";
-	}
+	actualizar_menuHTML(TRAK); // actualizar el menu
 	limpiarSim(); // se limpia la 
 }
 //Manda llamar la portada ocultando simulaciones y contenido no necesario
@@ -701,33 +923,34 @@ function mostrar_menu() {
 	$('#div_menu').fadeIn();
 	estadoMenu = true;
 	limpiarSim();
-	setEdo_botones();
-	canvasBarra.deshabilitar_atras();
-	canvasBarra.deshabilitar_siguiente();
+	// setEdo_botones();
+	// canvasBarra.deshabilitar_atras();
+	// canvasBarra.deshabilitar_siguiente();
+	this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras, this.btnSiguiente), "d", "mostrar_menu");
 }
 //almacena la configuración de los botones atras y siguiente.
 //Indispensable para mostrar botones nuevamente con su última configuración
 function setEdo_botones() {
 	console.log("---setEdo_botones();");
 	//Almacena el estado del cursor
-	edoAtras = canvasBarra.btn_atras.cursor;
-	edoSiguiente = canvasBarra.btn_siguiente.cursor;
+	// edoAtras = canvasBarra.btn_atras.cursor;
+	// edoSiguiente = canvasBarra.btn_siguiente.cursor;
 	console.log("Estado de Botones: Siguiente: " + edoSiguiente + " Atras: " + edoAtras);
 }
 //recupera configuracion de botones atras y siguiente y los restablece según la información almacenada en setEdo_botones()
-function getEdo_botones() {
-	console.log("---getEdo_botones();");
-	if (edoAtras == false) {
-		canvasBarra.deshabilitar_atras();
-	} else {
-		canvasBarra.habilitar_atras();
-	}
-	if (edoSiguiente == false) {
-		canvasBarra.deshabilitar_siguiente();
-	} else {
-		canvasBarra.habilitar_siguiente();
-	}
-}
+// function getEdo_botones() {
+// 	console.log("---getEdo_botones();");
+// 	if (edoAtras == false) {
+// 		canvasBarra.deshabilitar_atras();
+// 	} else {
+// 		canvasBarra.habilitar_atras();
+// 	}
+// 	if (edoSiguiente == false) {
+// 		canvasBarra.deshabilitar_siguiente();
+// 	} else {
+// 		canvasBarra.habilitar_siguiente();
+// 	}
+// }
 //Función para mostrar el preloader mientras carga el contenido
 function preload() {
 	// $('#div_menu').hide();
@@ -809,44 +1032,6 @@ function llamarRetros(valor, text) {
 
 }
 
-
-function llamarMensajes(valor) {
-	var visibleMensajes = $("#div_mensajes").is(":visible");
-	if (visibleMensajes) {
-		console.log("escondiendo mensajes");
-		$('#div_mensajes').hide();
-	} else {
-		//esto para que el mensaje desaparesca al dar siguiente l a funcion se
-		//manda a llamar desde "siguiente_frame" y al darle valor 0 no hace nada
-		//pero si los mensajes estaban activos entonces los esconde
-		if (valor != 0) {
-			console.log("mostrando mensajes");
-			console.log(valor);
-			$('#div_mensajes').fadeIn();
-			canvasMensajes.gotoAndPlay(valor);
-		}
-	}
-}
-
-function llamarAlertas(valor) {
-	console.log("se ejecuto la funcion llamar alertas");
-	var visibleAlertas = $("#div_alerta").is(":visible");
-	if (visibleAlertas) {
-		console.log("escondiendo alertas");
-		$('#div_alerta').hide();
-		preCargarAlertas();
-
-	} else {
-		if (valor != 0) {
-			console.log("mostrando alertas");
-			console.log(valor);
-			$('#div_alerta').fadeIn();
-			canvasAlertas.gotoAndPlay(valor);
-		}
-	}
-}
-
-
 function preCargarRetros() {
 	console.log("precargandoRetros");
 	var iframe = document.getElementById("retros");
@@ -879,103 +1064,10 @@ function cargarBarra() {
 	$('#div_barra').fadeIn();
 	console.log("termina de cargar barra");
 }
-//Función para bloquear barra en evaluación
-function bloquear_barra() {
-	canvasBarra.bloquear_barra();
-}
 
-function habilitar_barra() {
-	canvasBarra.habilitar_barra();
-}
-
-function habilitar_eval() {
-	canvasBarra.habilitar_eval();
-}
-
-function deshabilitar_eval() {
-	canvasBarra.deshabilitar_eval();
-}
-
-//Función para cambio de frame dentro del div contenido
-function siguiente_frame() {
-
-	llamarMensajes(0);
-	$('#div_sim').hide();
-	limpiarSim();
-	console.log("Funcion Siguiente(); " + estadoSim)
-	if (estadoSim == false) {
-		canvasBarra.cambio_cerrar(0);
-	}
-	if (pagActual < numPags - 1) { //  en este caso se avanza a la siguiente pagina
-		canvasContenido.gotoAndStop(pagActual + 1);
-	} else {
-		// en este caso avanza al siguiente tema
-		$('#div_contenido').fadeOut("slow", function () {
-			ir(_root.IDActual + 1);
-		});
-	}
-}
-
-//Función para retroceder frames dentro del div contenido
-function anterior_frame() {
-	$('#div_sim').hide();
-	limpiarSim();
-	console.log("Funcion Siguiente(); " + estadoSim)
-	if (estadoSim == false) {
-		canvasBarra.cambio_cerrar(0);
-	}
-	if (pagActual > 0) { // retrocede una pagina
-		canvasContenido.gotoAndStop(pagActual - 1);
-	} else {
-		if (IDActual > 0) { //retrocede un tema
-			ir(IDActual - 1);
-			controlAtras = true;
-		} else { // si estamos en el primer tema deshabilita el boton de retroceder
-			console.log("boton deshabilitado");
-			canvasBarra.deshabilitar_atras();
-		}
-	}
-
-}
-//inicia un nuevo archivo
-function reset_navegacion(pagin, cantPag) {
-	pagActual = pagin; //pagina actual del tema
-	numPags = cantPag; //cantidad total de las paginas del tema
-	canvasBarra.deshabilitar_siguiente();
-	if (pagActual == 0 && IDActual == 0) {
-		canvasBarra.deshabilitar_atras();
-	} else {
-		canvasBarra.habilitar_atras();
-	}
-	if (ULTIMO > IDActual || Pag[IDActual] > pagin) {
-		canvasBarra.habilitar_siguiente();
-	}
-	if (backdoor) {
-		canvasBarra.habilitar_siguiente();
-		canvasBarra.habilitar_atras();
-	}
-	if (Pag[IDActual] < pagin) {
-		Pag[IDActual] = pagin;
-	}
-	setEdo_botones();
-	guardarDatos();
-}
-//muestra el mensaje de siquiente verde
-function siguiente_verde() {
-	canvasBarra.habilitar_siguiente();
-	llamarMensajes("verde");
-	setEdo_botones();
-}
-//muestra el mensaje de siquiente naranja
-function siguiente_naranja() {
-	reset_navegacion(canvasContenido.timeline.position + 1, canvasContenido.timeline.duration);
-	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
-	canvasBarra.habilitar_siguiente();
-	llamarMensajes("naranja");
-	setEdo_botones();
-}
 //Función paraactualizar el menu y el estado de los temas
 function actualizarMenu() {
+
 	var cont = 0;
 	var tema = 0;
 	console.log("Actualizar menu " + TRAK);
@@ -1000,11 +1092,15 @@ function actualizarMenu() {
 			break;
 		}
 	}
+	// debugger;
 	//evalua si terminó el curso o si el backdoor esta activo
 	if ((cont >= Total && oportunidades < 3) || backdoor) { //se le reta 2 por: 1 cierre y 1 evaluación
-		habilitar_eval();
+		// habilitar_eval();
+		this.habilitar_deshabilitar_btns(getBtnArray(btnEval), "h", "actualizar_menu");
 	} else {
-		deshabilitar_eval();
+		// deshabilitar_eval();
+		this.habilitar_deshabilitar_btns(getBtnArray(btnEval), "d", "actualizar_menu");
+		// this.btnEval.disabled=true;
 		console.log("No se ha completado el curso", cont, Total, terminado);
 	}
 }
@@ -1018,287 +1114,8 @@ function saltar_intro() {
 	$('#div_menu').fadeIn();
 	if (_root.ULTIMO > 0) {
 
-		/*
-		        swal({
-		                html: '<i>Deseas ir al Ultimo tema visitado</i> ?',
-		                title: '<i>Atajo!!</i>',
-		                type: 'question',
-		                showCancelButton: true,
-		                confirmButtonColor: '#008000',
-		                allowOutsideClick: false,
-		                cancelButtonColor: '#b20000',
-		                confirmButtonText: '<i>Si, Vamos!</i>',
-		                cancelButtonText: '<i>No, Aun!</i>',
-		                reverseButtons: true
-		            })
-		            .then((result) => {
-		                if (result.value) {
-		                    swal({
-		                            position: 'center',
-		                            type: 'success',
-		                            title: '<i>Vamos!!</i>',
-		                            animation: false,
-		                            customClass: 'animated flipInX',
-		                            allowOutsideClick: false,
-		                            showConfirmButton: false,
-		                            timer: 1500
-		                        })
-		                        .then((result) => {
-		                            ocultar_menu();
-		                            if (ULTIMO == TotalArchivos - 1 && oportunidades >= 3) {
-		                                ir(ULTIMO - 1);
-		                            } else {
-		                                console.log("llendo al ultimo tema visitado");
-		                                ir(ULTIMO);
-		                                console.log("llendo a la ultima pagina visitada");
-		                                controlIrUltimo = true;
-		                            }
-		                        });
-		                } else {
-		                    swal({
-		                            position: 'center',
-		                            type: 'success',
-		                            title: '<i>Bienvenido!!</i>',
-		                            animation: false,
-		                            customClass: 'animated flipInX',
-		                            allowOutsideClick: false,
-		                            showConfirmButton: false,
-		                            timer: 1500
-		                        })
-		                        .then((result) => {
-		                            console.log("No avanza");
-		                        });
-		                }
-		            });
-		    */
 	}
 }
-
-/*
-//backdoor
-window.onkeydown = function(event) {
-    if (event.keyCode == 17) {
-        console.log("CONTROL");
-        validar_control = true;
-    }
-    if (event.keyCode == 16 && validar_control == true) {
-        console.log("SHIFT");
-        validar_shift = true;
-    }
-    if (event.keyCode == 32 && validar_control == true && validar_shift == true) {
-        swal({
-                title: '<i>Backdoor</i>',
-                html: '<i>Ingresa Un Password</i>',
-                type: 'info',
-                confirmButtonText: '<i>Hackear!!</i>',
-                animation: false,
-                customClass: 'animated flipInX',
-                input: 'password',
-                inputPlaceholder: 'Ingresa un password',
-                allowOutsideClick: false,
-                inputAutoTrim: true,
-                inputAttributes: {
-                    maxlength: 10,
-                    autocapitalize: 'off',
-                    autocorrect: 'off'
-                }
-            })
-            .then((result) => {
-                switch (result.value) {
-                    case clave_backdoor:
-                        /*
-                        la variable backdoor es leida en el menu, e interpretada en el template del menu
-                        para habilitar todo, independientemente del progreso
-                        */
-/*
-                        console.log("el backdoor esta:" + backdoor);
-                        if (backdoor == false) {
-                            backdoor = true;
-                            swal({
-                                    position: 'center',
-                                    type: 'success',
-                                    title: '<i>Menu Desbloqueado!!</i>',
-                                    animation: false,
-                                    customClass: 'animated flipInX',
-                                    allowOutsideClick: false,
-                                    showConfirmButton: false,
-                                    allowOutsideClick: false,
-                                    timer: 1500
-                                })
-                                .then((result) => {});
-                        } else {
-                            backdoor = false;
-                            swal({
-                                    position: 'center',
-                                    type: 'success',
-                                    title: '<i>Menu Bloqueado!!</i>',
-                                    animation: false,
-                                    customClass: 'animated flipInX',
-                                    allowOutsideClick: false,
-                                    showConfirmButton: false,
-                                    allowOutsideClick: false,
-                                    timer: 1500
-                                })
-                                .then((result) => {});
-                        }
-                        console.log("el backdoor esta:" + backdoor);
-                        break;
-                    case clave_TerminarTema:
-                        /*
-                        Final_tema() para marcarlo como terminado e
-                        ir() para pasar qal siguiente tema
-                        estos abajo en el .then
-                        */
-/*
-                        swal({
-                                position: 'center',
-                                type: 'success',
-                                title: '<i>Vamos al siguiente!!</i>',
-                                animation: false,
-                                customClass: 'animated flipInX',
-                                allowOutsideClick: false,
-                                showConfirmButton: false,
-                                allowOutsideClick: false,
-                                timer: 1500
-                            })
-                            .then((result) => {
-                                final_tema();
-                                ir(IDActual + 1);
-                            });
-                        break;
-                    case clave_borrar:
-                        /*
-                         se carga la informacion del config.json,
-                         como la primera vez que se entra
-                         es un RESET
-                         */
-/*
-                        swal({
-                                position: 'center',
-                                type: 'success',
-                                title: '<i>Progreso Borrado!!</i>',
-                                animation: false,
-                                customClass: 'animated flipInX',
-                                allowOutsideClick: false,
-                                showConfirmButton: false,
-                                allowOutsideClick: false,
-                                timer: 1500
-                            })
-                            .then((result) => {
-                                obj = $.parseJSON(ConfigurationJson); // creamos un objeto Json de el texto leido
-                                //Guardar el contenido recuperado del LMS en las variables locales.
-                                setValues(obj);
-                                initConfig(obj);
-                                guardarDatos();
-                                limpiarMenu();
-                                cargarBarra();
-                                llamar_menu();
-
-                            });
-                        break;
-                    case clave_eval:
-                        //codigo  para backdoor de evaluacion
-                        console.log("NumPreguntas desde start:" + canvasContenido.mc_eval.timeline.duration);
-                        NumPreguntas = canvasContenido.mc_eval.timeline.duration;
-                        //for para agregar automaticamente la misma cantidad de checkbox que de preguntas en la EVAL
-                        for (var j = 1; j <= NumPreguntas; j++) {
-                            checkboxText += '<label><input id="swal-input' + j + '" onchange="toggleCheckbox(this)" class="swal2-input" type="checkbox" value="' + j + '"> Pregunta' + j + '</label>'
-                        }
-                        console.log(checkboxText);
-                        swal({
-                            position: 'center',
-                            type: 'success',
-                            title: '<i>Backdoor para Eval Activado!!</i>',
-                            animation: false,
-                            customClass: 'animated flipInX',
-                            allowOutsideClick: false,
-                            showConfirmButton: false,
-                            allowOutsideClick: false,
-                            timer: 1500
-                        }).then((result) => {
-                            //Inicia la seleccion de preguntas
-                            swal({
-                                title: '<i>Backdoor Evaluacion</i>',
-                                position: 'center',
-                                width: 800,
-                                padding: 0,
-                                type: 'question',
-                                allowOutsideClick: false,
-                                animation: false,
-                                customClass: 'animated zoomIn',
-                                html: checkboxText,
-                                focusConfirm: false,
-                            }).then((result) => {
-                                swal({
-                                        position: 'center',
-                                        type: 'success',
-                                        title: '<i>Modificacion Completa</i>',
-                                        animation: false,
-                                        customClass: 'animated flipInX',
-                                        allowOutsideClick: false,
-                                        showConfirmButton: false,
-                                        allowOutsideClick: false,
-                                        timer: 1500
-                                    })
-                                    .then((result) => {
-                                        console.log("las modificacion se completo");
-                                    });
-                            });
-                        });
-
-                        break;
-                    default:
-                        swal({
-                                position: 'center',
-                                type: 'error',
-                                title: '<i>Clave No Valida!!</i>',
-                                animation: false,
-                                customClass: 'animated shake',
-                                allowOutsideClick: false,
-                                showConfirmButton: false,
-                                allowOutsideClick: false,
-                                timer: 1500
-                            })
-                            .then((result) => {
-                                console.log("clave incorrecta");
-                            });
-                        break;
-                }
-                actualizarMenu();
-            });
-    }
-};
-
-//esta funcion se comiunica con los html de los checkbox para el backdoor de la evaluacion
-function toggleCheckbox(element) {
-    if (element.checked) { //un switch para los checkbox, agrega o quita al contador
-        contControlCheckbox++;
-    } else {
-        contControlCheckbox--;
-    }
-    if (contControlCheckbox > 10) { // si ha seleccionado mas de 10 preguntas
-        console.log("Ya no es aceptado");
-        element.checked = false; // se desSelecciona
-        contControlCheckbox--; // y se quita del contador el eleiminado
-    }
-    controlEvalArray = 0;
-    //codigo para modificar el array en la EVAL
-    console.log("antes de back:" + canvasContenido.Array);
-    for (var i = 1; i <= NumPreguntas; i++) {
-        //codigo para checar los check en true
-        if (document.getElementById('swal-input' + i + '').checked) {
-            canvasContenido.Array[controlEvalArray] = i;
-            controlEvalArray++;
-        }
-    }
-    console.log("despues de back:" + canvasContenido.Array);
-    console.log(contControlCheckbox);
-}
-*/
-// //Función que limpia la combinación de teclas
-//window.onkeyup =tecup(event);
-//document.getElementById("content").onkeyup  = tecup(event);
-
 
 window.onkeyup = function (event) {
 	if (event.keyCode == 17) {
@@ -1363,9 +1180,35 @@ function getPreguntas() {
 
 }
 
-// NUEVAS FUNCIONES PARA LA BARRA HTML
 
+//------------------------------------------------------------------------------------------------------------
+// #region BARRAHTML
+// NUEVAS FUNCIONES PARA LA BARRA HTML
+/**
+ * @params 
+ * @returns void
+ * @description Inicializa la barra HTML, almacenando la instancia de los botones en variables globales 
+ * */
+function initbarra(jsonob) {
+	btnAtras = document.getElementById("btnAtras");
+	btnSiguiente = document.getElementById("btnSiguiente");
+	btnMenu = document.getElementById("btnMenu");
+	btnEval = document.getElementById("btnEval");
+	btnHome = document.getElementById("btnHome");
+	btnCerrar = document.getElementById("btnCerrar");
+
+	habilitar_deshabilitar_btns(getBtnArray(btnSiguiente, btnAtras), "d", "initbarra");
+	if (!cursoCompletado()) {
+		habilitar_deshabilitar_btns(getBtnArray(btnEval), "d", "initbarra");
+	}
+	populateMenu(jsonob);
+}
 //Funcion para cargar portada
+/**
+ * @param NA
+ * @returns void
+ * @description Lleva el curso al home de la plantilla por determinar si es el menu o la portada!!
+ */
 function home() {
 	$('#div_barra').hide();
 	$('#div_menu').hide();
@@ -1373,32 +1216,558 @@ function home() {
 	llamar_Portada();
 }
 
-//Funcion para salir de la simulación o cerrar curso
+/**
+ * @param NA
+ * @returns void
+ * @description Si hay videos o simulaciones corriendo las cierra, sino lanza disclaimer para cerrar el curso.
+ * Funcion para salir de la simulación o cerrar curso
+ */
 function cerrar() {
+	// habilitar_deshabilitar_btns(getBtnArray(this.btnEval),"h","asdasd");
 	Cierra_Sim();
 	// root.cambio_cerrar(0);
 	// cambio_cerrar(0);
 }
+/**
+ * @params botones a controlar: array, accion a realizar: string d | string h, nombre de la funcion donde se llamo functionName:string
+ * @returns void (Activa o desactiva los botones)
+ * @description Habilita o deshabilita los botones que se le envien, si ocurre algun error lanza un log con la funcion donde ocurrio
+ * */
+function habilitar_deshabilitar_btns(arraybtn, action, functionName) {
+	// debugger;
+	if (action !== "d" && action !== "h") {
+		console.error("Funcion habilitar_deshabilitar_btns:" +
+			"No se enviaron los parametros de habilitar o habilitar correctamente." +
+			" Llamdo desde funcion: " + functionName);
+		return;
+	}
+	if (arraybtn.length == 0) {
+		console.error("Funcion habilitar_deshabilitar_btns:" +
+			"Se enviaron 0 elementos en el array de botones. " +
+			"Llamdo desde funcion: " + functionName);
+		return;
+	}
+	name = "disabledButton";
+	for (let index = 0; index < arraybtn.length; index++) {
+		if (action === "d") {
+			$("#" + arraybtn[index].id.toString()).addClass(name);
+		} else {
+			$("#" + arraybtn[index].id.toString()).removeClass(name);
+		}
+	}
+	actualizarEdoBotones();
+	console.log("Nuevo edo de botones: ");
+	console.log(this.EdoBtns);
+}
+/**
+ * @params NA
+ * @returns void
+ * @description Actualiza el objeto que controlar el estado de los botones validando la clase disabled.
+ * */
+function actualizarEdoBotones() {
+	// this.EdoBtns.btnAtras = this.btnAtras.className.includes("disabledButton") ? false : true;
+	// this.EdoBtns.btnSiguiente = this.btnSiguiente.className.includes("disabledButton") ? false : true;
+	// this.EdoBtns.btnCerrar = this.btnCerrar.className.includes("disabledButton") ? false : true;
+	// this.EdoBtns.btnHome = this.btnHome.className.includes("disabledButton") ? false : true;
+	// this.EdoBtns.btnMenu = this.btnMenu.className.includes("disabledButton") ? false : true;
+	// this.EdoBtns.btnEval = this.btnEval.className.includes("disabledButton") ? false : true;
 
-//Función de manipulación del menú
-// function llamar_menu() {
-// 	parent.ocultarMostrar_menu();
-// 	parent.llamar_menu();
-// }
+	//implemented indexOf to internet explorer compatibility
 
-//Función para el cambio de estado del botón cerrar. Entre Cerrar sim, y cerrar curso
-// function cambio_cerrar(paso) {
-// 	if (paso == 1) {
-// 		//console.log("paso 1");
-// 		// root.btn_cerrar.gotoAndStop(2);
-// 		btn_cerrar.estado = 2;
-// 		// root.btn_cerrar.addEventListener("mouseover", cerrarOver2);
-// 		// root.btn_cerrar.addEventListener("mouseout", cerrarOut2);
-// 	} else {
-// 		//console.log("paso 0");
-// 		// root.btn_cerrar.gotoAndStop(0);
-// 		btn_cerrar.estado = 1;
-// 		// root.btn_cerrar.addEventListener("mouseover", cerrarOver);
-// 		// root.btn_cerrar.addEventListener("mouseout", cerrarOut);
-// 	}
-// }
+	this.EdoBtns.btnAtras = this.btnAtras.className.indexOf("disabledButton") >= 0 ? false : true;
+	this.EdoBtns.btnSiguiente = this.btnSiguiente.className.indexOf("disabledButton") >= 0 ? false : true;
+	this.EdoBtns.btnCerrar = this.btnCerrar.className.indexOf("disabledButton") >= 0 ? false : true;
+	this.EdoBtns.btnHome = this.btnHome.className.indexOf("disabledButton") >= 0 ? false : true;
+	this.EdoBtns.btnMenu = this.btnMenu.className.indexOf("disabledButton") >= 0 ? false : true;
+	this.EdoBtns.btnEval = this.btnEval.className.indexOf("disabledButton") >= 0 ? false : true;
+	// .indexOf("?") >= 0
+}
+/**
+ * @params Botones que formaran parte del arreglo de botones para habilitar/deshabilitar
+ * @returns array:htmlElements(botones)
+ * @description Recibe hasta 6 botones de la barra HTML y retorna un arreglo con dichos botones para activar/desactivar dinamico.
+ * */
+function getBtnArray(e1, e2, e3, e4, e5, e6) {
+	// debugger;
+	let paramArray = [e1, e2, e3, e4, e5, e6];
+	this.btnArray = [];
+	for (let i = 0; i < 5; i++) {
+		if (paramArray[i] != null && paramArray[i] != undefined) {
+			this.btnArray.push(paramArray[i]);
+		}
+	}
+	return this.btnArray;
+}
+
+/**
+ * @params NA
+ * @returns void
+ * @description Muestra en pantalla el mensaje para "TEMA COMPLETADO".
+ * //muestra el mensaje de siquiente verde
+ * */
+function siguiente_verde() { // Renombrar a Tema completado
+	canvasBarra.habilitar_siguiente();
+	llamarMensajes("verde");
+	setEdo_botones();
+}
+/**
+ * @params NA
+ * @returns void
+ * @description Muestra en pantalla el mensaje para "DAR CLICK EN SIGUIENTE PARA CONTINUAR".
+ * //muestra el mensaje de siquiente naranja
+ * */
+function siguiente_naranja() {
+	reset_navegacion(canvasContenido.timeline.position + 1, canvasContenido.timeline.duration);
+	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+	canvasBarra.habilitar_siguiente();
+	llamarMensajes("naranja");
+	setEdo_botones();
+}
+
+/**
+ * @params NA
+ * @returns void
+ * @description Bloquea todos los botones de accion de la barraHTML (comunmente se usa durante evalucion).
+ * //muestra el mensaje de siquiente naranja
+ * */
+function bloquear_barra(action) {
+
+	switch (action) {
+		case "d":
+			if (this.EdoBtns.barra === false)
+				return;
+
+			habilitar_deshabilitar_btns(
+				getBtnArray(this.btnAtras, this.btnSiguiente, this.btnEval, this.btnHome, this.btnCerrar, this.btnMenu),
+				action, "bloquear_barra");
+			this.EdoBtns.barra = false;
+			break;
+		case "h":
+			if (this.EdoBtns.barra === true)
+				return;
+			habilitar_deshabilitar_btns(
+				getBtnArray(this.btnAtras, this.btnSiguiente, this.btnEval, this.btnHome, this.btnCerrar, this.btnMenu),
+				action, "bloquear_barra");
+			this.EdoBtns.barra = false;
+			this.EdoBtns.barra = true;
+			break;
+		default:
+			console.warn("El parametro de entrada para bloquear/Desbloquer barra es incorrecto, " +
+				"solo se acepta 'd' para deshabilitar o 'h' para habilitar.");
+			return;
+	}
+}
+/**
+ * @params action:string | d -> desactivar, h -> activar
+ * @returns void
+ * @description Habilita el boton evaluacion (comunmente al terminar todos los temas del curso).
+ * 
+ * */
+function habilitar_deshabilitar_eval(action) {
+	if (this.libre) {
+		habilitar_deshabilitar_btns(getBtnArray(btnEval), "d", "habilitar_deshabilitar_eval");
+	}
+
+	switch (action) {
+		case "d":
+			if (this.EdoBtns.btnEval === false)
+				return;
+
+			habilitar_deshabilitar_btns(getBtnArray(btnEval), "d", "habilitar_deshabilitar_eval");
+			break;
+		case "d":
+			if (this.EdoBtns.btnEval === true)
+				return;
+
+			habilitar_deshabilitar_btns(getBtnArray(btnEval), "h", "habilitar_deshabilitar_eval");
+			break;
+
+		default:
+			break;
+	}
+
+}
+/**
+ * @params NA
+ * @returns void
+ * @description Controola la negacion al siguiente frame del contenido. Si es el ultimo frame salta al siguiente tema excepto si es el ultimo tema.
+ * 
+ * */
+//Función para cambio de frame dentro del div contenido
+function siguiente_frame() {
+
+	llamarMensajes(0); //Para ocultar o mostrar el canvas de siguiente frame o siguiente tema
+	$('#div_sim').hide();// Esconder el iframe de las evaluaciones
+	limpiarSim();// Limpiar el frame de las simulaciones
+	console.log("Funcion Siguiente(); " + estadoSim)
+
+	if (estadoSim == false)
+		canvasBarra.cambio_cerrar(0);
+
+	if (pagActual < numPags - 1) { paginaSiguiente(); } //  en este caso se avanza a la siguiente pagina 
+	else { siguienteTema(); } // en este caso avanza al siguiente tema 
+}
+/**
+ * @params NA
+ * @returns void
+ * @description Controla la navegacion al frame anterior del contenido. Si es el primer frame del tema 2 en delante salta al tema anterior.
+ * 
+ * *///Función para retroceder frames dentro del div contenido
+function anterior_frame() {
+	$('#div_sim').hide();
+	limpiarSim();
+	console.log("Funcion Siguiente(); " + estadoSim)
+	if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); }// retrocede una pagina 
+	else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 
+
+}
+/**
+ * @params NA
+ * @returns void
+ * @description Navega al siguiente frame del contenido.
+ * 
+ * */
+function paginaSiguiente() {
+	if (this.libre || ULTIMO > IDActual || Pag[IDActual] > pagActual) // Para navegacion del curso || si entro desde ultimo tema
+		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras, btnSiguiente), "h", "paginaAnterior");
+
+	if ((pagActual + 1) == numPags && IDActual === trak.length) { //deshabilitar el boton si estamos en la ultima pagina del ult tema
+		this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "d", "paginaSiguiente");
+	}
+	if (Pag[IDActual] < pagActual) { //Actualizar la pagina mas avanzada
+		Pag[IDActual] = pagActual;
+	}
+	pagActual += 1;
+	canvasContenido.gotoAndStop(pagActual);
+	guardarDatos();
+}
+/**
+ * @params NA
+ * @returns void
+ * @description Navega al frame anterior.
+ * 
+ * */
+function paginaAnterior() {
+
+	if (this.libre) // Para navegacion del curso
+		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras, btnSiguiente), "h", "paginaAnterior");
+
+	if ((pagActual - 1) === 0 && IDActual === 0) { //deshabilitar el boton si estamos en la primer pagina del 1er tema
+		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras), "d", "paginaAnterior");
+	}
+	pagActual -= 1;
+	canvasContenido.gotoAndStop(pagActual);
+}
+/**
+ * @params NA
+ * @returns void
+ * @description Navega al siguiente tema del contenido.
+ * 
+ * */
+function siguienteTema() {
+	$('#div_contenido').fadeOut("slow", function () {
+		ir(_root.IDActual + 1);
+	});
+}
+/**
+ * @params NA
+ * @returns void
+ * @description Navega al tema anterior del contenido.
+ * 
+ * */
+function temaAnterior() {
+	ir(IDActual - 1);
+	controlAtras = true; //setear en true para al iniciar tema enviar a ultima pagina
+}
+
+function actualizarNavegacion(currentPage, totalPages) {
+	pagActual = currentPage; // Pagina Actual
+	numPags = totalPages; // Total de paginas del tema en curso
+}
+
+
+//inicia un nuevo archivo 
+function reset_navegacion(pagin, cantPag) { // Usandose provisionalmente sera reelevada a legacy--- se validara al cambiar de pag
+	pagActual = pagin; //pagina actual del tema
+	numPags = cantPag; //cantidad total de las paginas del tema
+	// canvasBarra.deshabilitar_siguiente();
+	this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "d", "reset_navegacion");
+	if (pagActual == 0 && IDActual == 0) {
+		// canvasBarra.deshabilitar_atras();
+		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras), "d", "reset_navegacion");
+	} else {
+		// canvasBarra.habilitar_atras();
+		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras), "h", "reset_navegacion");
+	}
+	if (ULTIMO > IDActual || Pag[IDActual] > pagin) {
+		canvasBarra.habilitar_siguiente();
+		this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "h", "reset_navegacion");
+	}
+	if (backdoor) {
+		// canvasBarra.habilitar_siguiente();
+		// canvasBarra.habilitar_atras();
+		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras, this.btnSiguiente), "h", "reset_navegacion");
+	}
+	if (Pag[IDActual] < pagin) {
+		Pag[IDActual] = pagin;
+	}
+	// setEdo_botones();
+	guardarDatos();
+}
+
+
+
+//#endregion BARRAHTML
+//-------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------
+
+
+//#region LegacyFunction
+function habilitar_barra() { // ya no se ocupa
+	canvasBarra.habilitar_barra();
+}
+function deshabilitar_eval() {
+	canvasBarra.deshabilitar_eval();
+}
+function llamarMensajes(valor) {
+	var visibleMensajes = $("#div_mensajes").is(":visible");
+	if (visibleMensajes) {
+		console.log("escondiendo mensajes");
+		$('#div_mensajes').hide();
+	} else {
+		//esto para que el mensaje desaparesca al dar siguiente l a funcion se
+		//manda a llamar desde "siguiente_frame" y al darle valor 0 no hace nada
+		//pero si los mensajes estaban activos entonces los esconde
+		if (valor != 0) {
+			console.log("mostrando mensajes");
+			console.log(valor);
+			$('#div_mensajes').fadeIn();
+			canvasMensajes.gotoAndPlay(valor);
+		}
+	}
+}
+
+function llamarAlertas(valor) {
+	console.log("se ejecuto la funcion llamar alertas");
+	var visibleAlertas = $("#div_alerta").is(":visible");
+	if (visibleAlertas) {
+		console.log("escondiendo alertas");
+		$('#div_alerta').hide();
+		preCargarAlertas();
+
+	} else {
+		if (valor != 0) {
+			console.log("mostrando alertas");
+			console.log(valor);
+			$('#div_alerta').fadeIn();
+			canvasAlertas.gotoAndPlay(valor);
+		}
+	}
+}
+//funcion de comandos para que sea mas facil para DI
+function comando(hacer, objetivo) { // Legacy Function for v2 template
+	switch (hacer) {
+		case "iniciar":
+			try {
+				console.log("Se inicio el tema");
+				getCanvas(objetivo);
+				reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+				inicio_tema();
+			} catch (err) {
+				console.log("No se pudo iniciar el tema correctamente :", err);
+			}
+			break;
+		case "resetear":
+			try {
+				console.log("Se avanzo en el tema");
+				reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+			} catch (err) {
+				console.log("No se pudo reiniciar la barra :", err);
+			}
+			break;
+		case "terminar":
+			try {
+				console.log("Termino el tema");
+
+				final_tema();
+			} catch (err) {
+				console.log("nose pudo finalizar el tema correctamente :", err);
+			}
+			break;
+		default:
+			console.log("Asegurate dde escribir la palabra exacta en la funcion 'comando'");
+			break;
+	}
+
+}
+
+function llamar_menu() {
+	console.log("LLAMAR MENU");
+	$('#div_menu').fadeIn();
+	$('#div_loader').hide();
+	$('#div_retro').hide();
+	$('#div_contenido').hide();
+	$('#div_sim').hide();
+	$('#div_vid').hide();
+	if (canvasBarra != undefined) { //Valida si se ha cargado previamente la barra
+		canvasBarra.cambio_cerrar(0);
+	}
+	//se llama al menu 
+	var menu = document.getElementById("menu");
+	console.log("MENU" + menu.src + "|" + menu.src.indexOf("start.html"));
+	if (menu.src == "" || menu.src == null || menu.src == undefined || menu.src.indexOf("start.html") > 1) {
+		menu.src = "temas/template_menu.html";
+	}
+
+	limpiarSim(); // se limpia la 
+}
+
+//#endregion LegacyFunction
+
+function cursoCompletado() {
+	let completo = true;
+
+	for (let index = 0; index < this.TRAK.length; index++) {
+		if (TRAK[index] < 2) {
+			completo = false;
+			break;
+		}
+	}
+
+	return completo;
+}
+
+function actualizar_menuHTML(TrakCurso) {
+	// debugger;	
+	for (let i = 0; i < TrakCurso.length; i++) {
+		// var element = $("#Tema" + (i + 1)).find("i");
+		// debugger;
+		var element = $("#" + i).find("i");
+		var tema = $("#" + (i + 1));
+
+		// menuTemaDisabled
+		actualizarIndicadores(tema, TrakCurso[i]);
+
+		if (i > 0 && TrakCurso[i - 1] >= 2) { //bloquear botones aun no terminados
+			console.log("desbloqueo Tema: " + i);
+			// tema
+			// Modulo["b" + i].enabled = true;
+			//Modulo["b"+(i+1)].enabled=true;
+			desbloquearTema(tema);
+		} else {
+			if (i > 0) {
+				console.log("tema +" + i + "bloqueado");
+				bloquearTema(tema);
+
+			}
+			// Modulo["b" + (i + 1)].enabled = false;
+		}//terminan funciones de bloqueo de temas.
+
+		// Actualizar el estatus de los modulos
+		actualizarEstatusModulo();
+
+		// 	// debugger;
+		// 	if (TrakCurso[i] === 1) {
+		// 		element.removeClass("menuIconStyle");
+		// 		element.addClass("menuIconStyleIniciado");
+		// 		elementparent.removeClass("menuIconStyleDisabled");
+		// 		elementparent.addClass("menuTemaDesbloqueado");
+		// 		// if(buscarClase(element, "menuIconStyleCompletado") || buscarClase(element, "menuIconStyle")){}
+		// 	} else if (TrakCurso[i] === 2) {
+		// 		element.removeClass("menuIconStyleIniciado");
+		// 		element.addClass("menuIconStyleCompletado");
+		// 		elementparent.removeClass("menuIconStyleDisabled");
+		// 		elementparent.addClass("menuIconStyle");
+		// 		if(i < TrakCurso.length){
+		// 			$("#" + (i+1)).removeClass("menuIconStyleDisabled");
+		// 			$("#" + (i+1)).addClass("menuIconStyle");
+		// 		}
+
+		// 	} else {
+		// 		if (libre) { // Si el curso esta libre
+		// 			elementparent.removeClass();
+		// 			elementparent.addClass("menuTemaDesbloqueado");
+		// 		} else {// Si no esta libre revisamos si es el ultimo
+		// 			debugger;
+		// 			if (elementparent.attr('id') == (ULTIMO + 1) && ULTIMO === 0) {
+		// 				// debugger
+		// 				elementparent.removeClass("menuIconStyleDisabled");
+		// 				elementparent.addClass("menuTemaDesbloqueado");
+		// 			}
+		// 		}// end else if
+		// 	}// end else
+		// }// End main For
+
+
+
+	}
+
+	function desbloquearTema(elemento) {
+		elemento.removeClass("menuTemaDisabled");
+		elemento.addClass("menuTemaDesbloqueado");
+	}
+
+	function bloquearTema(elemento) {
+		elemento.addClass("menuTemaDisabled")
+	}
+
+	function actualizarIndicadores(elemento, status) {
+		let i = elemento.find("i");
+
+		switch (status) {
+			case 0:
+
+				break;
+			case 1:
+				i.removeClass("menuIconStyle").addClass("menuIconStyleIniciado");
+				break;
+			case 2:
+				i.removeClass("menuIconStyleIniciado").addClass("menuIconStyleCompletado");
+				break;
+		}
+	}
+
+
+	function actualizarEstatusModulo(tema) {
+		let arreglo = [];
+		//recibe tema iniciado o terminado
+		debugger;
+		for (let index = 1; index <= obj.Modulos.length; index++) {
+			let Modulo = getLenghtModulo(index);
+			// if (index >= Modulo.inicio && index <= Modulo.final) {
+				for (let i = Modulo.inicio; i < Modulo.final; i++) { // Revisar si ya se completo todo el modulo
+					arreglo.push(TRAK[i]);
+				}
+
+			// }
+
+			if (arreglo.indexOf(0) === -1 && arreglo.indexOf(1) === -1) {
+				console.log("Modulo Completado Marcando estado completado");
+				// temacompletado($("#Modulo"+index));
+				actualizarIndicadores($("#Modulo" + index), 2);
+			} else if (arreglo.indexOf(1) !== -1) {
+				actualizarIndicadores($("#Modulo" + index), 1);
+			}
+
+			arreglo=[];
+		}
+
+		function getLenghtModulo(numModulo) {
+			debugger;
+			let suma = 0;
+			for (let t = 0; t <= (numModulo - 1); t++) {
+				suma += (obj.Modulos[t]["Mod"+(t+1)].length);
+			}
+			let resp = [suma, obj.Modulos[numModulo-1]["Mod"+numModulo].length];
+
+			let datos = {
+				inicio: (suma - obj.Modulos[numModulo-1]["Mod"+numModulo].length),
+				final: suma,
+				nModulo: numModulo
+			}
+
+			return datos;
+		}
+
+	}
+}
