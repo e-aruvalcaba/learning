@@ -109,16 +109,14 @@ window.onresize = function () {
 	var menu = document.getElementById("menuHTML");
 	var contenido = document.getElementById("div_contenido");
 
-	console.log("--------------------------------------");
-	console.log($("#menuHTML").height());
-	console.log($("#div_contenido").height());
-	// console.log($("#menuHTML").height);
-	// console.log($("#contenido").height);
-	console.log("--------------------------------------");
+	// console.log("--------------------------------------");
+	// console.log($("#menuHTML").height());
+	// console.log($("#div_contenido").height());
+	// console.log("--------------------------------------");
 
-	$("#menuHTML").height($("#div_contenido").height());
-	// var newHeight = $(".input-height").val();
-	// $(".box").height(newHeight);
+	$("#menuHTML").height($("#div_contenido").height()-30);
+	$("#barraInferior").width($("#div_contenido").width());
+	
 }
 
 function populateMenu(jsonob) {
@@ -250,7 +248,8 @@ function InitApi() {
 	getAPI(); //Inicializa el API para el uso de las funciones con SCORM que se encuentran en api.JS.
 	IdentificarEstado();
 	// Setear el height del menu html igual al tamaño del contenido.
-	document.getElementById("menuHTML").style.height = document.getElementById("div_contenido").style.height + 'px';
+	document.getElementById("menuHTML").style.height = (document.getElementById("div_contenido").style.height-30) + 'px';
+	$("#menuHTML").height($("#div_contenido").height()-30);
 }
 /**
  * @param NA
@@ -322,6 +321,35 @@ function initConfig(jsonob) {
 	console.log("json trak es:  " + jsonob.Trak);
 
 	initbarra(jsonob);
+	// actualizarTotalTemasCompletados();
+}
+
+function actualizaTemasTerminados() {
+	let completed=0;
+	debugger;
+	for (let index = 0; index < TRAK.length; index++) {
+		// completed = TRAK[index] > 1 ? completed++ : completed;
+		if (TRAK[index] > 1) {
+			completed++;
+		}
+	}
+	let text = completed+"/"+TRAK.length;
+	return $("#numTemasCompletados").html(text);
+}
+
+function actualizarProgressBar(){
+	
+	let total = 100/TRAK.length;
+	let progress=0;
+	for (let index = 0; index < TRAK.length; index++) {
+		// completed = TRAK[index] > 1 ? completed++ : completed;
+		if (TRAK[index] > 1) {
+			progress+=total;
+		}
+	}
+
+	$("#progressBar").css("width", progress+"%");
+	$("#percent").html(progress.toFixed(0)+"%");
 }
 
 //Esta funcion es para la lectura de datos en modo local
@@ -564,6 +592,8 @@ function final_tema() {
 	console.log(_root.ULTIMO, _root.IDActual, TRAK, TRAK[_root.IDActual]);
 	actualizar_menuHTML(TRAK); // actualizar el menu
 	guardarDatos();
+	actualizaTemasTerminados();
+	actualizarProgressBar();
 }
 //Funcion para el glosario
 function glosarioX() {
@@ -1199,8 +1229,10 @@ function initbarra(jsonob) {
 
 	habilitar_deshabilitar_btns(getBtnArray(btnSiguiente, btnAtras), "d", "initbarra");
 	if (!cursoCompletado()) {
-		habilitar_deshabilitar_btns(getBtnArray(btnEval), "d", "initbarra");
+		// habilitar_deshabilitar_btns(getBtnArray(btnEval), "d", "initbarra");
 	}
+	actualizaTemasTerminados();
+	actualizarProgressBar(70);
 	populateMenu(jsonob);
 }
 //Funcion para cargar portada
@@ -1276,10 +1308,10 @@ function actualizarEdoBotones() {
 
 	this.EdoBtns.btnAtras = this.btnAtras.className.indexOf("disabledButton") >= 0 ? false : true;
 	this.EdoBtns.btnSiguiente = this.btnSiguiente.className.indexOf("disabledButton") >= 0 ? false : true;
-	this.EdoBtns.btnCerrar = this.btnCerrar.className.indexOf("disabledButton") >= 0 ? false : true;
-	this.EdoBtns.btnHome = this.btnHome.className.indexOf("disabledButton") >= 0 ? false : true;
+	// this.EdoBtns.btnCerrar = this.btnCerrar.className.indexOf("disabledButton") >= 0 ? false : true; //desactivado para la barra cdi
+	// this.EdoBtns.btnHome = this.btnHome.className.indexOf("disabledButton") >= 0 ? false : true;//desactivado para la barra cdi
 	this.EdoBtns.btnMenu = this.btnMenu.className.indexOf("disabledButton") >= 0 ? false : true;
-	this.EdoBtns.btnEval = this.btnEval.className.indexOf("disabledButton") >= 0 ? false : true;
+	// this.EdoBtns.btnEval = this.btnEval.className.indexOf("disabledButton") >= 0 ? false : true;//desactivado para la barra cdi
 	// .indexOf("?") >= 0
 }
 /**
@@ -1726,12 +1758,10 @@ function actualizar_menuHTML(TrakCurso) {
 				break;
 		}
 	}
-
-
 	function actualizarEstatusModulo(tema) {
 		let arreglo = [];
 		//recibe tema iniciado o terminado
-		debugger;
+		// debugger;
 		for (let index = 1; index <= obj.Modulos.length; index++) {
 			let Modulo = getLenghtModulo(index);
 			// if (index >= Modulo.inicio && index <= Modulo.final) {

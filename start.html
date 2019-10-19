@@ -9,6 +9,8 @@
 	<!--aqui se especifica el icono a utilizar-->
 	<link id="icon" rel="icon" type="image/png" href="icon.png" />
 	<!-- write your code here -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
 
 	<script src="js/jquery.js"></script>
 	<script src="js/libs/createjs-2015.11.26.min.js"></script>
@@ -20,9 +22,6 @@
 	<!--Animaciones para Swal-->
 	<link rel="stylesheet" href="css/main.css"><!-- Necesario para preloader -->
 	<link rel="stylesheet" href="awesome/fonta/css/all.css">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
 
@@ -68,8 +67,8 @@
 <body onload="SCOInitialize(); init_barra(); InitApi();">
 
 	<center>
-		<!-- NAVBAR HTML  -->
-		<div class="container" style=" max-width: 950px;">
+		<!-- NAVBAR HTML  VERSION ARCA CONTINENTAL --- CONGELADA FUNCIONAL 100%-->
+		<!-- <div class="container" style=" max-width: 950px;">
 			<div class="row">
 				<nav class="navbar navbar-default barraHTML">
 					<div class="barraHTMLLogoBackground col-xs-4 col-sm-3 col-md-3">
@@ -104,7 +103,7 @@
 
 				</nav>
 			</div>
-		</div>
+		</div> -->
 
 		<div data-role="controlgroup">
 			<a class="btn btn-info btn-lg" id="btnGlos" data-icon="bullets" data-toggle="modal"
@@ -171,19 +170,130 @@
 			<div id="div_contenido" class="container theme-showcase">
 				<!-- Nuevo Menu HTML  -->
 				<div class="embed-responsive embed-responsive-16by9" style="position: relative;">
-					
-					<div class="container menuHTML " id="menuHTML"
-						style=" max-width: 450px; position: absolute; margin-left: 15px; z-index: 9999;">
-						
+
+					<div class="container menuHTML " id="menuHTML">
+
 						<div id="menuContainer" class="row">
-								<!-- El contenido se clona apartir de aqui -->
+							<!-- El contenido se clona apartir de aqui -->
 						</div>
 					</div>
 
 					<iframe class="embed-responsive-item" frameborder="0" width="950" height="550" name="Contenido"
 						id="Contenido" onload=""></iframe>
-				</div>
-			</div>
+
+					<div class="container barraInferior navbar-fixed-bottom" id="barraInferior">
+						<div id="barraInferiorControles" class="row">
+							<div class="col-xs-3 col-sm-2 col-md-2"
+								style="font-size: 20px; padding-right: 50px; color: white;">
+								<a id="btnMenu" onclick="llamar_menuHTML()" class="" style="cursor: pointer;"><i
+										class="fas fa-bars iconColor"></i></a>
+								<p class="reset" style="display: inline-block; font-size: 12px;">Menú</p>
+							</div>
+							<!-- <div class="" style="width: 15%;">
+								style="font-size: 20px; padding-right: 50px; color: white;">
+								<a id="btnMenu" onclick="llamar_menuHTML()" class="" style="cursor: pointer;"><i
+										class="fas fa-bars iconColor"></i></a>
+								<p class="reset" style="display: inline-block; font-size: 12px;">Menú</p>
+							</div> -->
+
+
+
+							<!-- <div style="width: 25%;">
+								asdasd
+							</div> -->
+
+							<div class="col-xs-3 col-sm-5 col-md-7" style="color: white;padding-top: 5px;">
+								<div class="row">
+									<div class="col-xs-1 col-sm-2" style="padding-top: 2px;">
+										<p class="reset" style="font-size: 12px;">Avance</p>
+									</div>
+									<div class="col-xs-1 col-sm-8" style="">
+										<!-- <div style="width: 100%; background-color: gray;">
+											a
+										</div> -->
+										<div class="progress" style="width: 100%; background-color: gray;">
+											<!-- To control the progressbar must modify the width property  -->
+											<div id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0"
+												aria-valuemin="0" aria-valuemax="100" style="width:0%">
+												<!-- <span class="sr-only">90% Complete</span> -->
+											</div>
+										 </div>  <!-- End Progressbar -->
+									</div>
+									<div class="col-xs-1">
+										<p id="percent" class="reset" style="padding-bottom: 11px!important;">
+											100%
+										</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-xs-6 col-sm-5 col-md-3" style="color:white; padding-top: 5px;">
+								<div class="row">
+									<div id="btnAtras" onclick="anterior_frame()" class="col-xs-5" style="padding: 0px!important;">
+										<a class="" style="cursor: pointer;"><i
+												class="fas fa-chevron-left iconColor"></i></a>
+										<p class="reset"
+											style="padding-bottom: 11px!important;display: inline-block;font-size: 13px;">
+											Anterior
+										</p>
+									</div>
+									<div id="numTemasCompletados" class="col-xs-2" style="padding: 0px!important; font-size: 13px;">
+										50 / 50
+									</div>
+									<div id="btnSiguiente" onclick="siguiente_frame()" class="col-xs-5" style="padding: 0px!important;">
+										<p class="reset"
+											style="padding-bottom: 11px!important;font-size: 13px;display: inline-block;">
+											Siguiente
+										</p>
+										<a class=""
+											style="cursor: pointer;"><i class="fas fa-chevron-right iconColor"></i></a>
+
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+
+					<!--		<div class="container" style=" max-width: 950px;">
+						<div class="row">
+							<nav class="navbar navbar-default barraHTML">
+								<div class="barraHTMLLogoBackground col-xs-4 col-sm-3 col-md-3">
+									<img class="navbar-brand barraHTMLLogo" src="img/ac.png" alt="" width="50%">
+								</div>
+
+								<div class="CourseTitle col-sm-4 col-md-4">
+									<a class="navbar-brand Title"> Talent Management Review </a>
+								</div>
+
+								 <ul class="nav navbar-nav navbar-right  col-xs-8 col-sm-4 col-md-4 barraIcons"
+									style="margin-right: 0%!important; cursor: pointer; padding: 0%!important; margin-top: 0%!important;">
+									<li class="reset"><a id="btnCerrar" onclick="cerrar()" class="iconStyle"
+											style="padding-left: 12px!important; padding-right: 13px!important;"><i
+												class="fas fa-times iconColor"></i></a></li>
+									<li class="reset"><a id="btnSiguiente" onclick="siguiente_frame()" class="iconStyle"
+											style="padding-left: 12px!important; padding-right: 13px!important;"><i
+												class="fas fa-chevron-right iconColor"></i></a></li>
+									<li class="reset"><a id="btnAtras" onclick="anterior_frame()" class="iconStyle"
+											style="padding-left: 12px!important; padding-right: 13px!important;"><i
+												class="fas fa-chevron-left iconColor"></i></a></li>
+									<li class="reset"><a id="btnMenu" onclick="llamar_menuHTML()" class="iconStyle"><i
+												class="fas fa-ellipsis-h iconColor"></i></a></li>
+									<li class="reset"><a id="btnHome" onclick="home()" class="iconStyle"
+											style="padding-left: 9px!important; padding-right: 9px!important;"><i
+												class="fas fa-home iconColor"></i></a></li>
+									<li class="reset"><a id="btnEval" onclick="alert('Lanzar la Evaluacion')"
+											class="iconStyle"
+											style="padding-left: 8px!important; padding-right: 8px!important;"><i
+												class="fas fa-graduation-cap iconColor"></i></a></li>
+								</ul> -->
+					<!-- </nav> -->
+					<!-- </div> Termina Row  -->
+					<!-- </div> Termina Menu inferior HTML  -->
+
+				</div> <!-- Termina Embed Responsive  -->
+			</div> <!-- Termina DivContenido  -->
 
 			<!--Menu-->
 			<div id="div_menu" class="container theme-showcase"
