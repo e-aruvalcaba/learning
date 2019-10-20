@@ -5770,7 +5770,7 @@ p.nominalBounds = new cjs.Rectangle(-12,-7.7,81.8,81.8);
 	// timeline functions:
 	this.frame_161 = function() {
 		this.stop();
-		parent.siguiente_naranja();
+		parent.habilitarSiguiente();
 	}
 
 	// actions tween:
@@ -5858,7 +5858,7 @@ p.nominalBounds = new cjs.Rectangle(-466.2,-120.9,351.5,177);
 	// timeline functions:
 	this.frame_26 = function() {
 		this.stop();
-		parent.siguiente_naranja();
+		parent.habilitarSiguiente();
 	}
 
 	// actions tween:
@@ -6206,7 +6206,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,90,96);
 			// Qué hacer cuando ya se ve todo el contenido:
 			if (finalizo) {
 				console.log(" Todo visitado ");
-				parent.siguiente_verde();
+				//parent.siguiente_verde();
 				parent.final_tema();
 			}
 		}
@@ -6364,7 +6364,7 @@ p.nominalBounds = new cjs.Rectangle(-199.4,-82,427,465.9);
 			// Qué hacer cuando ya se ve todo el contenido:
 			if (finalizo) {
 				console.log(" Todo visitado ");
-		parent.siguiente_naranja();
+		parent.habilitarSiguiente();
 		
 		
 			}
@@ -6701,19 +6701,16 @@ p.nominalBounds = new cjs.Rectangle(-90.2,87.9,368.8,376.8);
 	// timeline functions:
 	this.frame_0 = function() {
 		this.stop();
-		parent.comando("iniciar",this);
+		parent.iniciar_tema(this);
 	}
 	this.frame_1 = function() {
 		this.stop();
-		parent.comando("resetear");
 	}
 	this.frame_2 = function() {
 		this.stop();
-		parent.comando("resetear");
 	}
 	this.frame_3 = function() {
 		this.stop();
-		parent.comando("resetear");
 	}
 
 	// actions tween:

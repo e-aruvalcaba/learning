@@ -4,67 +4,33 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=11" />
-	<title>E-learning</title>
-
+	<title id="NombreDelCurso">E-learning</title>
 	<!--aqui se especifica el icono a utilizar-->
 	<link id="icon" rel="icon" type="image/png" href="icon.png" />
-	<!-- write your code here -->
+	<!-- Inicia carga de estilos -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
-
-	<script src="js/jquery.js"></script>
-	<script src="js/libs/createjs-2015.11.26.min.js"></script>
-
-	<!-- Comienzan librerías para PRELOADER -->
-
 	<link rel="stylesheet" href="css/normalize.css"><!-- Estilos de los navegadores -->
 	<link rel="stylesheet" href="css/Animate.css">
-	<!--Animaciones para Swal-->
 	<link rel="stylesheet" href="css/main.css"><!-- Necesario para preloader -->
 	<link rel="stylesheet" href="awesome/fonta/css/all.css">
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
 
-	<script src="temas/template_barra_canvas.js?1479836981087"></script> <!-- Barra de botones en start REQS -->
-
-	<!-- GLOSARIO REQS -->
-	<!-- ya no exixten en la carpeta -->
-	<!-- <script src="libs/jquery.min.js"></script>
-	<script src="libs/bootstrap.min.js"></script>
-	<script src="libs/jquery-1.12.4g.js"></script> 
-	<script src="libs/jquery-1.11.1.min.js"></script> -->
-
-	<!-- Librerías mobile -->
-	<!-- <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" /> no esta en la carpeta  -->
-	<!-- <script src="js/jquery.mobile-1.4.5.min.js"></script> no esta en la carpeta borrar  -->
-
-	<!--  Librerías de JQWERY UI-->
-	<!-- no se encuentra en carpeta 
-	<link rel="stylesheet" href="css/jquery-ui.css">
-	<script src="libs/jquery-ui.js"></script> -->
+	<!--  Comienza la carga de librerias JS-->
+	<script src="js/jquery.js"></script> <!-- JQuery -->
+	<script src="js/libs/createjs-2015.11.26.min.js"></script> <!-- CreateJS local -->
 	<script src="js/modernizr-2.6.2.min.js"></script><!-- Necesario para preloader -->
-	<script src="js/sweetalert2.all.min.js"></script>
+	<script src="js/sweetalert2.all.min.js"></script> <!-- Librerias sweetAlert2 -->
 	<script src="js/main.js"></script><!-- Necesario para preloader -->
-	<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap.min.js"></script> <!-- Librerias Bootstrap -->
 	<script src="configJson.js"></script> <!-- contiene el json generado por el addin de c#/excel -->
 	<script src="js/api.js"></script> <!-- Api comunicaciones LMS REQ -->
+	<script src="libs/CSSPlugin.min.js"></script> <!-- Librerias GSAP Greensock Plugins-->
+	<script src="libs/TweenMax.min.js"></script> <!-- Librerias GSAP Greensock -->
 	<script src="js/start.js"></script> <!-- Funciones del Start -->
-	<script src="libs/TweenLite.min.js"></script>
-	<script src="libs/CSSPlugin.min.js"></script>
-	<script src="libs/TweenMax.min.js"></script>
-
-	<script src="js/barrajs.js"></script>
-	<!--carga la funcionalidad de la barra-->
-	<!--quita la Scroll Bar , ya que no sera utilizada-->
-	<style type="text/css">
-		html {
-			overflow-y: hidden;
-		}
-	</style>
-
 </head>
 
-<body onload="SCOInitialize(); init_barra(); InitApi();">
+<body onload="SCOInitialize(); InitApi();">
 
 	<center>
 		<!-- NAVBAR HTML  VERSION ARCA CONTINENTAL --- CONGELADA FUNCIONAL 100%-->
@@ -104,68 +70,7 @@
 				</nav>
 			</div>
 		</div> -->
-
-		<div data-role="controlgroup">
-			<a class="btn btn-info btn-lg" id="btnGlos" data-icon="bullets" data-toggle="modal"
-				data-target="#GlosarioModal" data-role="button" style="display: none;">Glosario</a>
-		</div>
-
-		<!-- Modal DEL GLOSARIO-->
-		<div data-backdrop="static" id="GlosarioModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-
-				<!-- Modal content-->
-				<div class="modal-content ">
-
-					<div class="modal-header">
-						<h2 data-dismiss="modal" class="close" onclick="Cierra();" class="modal-title ng-binding">
-							<a title="Close"> <i class="glyphicon glyphicon-remove icon-arrow-right pull-right"></i></a>
-						</h2>
-						<h4 class="modal-title">Glosario</h4>
-					</div>
-					<div class="container">
-						<!-- Modal Body-->
-						<iframe class="embed-responsive-item " frameborder="0" width="950" height="550"
-							name="contenedor" id="glosario"></iframe>
-					</div> <!-- Termina Body-->
-					<!--  <div class="modal-footer"></div>  -->
-				</div>
-			</div>
-		</div>
-
 		<div id="content" class="contenedor">
-			<!--Barra-->
-			<div id="div_barra" class="container">
-				<div class="embed-responsive embed-responsive-4by3" style="padding-bottom: 5.1%;">
-					<iframe frameborder="0" width="980" height="50" name="Barra" id="Barra" onload=""></iframe>
-				</div>
-			</div>
-
-			<!--Mensajes-->
-			<div id="div_mensajes" class="container theme-showcase"
-				style="position: absolute; top: 50px; z-index: 2; width: 980px; height: 60px;">
-				<div style="width: 980px; height: 60px;">
-					<iframe frameborder="0" width="980" height="60" name="mensajes" id="mensajes"
-						style="width: 980px; height: 60px;"></iframe>
-				</div>
-			</div>
-
-			<!--Alertas-->
-			<div id="div_alerta" class="container theme-showcase"
-				style="position: absolute; left: 0px; top: 0px; z-index: 5;">
-				<div class="embed-responsive-16by9">
-					<iframe frameborder="0" width="950" height="550" name="alertas" id="alertas"></iframe>
-				</div>
-			</div>
-
-			<!--Retros-->
-			<div id="div_retro" class="container theme-showcase"
-				style="position: absolute; left: 0px; top: 0px; z-index: 3;">
-				<div class="embed-responsive embed-responsive-16by9">
-					<iframe frameborder="0" width="950" height="550" name="retros" id="retros"></iframe>
-				</div>
-			</div>
-
 			<!--Contenido-->
 			<div id="div_contenido" class="container theme-showcase">
 				<!-- Nuevo Menu HTML  -->
@@ -178,6 +83,16 @@
 						</div>
 					</div>
 
+					<!-- INICIA CONTENEDOR DE ALERTAS -->
+					<div class="container navbar-fixed-bottom barraInferior mensajes" id="mensajesHTML">
+						<div id="alertasContainer" class="row alertasContainer">
+							<div class="col-xs-12">
+								esto es los mensajes
+							</div>
+						</div>
+					</div>
+					<!-- TERMINA CONTENEDOR DE ALERTAS  -->
+
 					<iframe class="embed-responsive-item" frameborder="0" width="950" height="550" name="Contenido"
 						id="Contenido" onload=""></iframe>
 
@@ -189,35 +104,20 @@
 										class="fas fa-bars iconColor"></i></a>
 								<p class="reset" style="display: inline-block; font-size: 12px;">Menú</p>
 							</div>
-							<!-- <div class="" style="width: 15%;">
-								style="font-size: 20px; padding-right: 50px; color: white;">
-								<a id="btnMenu" onclick="llamar_menuHTML()" class="" style="cursor: pointer;"><i
-										class="fas fa-bars iconColor"></i></a>
-								<p class="reset" style="display: inline-block; font-size: 12px;">Menú</p>
-							</div> -->
-
-
-
-							<!-- <div style="width: 25%;">
-								asdasd
-							</div> -->
-
 							<div class="col-xs-3 col-sm-5 col-md-7" style="color: white;padding-top: 5px;">
 								<div class="row">
 									<div class="col-xs-1 col-sm-2" style="padding-top: 2px;">
 										<p class="reset" style="font-size: 12px;">Avance</p>
 									</div>
 									<div class="col-xs-1 col-sm-8" style="">
-										<!-- <div style="width: 100%; background-color: gray;">
-											a
-										</div> -->
 										<div class="progress" style="width: 100%; background-color: gray;">
 											<!-- To control the progressbar must modify the width property  -->
-											<div id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0"
-												aria-valuemin="0" aria-valuemax="100" style="width:0%">
+											<div id="progressBar" class="progress-bar" role="progressbar"
+												aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+												style="width:0%">
 												<!-- <span class="sr-only">90% Complete</span> -->
 											</div>
-										 </div>  <!-- End Progressbar -->
+										</div> <!-- End Progressbar -->
 									</div>
 									<div class="col-xs-1">
 										<p id="percent" class="reset" style="padding-bottom: 11px!important;">
@@ -227,27 +127,28 @@
 								</div>
 							</div>
 
-							<div class="col-xs-6 col-sm-5 col-md-3" style="color:white; padding-top: 5px;">
+							<div class="col-xs-6 col-sm-5 col-md-3"
+								style="color:white; padding-top: 5px; cursor: pointer;">
 								<div class="row">
-									<div id="btnAtras" onclick="anterior_frame()" class="col-xs-5" style="padding: 0px!important;">
-										<a class="" style="cursor: pointer;"><i
-												class="fas fa-chevron-left iconColor"></i></a>
+									<div id="btnAtras" onclick="anterior_frame()" class="col-xs-5"
+										style="padding: 0px!important;">
+										<a><i class="fas fa-chevron-left iconColor"></i></a>
 										<p class="reset"
 											style="padding-bottom: 11px!important;display: inline-block;font-size: 13px;">
 											Anterior
 										</p>
 									</div>
-									<div id="numTemasCompletados" class="col-xs-2" style="padding: 0px!important; font-size: 13px;">
+									<div id="numTemasCompletados" class="col-xs-2"
+										style="padding: 0px!important; font-size: 13px; cursor: default;">
 										50 / 50
 									</div>
-									<div id="btnSiguiente" onclick="siguiente_frame()" class="col-xs-5" style="padding: 0px!important;">
+									<div id="btnSiguiente" onclick="siguiente_frame()" class="col-xs-5"
+										style="padding: 0px!important; cursor: pointer;">
 										<p class="reset"
 											style="padding-bottom: 11px!important;font-size: 13px;display: inline-block;">
 											Siguiente
 										</p>
-										<a class=""
-											style="cursor: pointer;"><i class="fas fa-chevron-right iconColor"></i></a>
-
+										<a><i class="fas fa-chevron-right iconColor"></i></a>
 									</div>
 								</div>
 							</div>
@@ -294,18 +195,6 @@
 
 				</div> <!-- Termina Embed Responsive  -->
 			</div> <!-- Termina DivContenido  -->
-
-			<!--Menu-->
-			<div id="div_menu" class="container theme-showcase"
-				style="position: relative; left: 0px; top: 0px; z-index: 4;">
-
-				</style>
-				<div class="embed-responsive embed-responsive-16by9">
-					<iframe frameborder="0" width="950" height="550" name="menu" id="menu"></iframe>
-				</div>
-			</div>
-
-
 			<!--Simulacion-->
 			<div id="div_sim" class="container theme-showcase">
 				<div class="">
@@ -319,15 +208,6 @@
 					<video src="" frameborder="0" width="950" height="550" name="Videos" id="vid" autoplay></video>
 				</div>
 			</div>
-
-			<!--Glosario-->
-			<div id="div_glosario" class="container theme-showcase">
-				<div class="embed-responsive embed-responsive-16by9">
-					<iframe class="embed-responsive-item" src="" frameborder="0" width="950" height="550"
-						name="glosario" id="glosario"></iframe>
-				</div>
-			</div>
-
 		</div>
 		<!-- NAVBAR HTML 
 		<div class="container" style=" max-width: 950px;">
@@ -367,7 +247,6 @@
 				</div>
 			</div> -->
 	</center>
-
 	<div id="loader-wrapper">
 		<div id="loader"></div>
 		<div class="loader-section section-left"></div>

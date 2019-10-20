@@ -2282,7 +2282,7 @@ p.nominalBounds = new cjs.Rectangle(-25,-88,486.7,381.3);
 				try {
 					parent.llamarRetros("bien", '¡En efecto! Entre las actividades de esta etapa destacan “validar con el jefe de cada puesto, a los colaboradores identificados como sucesores” y “garantizar que los prospectos cuentan con la experiencia y se les proveerán actividades que les permitan desarrollarse para estar listos para ocupar el puesto”.');
 					//parent.llamarRetros("bien","Respuesta B.  ¡En efecto! Contactar al líder del negocio o territorio nos permite tener claridad de los objetivos más significativos del negocio así como los retos que enfrenta la posición analizada, alineando de esta manera las necesidades de talento.");
-					parent.siguiente_verde();
+					//parent.siguiente_verde();
 					parent.final_tema();
 		
 				} catch (e) {
@@ -4980,7 +4980,7 @@ p.nominalBounds = new cjs.Rectangle(-25,-88,486.7,381.3);
 	this.shape_211.setTransform(-213.9,201.9,1.173,1.173);
 
 	this.shape_212 = new cjs.Shape();
-	this.shape_212.graphics.f("#B7BBC1").s().p("ABlCDIgDAAQgCgDAAgCIABgFIAEhPQgDggAOgnQAKgfAKgPQAHgMAAgEIgDgIQgFgHgIgBIghgCQglgCg2ACQg+ADggAIQgvAMgLgIQgEgDAAgDIABgFQADgEAOgCIBSgKIAPgCQARgDANAAIATgBQBbgEAMACIAFABQAPABALAHQAQAJABAPIgEATIgJARQgKATgGAPQgKAZgEB+QAAADgDABIgKACgABrAmIgCBUIABAAIAEhGQAEg5AGgUQgMAjgBAcgABoh1QAYACAJAEQAGADAEAKIACADQABAEgBAFIABgBQACgSgMgHQgJgGgRgCIgGgBQgEgBhgADIgTABQgOABgRACIgOACQAagDAigBIA3gBIAtABgAiUhlQAKAFAogKIARgEIACAAIgCAAg");
+	this.shape_212.graphics.f("#B7BBC1").s().p("ABlCDIgDAAQgCgDAAgCIABgFIAEhPQgDggAOgnQAKgfAKgPQAHgMAAgEIgDgIQgFgHgIgBIghgCQglgCg2ACQg+ADggAIQgvAMgLgIQgEgDAAgDIABgFQADgEAOgCIBSgKIAPgCQARgDANAAIATgBQBbgEAMACIAFABQAPABALAHQAQAJABAPIgEATIgJARQgKATgGAPQgKAZgEB+QAAADgDABIgKACgABrAmIgCBUIABAAIAEhGQAEg5AGgUQgMAjgBAcgABoh1QAYACAJAEQAGADAEAKIACADQABAEgBAFIABgBQACgSgMgHQgJgGgRgCIgGgBQgEgBhgADIgTABQgOABgRACIgOACQAagDAigBIA3gBIAtABgAiUhlQAKAFAogKIARgEgAhRhuIACAAg");
 	this.shape_212.setTransform(-213.6,201.6,1.173,1.173);
 
 	this.shape_213 = new cjs.Shape();
@@ -5238,7 +5238,7 @@ p.nominalBounds = new cjs.Rectangle(-247,41.3,485.9,223.7);
 	// timeline functions:
 	this.frame_184 = function() {
 		this.stop();
-		parent.siguiente_naranja();
+		parent.habilitarSiguiente();
 	}
 
 	// actions tween:
@@ -5352,7 +5352,7 @@ p.nominalBounds = new cjs.Rectangle(-207,-24.6,1318.5,502.2);
 	// timeline functions:
 	this.frame_45 = function() {
 		this.stop();
-		parent.siguiente_naranja();
+		parent.habilitarSiguiente();
 	}
 
 	// actions tween:
@@ -5400,15 +5400,13 @@ p.nominalBounds = new cjs.Rectangle(-207.8,-189.4,1045.5,499.8);
 	// timeline functions:
 	this.frame_0 = function() {
 		this.stop();
-		parent.comando("iniciar",this);
+		parent.iniciar_tema(this);
 	}
 	this.frame_1 = function() {
 		this.stop();
-		parent.comando("resetear");
 	}
 	this.frame_2 = function() {
 		this.stop();
-		parent.comando("resetear");
 	}
 
 	// actions tween:

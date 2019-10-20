@@ -21,30 +21,26 @@
   }
 </style>
 <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
-<script src="AC_TMR_M03_05.js?1555350749358"></script>
+<script src="AC_TMR_M03_05.js"></script>
 <script>
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
 function init() {
 	canvas = document.getElementById("canvas");
 	anim_container = document.getElementById("animation_container");
 	dom_overlay_container = document.getElementById("dom_overlay_container");
-	var comp=AdobeAn.getComposition("8EAB925B4703433489292BA7C59D9C6D");
-	var lib=comp.getLibrary();
-	handleComplete({},comp);
+	handleComplete();
 }
-function handleComplete(evt,comp) {
+function handleComplete() {
 	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
-	var lib=comp.getLibrary();
-	var ss=comp.getSpriteSheet();
 	var preloaderDiv = document.getElementById("_preload_div_");
 	preloaderDiv.style.display = 'none';
 	canvas.style.display = 'block';
 	exportRoot = new lib.AC_TMR_M03_05();
-	stage = new lib.Stage(canvas);
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
 	stage.enableMouseOver();	
 	//Registers the "tick" event listener.
 	fnStartAnimation = function() {
-		stage.addChild(exportRoot);
 		createjs.Ticker.setFPS(lib.properties.fps);
 		createjs.Ticker.addEventListener("tick", stage);
 	}	    
@@ -78,14 +74,10 @@ function handleComplete(evt,comp) {
 			canvas.style.height = anim_container.style.height = dom_overlay_container.style.height = preloaderDiv.style.height = h*sRatio+'px';
 			stage.scaleX = pRatio*sRatio;			
 			stage.scaleY = pRatio*sRatio;			
-			lastW = iw; lastH = ih; lastS = sRatio;            
-			stage.tickOnUpdate = false;            
-			stage.update();            
-			stage.tickOnUpdate = true;		
+			lastW = iw; lastH = ih; lastS = sRatio;		
 		}
 	}
 	makeResponsive(false,'both',false,1);	
-	AdobeAn.compositionLoaded(lib.properties.id);
 	fnStartAnimation();
 }
 </script>
@@ -97,6 +89,7 @@ function handleComplete(evt,comp) {
 		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:950px; height:500px; position: absolute; left: 0px; top: 0px; display: none;">
 		</div>
 	</div>
-    <div id='_preload_div_' style='position:absolute; top:0; left:0; display: inline-block; height:500px; width: 950px; text-align: center;'>	<span style='display: inline-block; height: 100%; vertical-align: middle;'></span>	<img src=images/_preloader.gif?1555350749359 style='vertical-align: middle; max-height: 100%'/></div>
+    <div id='_preload_div_' style='display: inline-block; height:500px; width: 950px; vertical-align=middle;position:absolute;left:0px;top:0px;text-align: center;'>	<span style='display: inline-block; height: 100%; vertical-align: middle;'></span>	<img src=images/_preloader.gif style='vertical-align: middle; max-height: 100%'/></div>
+    <script src="js/compilacionPrueba.js"></script>
 </body>
 </html>
