@@ -87,6 +87,7 @@ var tl = new TimelineMax();
 window.onresize = function () {
 	// console.log("--------------------------------------"); console.log($("#menuHTML").height());	// console.log($("#div_contenido").height());	// console.log("--------------------------------------");
 	$("#menuHTML").height($("#div_contenido").height() - 30);
+	$("#temasContainer").height($("#menuHTML").height() - 100);
 	$("#barraInferior").width($("#div_contenido").width());
 	$("#mensajesHTML").width($("#div_contenido").width());
 }
@@ -166,26 +167,21 @@ function mostrarTemaCompletado(texto) {
  * @description Crea dinamicamente los elementos mostrados en el menuHTML ademas les asigna su evento clic y los elementos como el titulo del curso evaluaciones etc.
  */
 function populateMenu(jsonob) {
-	let deshabilitado = "menuTemaDisabled";
-	if (libre) {
-		deshabilitado = "menuTemaDesbloqueado";
-	}
-
 	// Agregar Nombre del Curso
-	$("#menuContainer").append("<div id='menuTitle' class='col-xs-12 menuTitle'>Menú del curso </div>");
+	// $("#menuContainer").append("<div id='menuTitle' class='col-xs-12 menuTitle'>Menú del curso </div>");
 	let consecutivo = 0;
 	for (let index = 0; index < jsonob.Modulos.length; index++) {
 		//pintar nombre de modulo1
 		if (NombreModulos[index] !== "" && NombreModulos[index] !== null && NombreModulos[index] !== undefined) {
 			//
-			$("#menuContainer").append("	<div id='Modulo" + (index + 1) + "' class='col-xs-12 tituloModulo'>" +
+			$("#temasContainer").append("<div id='Modulo" + (index + 1) + "' class='col-xs-12 tituloModulo'>" +
 				"<div class='col-xs-1'>" +
 				"<a	>" +
 				"<i class='fas fa-circle menuIconStyle'></i>" +
 				"</a>" +
 				"</div>" +
 				"<div class='col-xs-8' style='color:white'>" +
-				"<p class='reset' style='float: left;'>" + NombreModulos[index] + "</p>" +
+				"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + NombreModulos[index] + "</p>" +
 				"</div>" +
 				"</div>");
 		} //end if Nombre para modulos
@@ -193,14 +189,14 @@ function populateMenu(jsonob) {
 		for (let j = 0; j < jsonob.Modulos[index]['Mod' + (index + 1)].length; j++) {
 			//pintar cada tema del modulo
 			id = consecutivo; //onclick='alert('Modulo" + (consecutivo) + "')'
-			$("#menuContainer").append("	<div id='" + (consecutivo + 1) + "' onclick='llamarTema(" + (consecutivo) + ")' class='col-xs-12 tituloTemaMenu '" + deshabilitado + ">" +
+			$("#temasContainer").append("<div id='" + (consecutivo + 1) + "' onclick='llamarTema(" + (consecutivo) + ")' onmouseover='rollover(" + (consecutivo + 1) + ")' onmouseout='rollout(" + (consecutivo + 1) + ")' class='col-xs-12 tituloTemaMenu'>" +
 				"<div class='col-xs-1' style='padding-top: 8px'>" +
 				"<a>" +
 				"<i class='fas fa-circle menuIconStyle'></i>" +
 				"</a>" +
 				"</div>" +
 				"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px;'>" +
-				"<p class='reset' style='float: left;'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
+				"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
 				"</div>" +
 				"</div>");
 			consecutivo++;
@@ -217,14 +213,14 @@ function populateMenu(jsonob) {
 						jsonob.Evaluaciones[t]["Nombre"] !== NaN ? Evals[t]["Nombre"] : "Modulo " + index + ": Evaluacion";
 					let Evalid = jsonob.Evaluaciones[t]["ID"];
 
-					$("#menuContainer").append("	<div id='Evaluacion" + Evalid + "' onclick='llamarEval(" + (jsonob.Evaluaciones[t]["ID"]) + ")' class='col-xs-12 tituloTemaMenu menuTemaDisabled'>" +
+					$("#temasContainer").append("	<div id='Evaluacion" + Evalid + "' onclick='llamarEval(" + (jsonob.Evaluaciones[t]["ID"]) + ")' class='col-xs-12 tituloTemaMenu menuTemaDisabled'>" +
 						"<div class='col-xs-1' style='padding-top: 8px'>" +
 						"<a>" +
 						"<i class='fas fa-circle menuIconStyle'></i>" +
 						"</a>" +
 						"</div>" +
 						"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px;'>" +
-						"<p class='reset' style='float: left;'>" + NombreEvaluacionActual + "</p>" +
+						"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + NombreEvaluacionActual + "</p>" +
 						"</div>" +
 						"</div>");
 				}// if eval apply
@@ -246,6 +242,16 @@ function habilitarEvals(nMod) {
 			}
 		}
 	}
+}
+
+function rollover(id){
+	// TweenMax.to($("#"+id).find("i"), 0.5, { scaleX: 1.8, scaleY: 1.8, ease: Back.easeOut, delay: 0.35 })
+	$("#"+id).find("i").css("font-size", "9px");
+}
+
+function rollout(id){
+	$("#"+id).find("i").css("font-size", "6px");
+	// TweenMax.to($("#"+id).find("i"), 0.5, { scaleX: 1, scaleY: 1, ease: Back.easeOut, delay: 0.5 })
 }
 
 /**
@@ -368,6 +374,10 @@ function initConfig(jsonob) {
 
 	initbarra(jsonob);
 	$("#NombreDelCurso").html(jsonob.NombreCurso);
+}
+
+function llamarRetros(){
+	
 }
 /**
  * @param NA
@@ -851,16 +861,16 @@ function llamar_menuHTML() {
 	if (!bussy) {
 		if (!menu_open) {
 			$("#menuHTML").addClass("menu-open");
-			TweenLite.from($("#menuHTML"), 0.5, { opacity: 0, left: '-300px' });
+			TweenLite.from($("#menuHTML"), 0.5, { opacity: 0, left: '-400px' });
 			this.menu_open = true;
 		} else {
-			TweenLite.to($("#menuHTML"), 0.5, { opacity: 0, left: '-300px' });
+			TweenLite.to($("#menuHTML"), 0.5, { opacity: 0, left: '-400px' });
 			bussy = false;// Deshabilitar el boton menu
 			setTimeout(function () {
 				this.menu_open = false;
 				$("#menuHTML").removeClass("menu-open");
 				$("#btnMenu").css("pointer-events", "all");
-				TweenLite.to($("#menuHTML"), 0.01, { opacity: 0.75, left: "0px" });
+				TweenLite.to($("#menuHTML"), 0.01, { opacity: 1, left: "0px" });
 				bussy = false;
 			}, 500);
 		}

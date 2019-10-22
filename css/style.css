@@ -159,7 +159,7 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
 .menuHTML{
   position: absolute;
   /* z-index: 6; */
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   width: 350px;
   /* height: 550px; */
   /* max-height: 580px; */
@@ -171,7 +171,7 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   margin-left: 15px;
   max-width: 450px; 
   z-index: 9999;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   /* Para internet explorer */
   -ms-overflow-x: hidden;
 
@@ -180,9 +180,10 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
 }
 
 .disabledButton{
-  pointer-events: none;
+  pointer-events: fill!important;
   opacity: 0.35;
   cursor: default!important;
+
 }
 
 .menuTitle{
@@ -195,25 +196,25 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
 
 .menuIconStyle{
   color:white;
-  font-size: 10px;
-  padding-left: 5px;
-  padding-bottom: 2px;
+  font-size: 6px;
+  /* padding-left: 5px; */
+  /* padding-bottom: 2px; */
   pointer-events: none;
 }
 
 .menuIconStyleIniciado{
   color:orange;
-  font-size: 10px;
-  padding-left: 5px;
-  padding-bottom: 2px;
+  font-size: 6px;
+  /* padding-left: 5px; */
+  /* padding-bottom: 2px; */
   pointer-events: all;
 }
 
 .menuIconStyleCompletado{
   color:green;
-  font-size: 10px;
-  padding-left: 5px;
-  padding-bottom: 2px;
+  font-size: 6px;
+  /* padding-left: 5px; */
+  /* padding-bottom: 2px; */
   pointer-events: all;
 }
 
@@ -222,7 +223,7 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   /* font-size: 10px; */
   padding-left: 5px;
   padding-bottom: 2px;
-  opacity: 0.75;
+  opacity: 0.30;
   pointer-events: none;
 }
 
@@ -243,20 +244,18 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
 }
 
 .tituloTemaMenu {
-  padding-left: 15px;
-  cursor: pointer;
-  /* Prueba */
-  margin-top: -10px;
+    padding-left: 15px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-top: -15px;
+    font-family: sans-serif;
+    transition: all .2s ease-in-out;
 }
 
-.tituloTemaMenu:hover {
-  background-color: cornflowerblue;
+.tituloTemaMenu:hover  p{
+  /* background-color: rgb(75, 75, 75); */
+  color: lightgray;
   transition: 0.5s ,ease-in;
-}
-
-.tituloTemaMenu>div>p {
-  margin-top:2px;
- 
 }
 .menu-open{
   display: block;
@@ -288,20 +287,24 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   /* width */
   ::-webkit-scrollbar {
     width: 10px;
-    height: 0px;
+    height: 30px!important;
+    padding-right: 150px;
   }
 
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-    padding-top: 15px!important;
-    padding-bottom: 15px!important;
+    background: rgb(5, 12, 19); 
+    margin: 30px 0;
+    border-radius: 20px;
+    margin-right: 30px;
   }
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #888; 
+    background: rgb(192, 186, 186); 
     border-radius: 20px;
+    height: 50px!important;
+    margin: 50px 0;
   }
 
   /* Handle on hover */
@@ -311,7 +314,7 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
 
   /*  SCROLLBAR PARA INTERNET EXPLORER */
   ::-ms-scrollbar {
-    width: 10px;
+    width: 8px;
     height: 0px;
   }
 
@@ -364,4 +367,9 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
     display: none;
     margin-bottom: 15px;
     margin-left: 5px!important;
+  }
+
+  .progressMod{
+    margin-top: 6px!important;
+    height: 10px!important;
   }
