@@ -450,7 +450,7 @@ function leeLocal() {
 		if (debug) { console.log("No existe un Informacion"); }
 		obj = $.parseJSON(ConfigurationJson);
 	} else { // en caso de que ya exista algun guardado
-		if (debug) {console.log("Ya existe Informacion");}
+		if (debug) { console.log("Ya existe Informacion"); }
 		obj = $.parseJSON(localStor);
 	}
 	if (debug) {
