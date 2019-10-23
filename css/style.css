@@ -1,21 +1,38 @@
 html {
   overflow-y: hidden;
 }
+body
+{
+	background-color: white;
+	width:100%;
+}
 .contenedor{
   width:90%;
   margin: 0;
   padding: 0;
   max-width: 980px;
+  /* position: relative; */
 } 
 .container{
   width:100%;
   margin: 0;
   padding: 0;
 }
-body
-{
-	background-color: white;
-	width:100%;
+/* .vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+} */
+.vertical-center {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+.verticalCenterResponsive{
+  margin-top: 20%;
+  transition: all, 0.5s, ease-in;
 }
 h1
 {
@@ -170,13 +187,36 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   display: none;
   margin-left: 15px;
   max-width: 450px; 
-  z-index: 9999;
+  z-index: 9998;
   /* overflow-x: hidden; */
   /* Para internet explorer */
   -ms-overflow-x: hidden;
 
   /* For hidden */
   /* margin-left: -70%!important; */
+}
+
+.ultimoContainer{
+  /* position: absolute; */
+  z-index: 9999;
+  width: 950px;
+  height: 550px;
+	background: rgba(0, 0, 0, .75);
+  display: none;
+  margin-left: 15px;
+  max-width: 950px; 
+  position: relative;
+}
+.ultimoTema{
+  background: dimgray;
+  border-radius: 10px;
+  width: 360px;
+  padding: 35px;
+}
+.btnUltimo{
+  width: 75px;
+    margin-right: 30px;
+    margin-left: 30px;
 }
 
 .disabledButton{
@@ -265,6 +305,19 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
 @media only screen and (max-width: 768px) {
   .CourseTitle{
     display: none;
+  }
+  .verticalCenterResponsive{
+    margin-top: 10%;;
+  }
+}
+
+@media only screen and (min-width: 600px ) and (max-width: 767px ) {
+  .CourseTitle{
+    display: none;
+  }
+  .verticalCenterResponsive{
+    margin-top: 10%;
+    margin-left: 20%;
   }
 }
 

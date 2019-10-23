@@ -83,13 +83,17 @@ var EdoBtns = {
 var btnArray = [];
 var libre = false;
 var tl = new TimelineMax();
+var debug = false;
 
 window.onresize = function () {
-	// console.log("--------------------------------------"); console.log($("#menuHTML").height());	// console.log($("#div_contenido").height());	// console.log("--------------------------------------");
+	if (debug) {
+		console.log("--------------------------------------"); console.log($("#menuHTML").height());	// console.log($("#div_contenido").height());	// console.log("--------------------------------------");
+	}
 	$("#menuHTML").height($("#div_contenido").height() - 30);
 	$("#temasContainer").height($("#menuHTML").height() - 100);
 	$("#barraInferior").width($("#div_contenido").width());
 	$("#mensajesHTML").width($("#div_contenido").width());
+	$("#ultimoContainer").width($("#div_contenido").width());
 }
 
 /**
@@ -119,8 +123,8 @@ function alertas(tipo, texto) {
  */
 function inicializaMensajes() {
 	tl = new TimelineMax({ repeat: 0, onComplete: stopAlertas });
-	tl.from($("#mensajesHTML"), 2, { opacity: 0, left: '400px' })
-	tl.to($("#mensajesHTML"), 2, { opacity: 0, left: '400px', delay: 5 });
+	tl.from($("#mensajesHTML"), 1, { opacity: 0, left: '400px' })
+	tl.to($("#mensajesHTML"), 1, { opacity: 0, left: '400px', delay: 5 });
 }
 
 /**
@@ -200,7 +204,9 @@ function populateMenu(jsonob) {
 				"</div>" +
 				"</div>");
 			consecutivo++;
-			console.log(jsonob.Modulos[index]['Mod' + (index + 1)][j]);
+			if (debug) {
+				console.log(jsonob.Modulos[index]['Mod' + (index + 1)][j]);
+			}
 		}// end for Temas
 
 		// Pintar las evaluaciones
@@ -244,13 +250,13 @@ function habilitarEvals(nMod) {
 	}
 }
 
-function rollover(id){
+function rollover(id) {
 	// TweenMax.to($("#"+id).find("i"), 0.5, { scaleX: 1.8, scaleY: 1.8, ease: Back.easeOut, delay: 0.35 })
-	$("#"+id).find("i").css("font-size", "9px");
+	$("#" + id).find("i").css("font-size", "9px");
 }
 
-function rollout(id){
-	$("#"+id).find("i").css("font-size", "6px");
+function rollout(id) {
+	$("#" + id).find("i").css("font-size", "6px");
 	// TweenMax.to($("#"+id).find("i"), 0.5, { scaleX: 1, scaleY: 1, ease: Back.easeOut, delay: 0.5 })
 }
 
@@ -270,7 +276,9 @@ function llamarTema(id) {
  */
 function llamarEval(id) {
 	var iframe = document.getElementById("Contenido");
-	console.log("temas/" + obj.NombreEval + ".html");
+	if (debug) {
+		console.log("temas/" + obj.NombreEval + ".html");
+	}
 	iframe.src = "temas/" + obj.NombreEval + ".html";
 	terminado = true; // la variable de curso terminado se habilita
 	iframe.onload = function () {
@@ -303,10 +311,11 @@ var getBrowserInfo = function () {
 	return M.join(' ');
 };
 
-console.log("el navegador usado y la version son");
-console.log(getBrowserInfo());
-console.log(getBrowserInfo().split(" ")[0]);
-
+if (debug) {
+	console.log("el navegador usado y la version son");
+	console.log(getBrowserInfo());
+	console.log(getBrowserInfo().split(" ")[0]);
+}
 /**
  * @param NA
  * @returns void
@@ -314,12 +323,15 @@ console.log(getBrowserInfo().split(" ")[0]);
  * Función para iniciarlizar API
  *  */
 function InitApi() {
-	console.log("------Inicializacion------");
+	if (debug) {
+		console.log("------Inicializacion------");
+	}
 	getAPI(); //Inicializa el API para el uso de las funciones con SCORM que se encuentran en api.JS.
 	IdentificarEstado();
 	// Setear el height del menu html igual al tamaño del contenido.
 	document.getElementById("menuHTML").style.height = (document.getElementById("div_contenido").style.height - 30) + 'px';
 	$("#menuHTML").height($("#div_contenido").height() - 30);
+	$("#ultimoContainer").width($("#div_contenido").width());
 }
 /**
  * @param NA
@@ -328,7 +340,9 @@ function InitApi() {
  * Función para validar si se navega de manera local o en linea
  *  */
 function IdentificarEstado() {
-	console.log("------Identificado la Ejecucion del Curso------");
+	if (debug) {
+		console.log("------Identificado la Ejecucion del Curso------");
+	}
 	//se determina si el curso corre en local o en linea
 	if (String(URLactual).indexOf("http://localhost") == 0) {
 		leeLocal();
@@ -352,7 +366,9 @@ function IdentificarEstado() {
  * @legacy aqui se colocan todos los archivos SWF que se veran en el curso
  *  */
 function initConfig(jsonob) {
-	console.log("numero de modulos:" + jsonob.Modulos.length / 2);
+	if (debug) {
+		console.log("numero de modulos:" + jsonob.Modulos.length / 2);
+	}
 	let numModulos = jsonob.Modulos.length;
 	let indexRutas = 0; // el index de rutas es el segundo objeto en modulos por eso empieza en 1
 	let index = 0; // index general en 0
@@ -368,16 +384,21 @@ function initConfig(jsonob) {
 	}
 	Total = Rutas.length; // total de rutas/temas
 	TotalArchivos = Rutas.length; // se guarda el total de los archivos no borrar!  
-	console.log("Dato de las rutas: ");
-	console.log(Rutas);
-	console.log("json trak es:  " + jsonob.Trak);
-
+	if (debug) {
+		console.log("Dato de las rutas: ");
+		console.log(Rutas);
+		console.log("json trak es:  " + jsonob.Trak);
+	}
 	initbarra(jsonob);
 	$("#NombreDelCurso").html(jsonob.NombreCurso);
+
+	if (ULTIMO > 0 || (ULTIMO === 0 && TRAK[0] == 2)) {
+		mostrarUltimo();
+	}
 }
 
-function llamarRetros(){
-	
+function llamarRetros() {
+
 }
 /**
  * @param NA
@@ -420,18 +441,22 @@ function actualizarProgressBar() {
  * @description Lee los datos del curso almacenados en el LOCAL STORAGE del navegador. Se ejecuta cuando el curso no esta en un servidor web.
  */
 function leeLocal() {
-	console.log("lee local");
+	if (debug) {
+		console.log("lee local");
+	}
 	var localStor = leeLocalStorage();
 	//Si el local Storage esta vacio o no existe, entonces crea el json a partir de el excel 'configuration.xlsx'
 	if (localStor == undefined || localStor == "") {
-		console.log("No existe un Informacion");
+		if (debug) { console.log("No existe un Informacion"); }
 		obj = $.parseJSON(ConfigurationJson);
 	} else { // en caso de que ya exista algun guardado
-		console.log("Ya existe Informacion");
+		if (debug) {console.log("Ya existe Informacion");}
 		obj = $.parseJSON(localStor);
 	}
-	console.log("Asignacion de valores");
-	console.log(JSON.stringify(obj));
+	if (debug) {
+		console.log("Asignacion de valores");
+		console.log(JSON.stringify(obj));
+	}
 	setValues(obj);
 	initConfig(obj);
 	cargarPortada();
@@ -481,10 +506,12 @@ function leeLocalStorage() {
 	try {
 		var nav = getBrowserInfo().split(" ")[0];
 		if (nav == "IE") {
-			console.log("leyendo cookie");
+			if (debug) {
+				console.log("leyendo cookie");
+			}
 			retorno = (document.cookie.indexOf('data=') === -1 ? '' : ("; " + document.cookie).split('; data=')[1].split(';')[0]);
 		} else {
-			console.log("leyendo LocalStorage");
+			if (debug) { console.log("leyendo LocalStorage"); }
 			retorno = window.localStorage.getItem(NombreCurso);
 		}
 	} catch (e) {
@@ -502,14 +529,14 @@ function guardaLocalStorage(clave) {
 	try {
 		var nav = getBrowserInfo().split(" ")[0];
 		if (nav == "IE") {
-			console.log("se guarda en cookie");
+			if (debug) { console.log("se guarda en cookie"); }
 			var expiration_date = new Date();
 			expiration_date.setFullYear(expiration_date.getFullYear() + 1);
 			document.cookie = "data=" + JSON.stringify(clave) + "; expires=" + expiration_date.toGMTString();
 		} else { //Fixed para chrome
-			console.log("se guarda en LocalStorage");
-			// window.localStorage.data = JSON.stringify(clave);
+			if (debug) { console.log("se guarda en LocalStorage"); }
 			window.localStorage.setItem(NombreCurso, JSON.stringify(clave));
+
 		}
 	} catch (e) {
 		console.log("no pudo guardar archivos en local storage:" + e.text);
@@ -522,7 +549,7 @@ function guardaLocalStorage(clave) {
  */
 
 function imprimirIframe() {
-	console.log("imprime");
+	if (debug) { console.log("imprime"); }
 	window.frames["Contenido"].focus();
 	window.frames["Contenido"].print();
 }
@@ -566,22 +593,24 @@ function PopUp(texto, titulo, icono) {
  * @description Lee los datos almacenados en el CMI SUSPEND DATA del LMS haciendo uso de la API SCORM 1.2.
  *  */
 function leeOnline() {
-	console.log("LEE ONLINE");
+	if (debug) {
+		console.log("LEE ONLINE");
+		console.log("regresoLMS " + regresoLMS);
+	}
 	regresoLMS = ComunicacionLMS("leer"); //Recuperar el suspend_data del LMS
-	console.log("regresoLMS " + regresoLMS);
 	/*
 	si es la primera vez que entra al curso el suspenData estara vacio
 	de ser asi la informacion que se leera sera la del json generado por excel
 	*/
 	if (regresoLMS == "" || regresoLMS == undefined) {
-		console.log("suspent data vacio, generando json");
+		if (debug) { console.log("suspent data vacio, generando json"); }
 		obj = $.parseJSON(ConfigurationJson);
 	} else {
-		console.log("suspend data diferente a vacio");
+		if (debug) { console.log("suspend data diferente a vacio"); }
 		var jsonObj = regresoLMS;
 		obj = $.parseJSON(jsonObj);
 	}
-	console.log(obj);
+	if (debug) { console.log(obj); }
 	//Guardar el contenido recuperado del LMS en las variables locales.
 	setValues(obj);
 	initConfig(obj);
@@ -595,13 +624,17 @@ function leeOnline() {
 function guardarDatos() {
 	setObject(); // se llama la funcion pára guardar los datos en el Json
 	if (ONLINE) {
-		console.log("guardando datos online");
+		if (debug) {
+			console.log("guardando datos online");
+			console.log("json-generando");
+		}
 		var jsonObj = JSON.stringify(obj);
-		console.log("json-generando");
 		//Guardar en el suspend data
 		ComunicacionLMS("guardar", jsonObj);
 	} else { //guarda los datos en local storage
-		console.log("guardando datos local");
+		if (debug) {
+			console.log("guardando datos local");
+		}
 		guardaLocalStorage(obj);
 	}
 }
@@ -611,10 +644,12 @@ function guardarDatos() {
  * @description Limpia el iframe del contenido.
  */
 function limpiarContenido() {
-	console.log("**********************limpiarContenido");
+	if (debug) {
+		console.log("**********************limpiarContenido");
+		console.log(contenido.src);
+	}
 	var contenido = document.getElementById("Contenido");
 	contenido.src = "*";
-	console.log(contenido.src);
 }
 /**
  * @param {*}id ID del tema a cargar
@@ -622,20 +657,23 @@ function limpiarContenido() {
  * @description Carga el contenido especificado por el parametro ID y lo carga en el div contenido del template.
  */
 function ir(id) {
-	console.log("********", ULTIMO, id, TRAK[id]);
-	console.log("**********************IR");
+	if (debug) {
+		console.log("********", ULTIMO, id, TRAK[id]);
+		console.log("**********************IR");
+		console.log("ir " + id);
+	}
 	limpiarContenido();
-	console.log("ir " + id);
 	var iframe = document.getElementById("Contenido");
 	iframe.src = Rutas[id];
 	iframe.onload = function () {
 		$('#div_contenido').fadeIn();
 	};
 	_root.IDActual = id;
-	if (ULTIMO < id) {
-		_root.ULTIMO = id;
+	_root.ULTIMO = id;
+	if (debug) { console.log("IDActual: ", _root.IDActual, " ULTIMO: ", _root.ULTIMO); }
+	if (canvasContenido) {
+		reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 	}
-	console.log("IDActual: ", _root.IDActual, " ULTIMO: ", _root.ULTIMO);
 }
 /**
  * @param {*}Canvas	Canvas del Tema a iniciar. 
@@ -644,30 +682,30 @@ function ir(id) {
  */
 function iniciar_tema(canvasTema) {
 	try {
-		console.log("inicio_tema", _root.IDActual);
+		if (debug) { console.log("inicio_tema", _root.IDActual); }
 		getCanvas(canvasTema);
 		actualizarNavegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 		//se cambia el estado del tema a 1 lo que significa "tema iniciado"
 		if (TRAK[IDActual] < 1) {
 			TRAK[IDActual] = 1;
-			_root.ULTIMO = _root.IDActual;
-			guardarDatos();
 		}
 		//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
 		if (controlAtras || controlIrUltimo) {
-			console.log("entro a control atras");
+			if (debug) { console.log("entro a control atras"); }
 			canvasContenido.gotoAndStop(Pag[IDActual]);
 			controlAtras = false;
 		}
 		//en caso de venir desde la opcion de ultimo tema, va a la ultima pagina visitada
 		if (controlIrUltimo) {
-			console.log("llendo a la ultima pagina desde reset_navegacion");
+			if (debug) { console.log("llendo a la ultima pagina desde reset_navegacion"); }
 			canvasContenido.gotoAndStop(Pag[IDActual]);
 			controlIrUltimo = false;
 		}
-		console.log("fin inicio tema");
+		ULTIMO = IDActual;
+		guardarDatos();
+		if (debug) { console.log("fin inicio tema"); }
 	} catch (error) {
-		console.warn("Error iniciando tema: " + error);
+		if (debug) { console.warn("Error iniciando tema: " + error); }
 	}
 	actualizar_menuHTML(TRAK);
 }
@@ -677,13 +715,13 @@ function iniciar_tema(canvasTema) {
  * @description Ejecuta las funciones necesarias para registrar el final de un tema.  
  */
 function final_tema() {
-	console.log("*********************FINAL TEMA", _root.IDActual);
+	if (debug) { console.log("*********************FINAL TEMA", _root.IDActual); }
 	//el estado del tema se cambia a 2 lo que significa "terminado"
 	if (TRAK[IDActual] < 2) {
 		TRAK[IDActual] = 2;
 	}
 	_root.ULTIMO = _root.IDActual; // se actualiza el ultimo tema
-	console.log(_root.ULTIMO, _root.IDActual, TRAK, TRAK[_root.IDActual]);
+	if (debug) { console.log(_root.ULTIMO, _root.IDActual, TRAK, TRAK[_root.IDActual]); }
 	//activar boton siguiente
 	habilitar_deshabilitar_btns(getBtnArray(btnSiguiente), "h", "final_tema")
 	actualizar_menuHTML(TRAK); // actualizar el menu
@@ -692,6 +730,28 @@ function final_tema() {
 	actualizarProgressBar();
 	alertas(2, "Tema Completo. Haz Clic en Siguiente para continuar.")
 	console.log(" Curso Completado " + cursoCompletado());
+}
+/**
+ * @param {*}time Tiempo en segundos para llamar la finalizacion de un tema. 
+ * @returns void
+ * @description Ejecuta las funciones necesarias para registrar el final de un tema con un retraso en segundos del valor recibido.  
+ */
+function retrasar_final_tema(seconds) {
+	if (debug) { console.log("*********************FINAL TEMA", _root.IDActual + " retrasado por " + seconds); }
+	if (typeof seconds === 'number') { return }
+	seconds = seconds > 0 ? seconds : 1;
+	setTimeout(final_tema, seconds * 1000);
+}
+/**
+ * @param {*}time Tiempo en segundos para llamar la habilitacion del boton siguiente y su banderilla correspondiente. 
+ * @returns void
+ * @description Ejecuta las funciones necesarias para habilitar el boton siguiente y mostrar la alerta siguiente retrasado en segundos por el numero que se envie .  
+ */
+function retrasar_habilitar_siguiente(seconds) {
+	if (debug) { console.log("-habilitar siguiente retrasado por " + seconds); }
+	if (typeof seconds === 'number') { return }
+	seconds = seconds > 0 ? seconds : 1;
+	setTimeout(habilitarSiguiente, seconds * 1000);
 }
 /**
  * @param NA
@@ -703,6 +763,32 @@ function glosarioX() {
 	iframe.src = "temas/" + obj.NombreIntro + ".html";
 	var g = document.getElementById('btnGlos');
 	g.click();
+}
+/**
+ * @param NA
+ * @returns void
+ * @description Carga el ultimo tema visitado por el usuario
+ */
+function irUltimo() {
+	ir(ULTIMO);
+	cerrarUltimo();
+}
+/**
+ * @param NA
+ * @returns void
+ * @description Oculta el contenedor del mensaje para el punto de retorno (deseas ir al ultimo tema visitado?)
+ */
+function cerrarUltimo() {
+	$("#ultimoContainer").css("display", "none");
+}
+/**
+ * @param NA
+ * @returns void
+ * @description Muestra el contenedor del mensaje para el punto de retorno (deseas ir al ultimo tema visitado?)
+ */
+function mostrarUltimo() {
+	$("#ultimoContainer").css("display", "block");
+	TweenLite.from($("#ultimoContainer"), 1, { opacity: 0 });
 }
 /**
  * @param NA
@@ -720,7 +806,7 @@ function Cierra() {
  * @description FUNCION LEGACY ::|:: Carga la simulacion en el div contenido.
  */
 window.Cargar_Sim = function (URLS, finalizoS, LASTMCS) {
-	console.log("cargar Sim");
+	if (debug) { console.log("cargar Sim"); }
 	setEdo_botones(); //llama la funcion para guardar el estado de los botones
 	this.habilitar_deshabilitar_btns(this.getBtnArray(this.btnAtras, this.btnSiguiente, this.btnCerrar), "d", "Cargar_Sim");
 	estadoSim = true;
@@ -728,7 +814,7 @@ window.Cargar_Sim = function (URLS, finalizoS, LASTMCS) {
 	$('#div_sim').fadeIn();
 	var simulacion = document.getElementById("sim");
 	simulacion.src = URLS;
-	console.log("Fin cargar Sim");
+	if (debug) { console.log("Fin cargar Sim"); }
 	LastMCVid = LASTMCS;
 	if (finalizoS) { //con esto sabemos si es la ultima simulacion
 		VidLast = true;
@@ -740,7 +826,7 @@ window.Cargar_Sim = function (URLS, finalizoS, LASTMCS) {
  * @description FUNCION LEGACY ::|:: Habilita el boton cerrar al terminar la simulacion
  */
 function simFinalizada() {
-	console.log("termina la simulacion");
+	if (debug) { console.log("termina la simulacion"); }
 	canvasBarra.habilitar_cerrar();
 }
 /**
@@ -749,7 +835,7 @@ function simFinalizada() {
  * @description FUNCION LEGACY ::|:: Carga un video en el iframe video
  */
 window.cargar_video = function (URLS, finalizoS, LASTMCS) {
-	console.log("cargar video");
+	if (debug) { console.log("cargar video"); }
 	setEdo_botones();
 	this.habilitar_deshabilitar_btns(this.getBtnArray(this.btnAtras, this.btnSiguiente, this.btnCerrar), "d", "cargar_video");
 	LastMCVid = LASTMCS;
@@ -759,14 +845,14 @@ window.cargar_video = function (URLS, finalizoS, LASTMCS) {
 	var simulacion = document.getElementById("vid");
 	simulacion.src = URLS;
 	simulacion.onended = function () {
-		console.log("finalizo? desde start " + finalizoS);
+		if (debug) { console.log("finalizo? desde start " + finalizoS); }
 		// canvasBarra.habilitar_cerrar();
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnCerrar), "h", "Cargar_Sim");
 		if (finalizoS) {
 			VidLast = true;
 		}
 	};
-	console.log("Fin cargar video");
+	if (debug) { console.log("Fin cargar video"); }
 }
 
 /**
@@ -779,7 +865,7 @@ function Cierra_Sim() {
 		llamarAlertas("Exit");
 	} else {
 		//En caso de haber simulación activa, cierra la simulación
-		console.log("cierra sim");
+		if (debug) { console.log("cierra sim"); }
 		$('#div_sim').hide();
 		$('#div_vid').hide();
 		$('#div_contenido').fadeIn();
@@ -816,17 +902,17 @@ function checarTerminacion() {
 	for (var i = 0; i < TRAK.length; i++) {
 		creditosActuales += TRAK[i];
 	}
-	console.log("creditosMinimos: " + creditosMinimos + "\ncreditosActuales: " + creditosActuales + "");
+	if (debug) { console.log("creditosMinimos: " + creditosMinimos + "\ncreditosActuales: " + creditosActuales + ""); }
 	if ((creditosMinimos == creditosActuales)) {
-		console.log("El curso ya fue terminado, Evaluacion Desbloqueada");
+		if (debug) { console.log("El curso ya fue terminado, Evaluacion Desbloqueada"); }
 		canvasBarra.habilitar_eval();
 		termino = true;
 	} else {
 		if (!backdoor) {
-			console.log("un no se ve todo el curso, Evaluacion Bloqueada");
+			if (debug) { console.log("un no se ve todo el curso, Evaluacion Bloqueada"); }
 			canvasBarra.deshabilitar_eval();
 		}
-		console.log("el backdoor esta activo, Evaluacion Desbloqueada");
+		if (debug) { console.log("el backdoor esta activo, Evaluacion Desbloqueada"); }
 		canvasBarra.habilitar_eval();
 	}
 }
@@ -836,7 +922,7 @@ function checarTerminacion() {
  * @description FUNCION LEGACY ::|:: Limpia el estado de control de las simulaciones y los contenedores de simulaciones y videos
  */
 function limpiarSim() {
-	console.log("limpiarSim");
+	if (debug) { console.log("limpiarSim"); }
 	estadoSim = false;
 	var sim = document.getElementById("sim");
 	sim.src = "";
@@ -849,7 +935,7 @@ function limpiarSim() {
  * @description FUNCION LEGACY ::|:: Obtiene el canvas del contenido
  */
 function getCanvas(valor) {
-	console.log("Obtener Canvas");
+	if (debug) { console.log("Obtener Canvas"); }
 	canvasContenido = valor;
 }
 /**
@@ -900,10 +986,8 @@ function llamar_Portada() {
  * @description FUNCION LEGACY ::|:: Muestra el preloader mientras carga el contenido. V1 del Template
  */
 function preload() {
-	// $('#div_menu').hide();
 	$('#div_loader').fadeIn();
-	$('#div_contenido').fadeIn(); //se coemnto porque al momento de dar soguiente se realizaba 
-	//un parpadeo
+	$('#div_contenido').fadeIn(); //se coemnto porque al momento de dar soguiente se realizaba un parpadeo
 }
 //Función para cargar portada y ocultar contenido no indispensable
 /**
@@ -912,9 +996,9 @@ function preload() {
  * @description FUNCION LEGACY ::|:: Carga la portadea del curso en v1 del template
  */
 function cargarPortada() {
-	console.log("cargar portada");
+	if (debug) { console.log("cargar portada"); }
 	var iframe = document.getElementById("Contenido");
-	console.log("temas/" + obj.NombreIntro + ".html");
+	if (debug) { console.log("temas/" + obj.NombreIntro + ".html"); }
 	iframe.src = "temas/" + obj.NombreIntro + ".html";
 	$('#div_sim').hide();
 	$('#loader-wrapper').html("");
@@ -931,20 +1015,20 @@ function actualizarMenu() {
 
 	var cont = 0;
 	var tema = 0;
-	console.log("Actualizar menu " + TRAK);
+	if (debug) { console.log("Actualizar menu " + TRAK); }
 	for (var i = 0; i < Total; i++) {
 		tema = TRAK[i];
-		console.log("ESTADO DE TEMAS " + TRAK[i], tema);
+		if (debug) { console.log("ESTADO DE TEMAS " + TRAK[i], tema); }
 		if (tema == 1) {
-			console.log(i, 1);
+			if (debug) { console.log(i, 1); }
 			canvasMenu.cambioEdo(i, 1, true);
 		} else {
 			if (tema == 2) {
 				cont++;
-				console.log(i, 2, cont);
+				if (debug) { console.log(i, 2, cont); }
 				canvasMenu.cambioEdo(i, 2, true);
 			} else {
-				console.log("no entro a ninguno de los anteriores " + i);
+				if (debug) { console.log("no entro a ninguno de los anteriores " + i); }
 				canvasMenu.cambioEdo(i, 0, false);
 			}
 		}
@@ -958,7 +1042,7 @@ function actualizarMenu() {
 		this.habilitar_deshabilitar_btns(getBtnArray(btnEval), "h", "actualizar_menu");
 	} else {
 		this.habilitar_deshabilitar_btns(getBtnArray(btnEval), "d", "actualizar_menu");
-		console.log("No se ha completado el curso", cont, Total, terminado);
+		if (debug) { console.log("No se ha completado el curso", cont, Total, terminado); }
 	}
 }
 //NO BORRAR - Función para saltar intro desde consola, USO EXCLUSIVO PARA PRUEBAS 
@@ -1096,15 +1180,19 @@ function cerrar() {
  * */
 function habilitar_deshabilitar_btns(arraybtn, action, functionName) {
 	if (action !== "d" && action !== "h") {
-		console.error("Funcion habilitar_deshabilitar_btns:" +
-			"No se enviaron los parametros de habilitar o habilitar correctamente." +
-			" Llamdo desde funcion: " + functionName);
+		if (debug) {
+			console.error("Funcion habilitar_deshabilitar_btns:" +
+				"No se enviaron los parametros de habilitar o habilitar correctamente." +
+				" Llamdo desde funcion: " + functionName);
+		}
 		return;
 	}
 	if (arraybtn.length == 0) {
-		console.error("Funcion habilitar_deshabilitar_btns:" +
-			"Se enviaron 0 elementos en el array de botones. " +
-			"Llamdo desde funcion: " + functionName);
+		if (debug) {
+			console.error("Funcion habilitar_deshabilitar_btns:" +
+				"Se enviaron 0 elementos en el array de botones. " +
+				"Llamdo desde funcion: " + functionName);
+		}
 		return;
 	}
 	name = "disabledButton";
@@ -1116,16 +1204,14 @@ function habilitar_deshabilitar_btns(arraybtn, action, functionName) {
 		}
 	}
 	actualizarEdoBotones();
-	console.log("Nuevo edo de botones: ");
-	console.log(this.EdoBtns);
+	if (debug) { console.log("Nuevo edo de botones: "); }
+	if (debug) { console.log(this.EdoBtns); }
 }
 function habilitarSiguiente() {
-	//activar boton siguiente
 	habilitar_deshabilitar_btns(getBtnArray(btnSiguiente), "h", "habilitarSiguiente");
 	alertas(1, "Da clic en siguiente para continuar.");
 }
 function habilitarAtras() {
-	//activar boton siguiente
 	habilitar_deshabilitar_btns(getBtnArray(btnAtras), "h", "habilitarAtras")
 }
 /**
@@ -1184,8 +1270,10 @@ function bloquear_barra(action) {
 			this.EdoBtns.barra = true;
 			break;
 		default:
-			console.warn("El parametro de entrada para bloquear/Desbloquer barra es incorrecto, " +
-				"solo se acepta 'd' para deshabilitar o 'h' para habilitar.");
+			if (debug) {
+				console.warn("El parametro de entrada para bloquear/Desbloquer barra es incorrecto, " +
+					"solo se acepta 'd' para deshabilitar o 'h' para habilitar.");
+			}
 			return;
 	}
 }
@@ -1199,21 +1287,17 @@ function habilitar_deshabilitar_eval(action) {
 	if (this.libre) {
 		habilitar_deshabilitar_btns(getBtnArray(btnEval), "d", "habilitar_deshabilitar_eval");
 	}
-
 	switch (action) {
 		case "d":
 			if (this.EdoBtns.btnEval === false)
 				return;
-
 			habilitar_deshabilitar_btns(getBtnArray(btnEval), "d", "habilitar_deshabilitar_eval");
 			break;
 		case "d":
 			if (this.EdoBtns.btnEval === true)
 				return;
-
 			habilitar_deshabilitar_btns(getBtnArray(btnEval), "h", "habilitar_deshabilitar_eval");
 			break;
-
 		default:
 			break;
 	}
@@ -1228,16 +1312,11 @@ function habilitar_deshabilitar_eval(action) {
 //Función para cambio de frame dentro del div contenido
 function siguiente_frame() {
 
-	// llamarMensajes(0); //Para ocultar o mostrar el canvas de siguiente frame o siguiente tema
+	//Para ocultar o mostrar el canvas de siguiente frame o siguiente tema
 	if ($('#div_sim').show()) {
 		$('#div_sim').hide();// Esconder el iframe de las evaluaciones
 		limpiarSim();// Limpiar el frame de las simulaciones
 	}
-	// console.log("Funcion Siguiente(); " + estadoSim)
-
-	// if (estadoSim == false)
-	// canvasBarra.cambio_cerrar(0);
-
 	if (pagActual < numPags - 1) { paginaSiguiente(); } //  en este caso se avanza a la siguiente pagina 
 	else { siguienteTema(); } // en este caso avanza al siguiente tema 
 	// habilitar_deshabilitar_btns()
@@ -1252,7 +1331,7 @@ function siguiente_frame() {
 function anterior_frame() {
 	$('#div_sim').hide();
 	limpiarSim();
-	console.log("Funcion Siguiente(); " + estadoSim)
+	if (debug) { console.log("Funcion Siguiente(); " + estadoSim) }
 	if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); }// retrocede una pagina 
 	else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
@@ -1322,28 +1401,21 @@ function reset_navegacion(pagin, cantPag) { // Usandose provisionalmente sera re
 	stopAlertas();
 	pagActual = pagin; //pagina actual del tema
 	numPags = cantPag; //cantidad total de las paginas del tema
-	// canvasBarra.deshabilitar_siguiente();
 	this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "d", "reset_navegacion");
 	if (pagActual == 0 && IDActual == 0) {
-		// canvasBarra.deshabilitar_atras();
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras), "d", "reset_navegacion");
 	} else {
-		// canvasBarra.habilitar_atras();
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras), "h", "reset_navegacion");
 	}
 	if (ULTIMO > IDActual || Pag[IDActual] > pagin) {
-		// canvasBarra.habilitar_siguiente();
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "h", "reset_navegacion");
 	}
 	if (backdoor) {
-		// canvasBarra.habilitar_siguiente();
-		// canvasBarra.habilitar_atras();
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras, this.btnSiguiente), "h", "reset_navegacion");
 	}
 	if (Pag[IDActual] < pagin) {
 		Pag[IDActual] = pagin;
 	}
-	// setEdo_botones();
 	guardarDatos();
 }
 /**
@@ -1373,11 +1445,11 @@ function actualizar_menuHTML(TrakCurso) {
 		actualizarIndicadores(tema, TrakCurso[i]);
 
 		if (i > 0 && TrakCurso[i - 1] >= 2) { //bloquear botones aun no terminados
-			console.log("desbloqueo Tema: " + i);
+			if (debug) { console.log("desbloqueo Tema: " + i); }
 			desbloquearTema(tema);
 		} else {
 			if (i > 0) {
-				console.log("tema +" + i + "bloqueado");
+				if (debug) { console.log("tema +" + i + "bloqueado"); }
 				bloquearTema(tema);
 			}
 		}//terminan funciones de bloqueo de temas.
@@ -1434,7 +1506,7 @@ function actualizar_menuHTML(TrakCurso) {
 			arreglo.push(TRAK[i]);
 		}
 		if (arreglo.indexOf(0) === -1 && arreglo.indexOf(1) === -1) {
-			console.log("Modulo Completado Marcando estado completado");
+			if (debug) { console.log("Modulo Completado Marcando estado completado"); }
 			actualizarIndicadores($("#Modulo" + numModulo), 2);
 			//Habilitar Evals del modulo
 			habilitarEvals(numModulo);
