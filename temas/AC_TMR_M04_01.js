@@ -2650,7 +2650,7 @@ p.nominalBounds = new cjs.Rectangle(-37.2,-9.3,241,52);
 				stage.enableMouseOver();
 		
 				iniciar();
-				parent.canvasBarra.cambio_cerrar(0); //Cambia el estado del botón cerrar
+				//parent.canvasBarra.cambio_cerrar(0); //Cambia el estado del botón cerrar
 			} catch (e) {
 				console.log("Error: ", e);
 			}
@@ -2940,11 +2940,11 @@ p.nominalBounds = new cjs.Rectangle(-853,-22.2,938.7,154.9);
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_1}]}).to({state:[{t:this.mcSIM}]},1).to({state:[{t:this.instance_2}]},1).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(480.5,256.9,645,457.6);
+p.nominalBounds = new cjs.Rectangle(645.5,366.9,645,457.6);
 // library properties:
 lib.properties = {
-	width: 950,
-	height: 500,
+	width: 1280,
+	height: 720,
 	fps: 24,
 	color: "#FFFFFF",
 	opacity: 1.00,

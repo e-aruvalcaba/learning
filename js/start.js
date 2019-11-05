@@ -94,6 +94,9 @@ window.onresize = function () {
 	$("#barraInferior").width($("#div_contenido").width());
 	$("#mensajesHTML").width($("#div_contenido").width());
 	$("#ultimoContainer").width($("#div_contenido").width());
+	let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+	let diff = h - $("#content").height();
+	$("#content").css("margin-top", ((diff / 2).toString() + "px"));
 }
 
 /**
@@ -249,17 +252,24 @@ function habilitarEvals(nMod) {
 		}
 	}
 }
-
+/**
+ * @param id:Number
+ * @returns void
+ * @description Crea el rollover en el icono que le pertenece al tema con el id que recibe. 
+ */
 function rollover(id) {
-	// TweenMax.to($("#"+id).find("i"), 0.5, { scaleX: 1.8, scaleY: 1.8, ease: Back.easeOut, delay: 0.35 })
+	// TweenMax.to($("#"+id).find("i"), 0.2, { scaleX: 1.8, scaleY: 1.8, ease: Back.easeOut, delay: 0.35 })
 	$("#" + id).find("i").css("font-size", "9px");
 }
-
+/**
+ * @param id:Number
+ * @returns void
+ * @description  Crea el rollout en el icono que le pertenece al tema con el id que recibe.
+ */
 function rollout(id) {
 	$("#" + id).find("i").css("font-size", "6px");
-	// TweenMax.to($("#"+id).find("i"), 0.5, { scaleX: 1, scaleY: 1, ease: Back.easeOut, delay: 0.5 })
+	// TweenMax.to($("#"+id).find("i"), 0.2, { scaleX: 1, scaleY: 1, ease: Back.easeOut, delay: 0.2 })
 }
-
 /**
  * @param id:Number
  * @returns void
@@ -287,7 +297,6 @@ function llamarEval(id) {
 	llamar_menuHTML();
 
 }
-
 /**
  * @param NA
  * @returns void
@@ -332,6 +341,10 @@ function InitApi() {
 	document.getElementById("menuHTML").style.height = (document.getElementById("div_contenido").style.height - 30) + 'px';
 	$("#menuHTML").height($("#div_contenido").height() - 30);
 	$("#ultimoContainer").width($("#div_contenido").width());
+	// let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+	let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+	let diff = h - $("#content").height();
+	$("#content").css("margin-top", ((diff / 2).toString() + "px"));
 }
 /**
  * @param NA
@@ -426,8 +439,7 @@ function actualizarProgressBar() {
 	let total = 100 / TRAK.length;
 	let progress = 0;
 	for (let index = 0; index < TRAK.length; index++) {
-		// completed = TRAK[index] > 1 ? completed++ : completed;
-		if (TRAK[index] > 1) {
+			if (TRAK[index] > 1) {
 			progress += total;
 		}
 	}
@@ -657,6 +669,9 @@ function limpiarContenido() {
  * @description Carga el contenido especificado por el parametro ID y lo carga en el div contenido del template.
  */
 function ir(id) {
+	if (menu_open) {
+		llamar_menuHTML();
+	}
 	if (debug) {
 		console.log("********", ULTIMO, id, TRAK[id]);
 		console.log("**********************IR");
@@ -665,9 +680,9 @@ function ir(id) {
 	limpiarContenido();
 	var iframe = document.getElementById("Contenido");
 	iframe.src = Rutas[id];
-	iframe.onload = function () {
-		$('#div_contenido').fadeIn();
-	};
+	// iframe.onload = function () {
+	// 	$('#div_contenido').fadeIn();
+	// };
 	_root.IDActual = id;
 	_root.ULTIMO = id;
 	if (debug) { console.log("IDActual: ", _root.IDActual, " ULTIMO: ", _root.ULTIMO); }
@@ -708,6 +723,7 @@ function iniciar_tema(canvasTema) {
 		if (debug) { console.warn("Error iniciando tema: " + error); }
 	}
 	actualizar_menuHTML(TRAK);
+	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 }
 /**
  * @param NA
@@ -947,10 +963,10 @@ function llamar_menuHTML() {
 	if (!bussy) {
 		if (!menu_open) {
 			$("#menuHTML").addClass("menu-open");
-			TweenLite.from($("#menuHTML"), 0.5, { opacity: 0, left: '-400px' });
+			TweenLite.from($("#menuHTML"), 0.3, { opacity: 0, left: '-400px' });
 			this.menu_open = true;
 		} else {
-			TweenLite.to($("#menuHTML"), 0.5, { opacity: 0, left: '-400px' });
+			TweenLite.to($("#menuHTML"), 0.3, { opacity: 0, left: '-400px' });
 			bussy = false;// Deshabilitar el boton menu
 			setTimeout(function () {
 				this.menu_open = false;
@@ -958,7 +974,7 @@ function llamar_menuHTML() {
 				$("#btnMenu").css("pointer-events", "all");
 				TweenLite.to($("#menuHTML"), 0.01, { opacity: 1, left: "0px" });
 				bussy = false;
-			}, 500);
+			}, 300);
 		}
 	}
 	actualizar_menuHTML(TRAK); // actualizar el menu
@@ -1373,9 +1389,10 @@ function paginaAnterior() {
  * 
  * */
 function siguienteTema() {
-	$('#div_contenido').fadeOut("slow", function () {
-		ir(_root.IDActual + 1);
-	});
+	// $('#div_contenido').fadeOut("slow", function () {
+	// 	ir(_root.IDActual + 1);
+	// });
+	ir(_root.IDActual + 1);
 }
 /**
  * @params NA
@@ -1398,6 +1415,7 @@ function actualizarNavegacion(currentPage, totalPages) {
 //-------------------------------------------------------------------------------------------------------------
 //inicia un nuevo archivo 
 function reset_navegacion(pagin, cantPag) { // Usandose provisionalmente sera reelevada a legacy--- se validara al cambiar de pag
+	console.log("reset navegacion")
 	stopAlertas();
 	pagActual = pagin; //pagina actual del tema
 	numPags = cantPag; //cantidad total de las paginas del tema

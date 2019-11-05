@@ -2503,11 +2503,11 @@ p.nominalBounds = new cjs.Rectangle(-149.2,458.8,34.9,36.9);
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_1}]}).to({state:[{t:this.instance_2}]},1).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(377.6,254.3,859,572.7);
+p.nominalBounds = new cjs.Rectangle(542.6,364.3,859,572.7);
 // library properties:
 lib.properties = {
-	width: 950,
-	height: 500,
+	width: 1280,
+	height: 720,
 	fps: 24,
 	color: "#FFFFFF",
 	opacity: 1.00,

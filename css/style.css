@@ -1,23 +1,29 @@
 html {
   overflow-y: hidden;
+  overflow-x: hidden;
 }
-body
-{
-	background-color: white;
-	width:100%;
+
+body {
+  width: 100%;
 }
-.contenedor{
-  width:90%;
+
+.contenedor {
+  width: 100%;
   margin: 0;
   padding: 0;
-  max-width: 980px;
+  max-width: 1200px;
   /* position: relative; */
-} 
-.container{
-  width:100%;
+  -webkit-box-shadow: -2px 5px 18px 18px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -2px 5px 18px 18px rgba(0, 0, 0, 0.75);
+  box-shadow: -2px 5px 18px 18px rgba(0, 0, 0, 0.75);
+}
+
+.container {
+  width: 100%;
   margin: 0;
   padding: 0;
 }
+
 /* .vertical-center {
   margin: 0;
   position: absolute;
@@ -25,23 +31,26 @@ body
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 } */
+
 .vertical-center {
   display: inline-block;
   vertical-align: middle;
   float: none;
 }
-.verticalCenterResponsive{
+
+.verticalCenterResponsive {
   margin-top: 20%;
   transition: all, 0.5s, ease-in;
 }
-h1
-{
-	color: white;
+
+h1 {
+  color: white;
 }
+
 /*BARRA CANVAS ESTILOS LEGACY */
-.barra
-{
-	background-color: white;
+
+.barra {
+  background-color: white;
   border-radius: 0px;
   display: block;
   font-size: 1.7vw;
@@ -49,9 +58,9 @@ h1
   text-align: center;
   width: 80%;
 }
-#principal
-{
-	border-radius: 0px;
+
+#principal {
+  border-radius: 0px;
   background-color: #CECECE;
   margin-top: 1%;
   margin-bottom: 0%;
@@ -59,38 +68,39 @@ h1
   width: 60%;
   text-align: center;
 }
+
 /*
 Estos contenedores son la parte izq y derecha del preloader principal que determina si los xml se parsearon correctamente
 */
-.Contenedor1
-{
-	margin-top: 2%;
-	width:100%;
+
+.Contenedor1 {
+  margin-top: 2%;
+  width: 100%;
 }
 
-.Contenedor2
-{
-	margin-top: 2%;
-	width:100%;
+.Contenedor2 {
+  margin-top: 2%;
+  width: 100%;
 }
+
 /*
  Y aqui se decide que colores iran en las lineas del preloader 
  */
 
- .back-link a {
+.back-link a {
   color: #4ca340;
-  text-decoration: none; 
+  text-decoration: none;
   border-bottom: 1px #4ca340 solid;
 }
-.back-link a:hover,
-.back-link a:focus {
-  color: #408536; 
+
+.back-link a:hover, .back-link a:focus {
+  color: #408536;
   text-decoration: none;
   border-bottom: 1px #408536 solid;
 }
+
 .entry-header {
   text-align: left;
-  
   width: 80%;
   max-width: 978px;
   position: relative;
@@ -99,22 +109,21 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
 
 /* Estilos para barra HTML CDI */
 
-.barraInferior{
+.barraInferior {
   position: absolute;
   z-index: 7;
-  /* overflow-y: scroll; */
-  width: 950px;
-  max-width: 950px;
   height: 30px;
-	max-height: 36px;
+  max-height: 36px;
   background: rgba(0, 0, 0, .75);
-  margin-left: 15px;
-  /* display: none; */
+  /*Eliminado para el tamaño final de 1280x720
+  /* margin-left: 15px; 
+  width: 950px;
+  max-width: 950px; */
 }
 
 /* BARRA HTML ESTILO ARCA CONTINENTAL*/
 
-.barraHTML{
+.barraHTML {
   max-width: 950px;
   padding: 0%;
   margin: 0%;
@@ -122,7 +131,7 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   height: 52px;
 }
 
-.barraHTMLLogoBackground{
+.barraHTMLLogoBackground {
   background-color: white;
   -webkit-border-top-right-radius: 125px;
   -webkit-border-bottom-right-radius: 125px;
@@ -132,21 +141,21 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   border-bottom-right-radius: 125px;
 }
 
-.barraHTMLLogo{
+.barraHTMLLogo {
   float: none;
   padding: 0;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-.barraIcons>li{
+.barraIcons>li {
   float: right!important;
 }
 
 /* Estilos para los estados del menu y la apariencia del habilitado y deshabilitado */
 
-.iconStyle{
-  background-color: gray!important; 
+.iconStyle {
+  background-color: gray!important;
   border-radius: 76px!important;
   padding: 0%!important;
   padding-left: 10px!important;
@@ -157,76 +166,83 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   margin-right: 7px;
 }
 
-.iconStyle:hover{
+.iconStyle:hover {
   background-color: crimson!important;
   transition: 0.5s;
 }
 
-.iconColor{
+.iconColor {
   color: white;
   padding: 0%;
   font-size: 15px;
 }
 
-.Title{
+.Title {
   font-weight: bold;
   color: black!important;
 }
 
-.menuHTML{
+.menuHTML {
   position: absolute;
   /* z-index: 6; */
-  /* overflow-y: scroll; */
+  overflow-y: auto;
+  overflow-x: hidden;
   width: 350px;
   /* height: 550px; */
   /* max-height: 580px; */
   /* Nuevo tamaño para dar espacio a la barra inferior  */
-  height: 521px;
-	max-height: 521px;
+  /* height: 521px; */
+  /* max-height: 521px; */
   background: rgba(0, 0, 0, .75);
   display: none;
-  margin-left: 15px;
-  max-width: 450px; 
+  max-width: 450px;
   z-index: 9998;
   /* overflow-x: hidden; */
   /* Para internet explorer */
   -ms-overflow-x: hidden;
-
   /* For hidden */
   /* margin-left: -70%!important; */
+  /* Para tamaño final 1280x720 */
+  /* margin-left: 15px; */
 }
 
-.ultimoContainer{
+.content {
+  min-height: 931px;
+}
+
+.ultimoContainer {
   /* position: absolute; */
   z-index: 9999;
   width: 950px;
-  height: 550px;
-	background: rgba(0, 0, 0, .75);
+  /* height: 550px; */
+  height: 100vh;
+  background: rgba(0, 0, 0, .75);
   display: none;
-  margin-left: 15px;
-  max-width: 950px; 
+  /* margin-left: 15px; */
+  /* max-width: 950px; */
   position: relative;
 }
-.ultimoTema{
+
+.ultimoTema {
   background: dimgray;
   border-radius: 10px;
   width: 360px;
   padding: 35px;
 }
-.btnUltimo{
+
+.btnUltimo {
   width: 75px;
-    margin-right: 30px;
-    margin-left: 30px;
+  margin-right: 30px;
+  margin-left: 30px;
 }
 
-.disabledButton{
-  pointer-events: fill!important;
+.disabledButton {
+  pointer-events: none!important;
   opacity: 0.35;
   cursor: default!important;
-
 }
 
-.menuTitle{
+.menuTitle {
   color: white;
   padding-top: 10px;
   font-size: 20px;
@@ -234,32 +250,32 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   padding-bottom: 15px;
 }
 
-.menuIconStyle{
-  color:white;
+.menuIconStyle {
+  color: white;
   font-size: 6px;
   /* padding-left: 5px; */
   /* padding-bottom: 2px; */
   pointer-events: none;
 }
 
-.menuIconStyleIniciado{
-  color:orange;
+.menuIconStyleIniciado {
+  color: orange;
   font-size: 6px;
   /* padding-left: 5px; */
   /* padding-bottom: 2px; */
   pointer-events: all;
 }
 
-.menuIconStyleCompletado{
-  color:green;
+.menuIconStyleCompletado {
+  color: green;
   font-size: 6px;
   /* padding-left: 5px; */
   /* padding-bottom: 2px; */
   pointer-events: all;
 }
 
-.menuTemaDisabled{
-  color:white;
+.menuTemaDisabled {
+  color: white;
   /* font-size: 10px; */
   padding-left: 5px;
   padding-bottom: 2px;
@@ -267,162 +283,184 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   pointer-events: none;
 }
 
-.menuTemaDesbloqueado{
-  color:white;
+.menuTemaDesbloqueado {
+  color: white;
   /* font-size: 10px; */
   padding-left: 5px;
   padding-bottom: 2px;
   pointer-events: all;
 }
 
-.tituloModulo{
+.tituloModulo {
   padding-left: 0px;
 }
 
-.tituloModulo>p{
+.tituloModulo>p {
   padding-left: 0px;
 }
 
 .tituloTemaMenu {
-    padding-left: 15px;
-    cursor: pointer;
-    font-size: 13px;
-    margin-top: -15px;
-    font-family: sans-serif;
-    transition: all .2s ease-in-out;
+  padding-left: 15px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-top: -15px;
+  font-family: sans-serif;
+  transition: all .2s ease-in-out;
 }
 
-.tituloTemaMenu:hover  p{
+.tituloTemaMenu:hover p {
   /* background-color: rgb(75, 75, 75); */
   color: lightgray;
-  transition: 0.5s ,ease-in;
+  transition: 0.5s, ease-in;
 }
-.menu-open{
+
+.menu-open {
   display: block;
 }
 
 /* Mediaquerys para la barra HTML ESTILO ARCA CONTINENTAL */
+
 @media only screen and (max-width: 768px) {
-  .CourseTitle{
+  .CourseTitle {
     display: none;
   }
-  .verticalCenterResponsive{
-    margin-top: 10%;;
+  .verticalCenterResponsive {
+    margin-top: 10%;
+    ;
   }
 }
 
-@media only screen and (min-width: 600px ) and (max-width: 767px ) {
-  .CourseTitle{
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  .CourseTitle {
     display: none;
   }
-  .verticalCenterResponsive{
+  .verticalCenterResponsive {
     margin-top: 10%;
     margin-left: 20%;
   }
 }
 
 @media only screen and (max-width: 992px) {
-  .Title{
+  .Title {
     font-size: 14px!important;
   }
 }
 
 @media only screen and (max-width: 1060px) {
-  .menuHTML{
+  .menuHTML {
     margin-left: 0px;
   }
-  .barraInferior{
+  .barraInferior {
     margin-left: 0px;
   }
 }
 
+@media only screen and (max-width: 588px) {
+  .rowInferior {
+    padding-right: 0px!important;
+  }
+}
+
 /* BARRA DE SCROLL PERSONALIZADA */
-  /* width */
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 30px!important;
-    padding-right: 150px;
-  }
 
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: rgb(5, 12, 19); 
-    margin: 30px 0;
-    border-radius: 20px;
-    margin-right: 30px;
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgb(192, 186, 186); 
-    border-radius: 20px;
-    height: 50px!important;
-    margin: 50px 0;
-  }
+/* width */
 
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-  }
+::-webkit-scrollbar {
+  width: 10px;
+  height: 30px!important;
+  padding-right: 150px;
+}
 
-  /*  SCROLLBAR PARA INTERNET EXPLORER */
-  ::-ms-scrollbar {
-    width: 8px;
-    height: 0px;
-  }
+/* Track */
 
-  /* Track */
-  ::-ms-scrollbar-track {
-    background: #f1f1f1; 
-    padding-top: 15px!important;
-    padding-bottom: 15px!important;
-  }
-  
-  /* Handle */
-  ::-ms-scrollbar-thumb {
-    background: #888; 
-    border-radius: 20px;
-  }
+::-webkit-scrollbar-track {
+  background: rgb(5, 12, 19);
+  margin: 30px 0;
+  border-radius: 20px;
+  margin-right: 30px;
+}
 
-  /* Handle on hover */
-  ::-ms-scrollbar-thumb:hover {
-    background: #555; 
-  }
+/* Handle */
 
-  /* Comienzan Estilos para las alertas */
-  .alertasContainer{
-    color:black;
-    /* display: none; */
-    float: right; 
-    margin-right: 0px!important;
-  }
-  .siguiente{
-    display: inline-block!important;
-    background-color: #fac637; 
-    border-radius: 10px;
-    padding: 5px;
-    font-size: 14px;
-  }
-  .completado{
-    display: inline-block!important;
-    background-color: #50b81c; 
-    border-radius: 10px;
-    padding: 5px;
-    font-size: 14px;
-  }
+::-webkit-scrollbar-thumb {
+  background: rgb(192, 186, 186);
+  border-radius: 20px;
+  height: 50px!important;
+  margin: 50px 0;
+}
 
-  .mensajes{
-    background-color: transparent!important;
-    color: white;
-    height: 50px!important;
-    max-height: 50px;
-    float: right!important; 
-    display: none;
-    margin-bottom: 15px;
-    margin-left: 5px!important;
-  }
+/* Handle on hover */
 
-  .progressMod{
-    margin-top: 6px!important;
-    height: 10px!important;
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/*  SCROLLBAR PARA INTERNET EXPLORER */
+
+::-ms-scrollbar {
+  width: 8px;
+  height: 0px;
+}
+
+/* Track */
+
+::-ms-scrollbar-track {
+  background: #f1f1f1;
+  padding-top: 15px!important;
+  padding-bottom: 15px!important;
+}
+
+/* Handle */
+
+::-ms-scrollbar-thumb {
+  background: #888;
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+
+::-ms-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Comienzan Estilos para las alertas */
+
+.alertasContainer {
+  color: black;
+  font-weight: bold;
+  /* display: none; */
+  float: right;
+  margin-right: 5px!important;
+}
+
+.siguiente {
+  display: inline-block!important;
+  background-color: #fac637;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.completado {
+  display: inline-block!important;
+  background-color: #50b81c;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.mensajes {
+  background-color: transparent!important;
+  color: white;
+  height: 50px!important;
+  max-height: 50px;
+  float: right!important;
+  display: none;
+  margin-bottom: 15px;
+  /* margin-left: 5px!important; */
+}
+
+.progressMod {
+  margin-top: 6px!important;
+  height: 10px!important;
+}
