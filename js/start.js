@@ -9,6 +9,7 @@ Notas:
 window.start = this;
 var NombreCurso = "ARCA_CONTINENTAL_TMR_ANIMATECC";
 var termino = false;
+var banderillas = false;
 var Rutas = new Array();
 var Pag = new Array();
 var TRAK = new Array();
@@ -27,6 +28,7 @@ var URLactual = window.location;
 var obj;
 var _root = window.parent;
 var timeline = 0;
+var contador = 0;
 //Al guardar un canvas puedes acceder a las funciones del archivo animate (en realidad no captas el canvas sino su archivo js)
 var canvasContenido;
 var estadoMenu = false;
@@ -84,11 +86,13 @@ var btnArray = [];
 var libre = false;
 var tl = new TimelineMax();
 var debug = false;
+var myVar = setInterval(myTimer, 20);
 
 window.onresize = function () {
 	if (debug) {
 		console.log("--------------------------------------"); console.log($("#menuHTML").height());	// console.log($("#div_contenido").height());	// console.log("--------------------------------------");
 	}
+	// $("#menuHTML").height($("#div_contenido").height() - 30);
 	$("#menuHTML").height($("#div_contenido").height() - 30);
 	$("#temasContainer").height($("#menuHTML").height() - 100);
 	$("#barraInferior").width($("#div_contenido").width());
@@ -181,7 +185,7 @@ function populateMenu(jsonob) {
 		//pintar nombre de modulo1
 		if (NombreModulos[index] !== "" && NombreModulos[index] !== null && NombreModulos[index] !== undefined) {
 			//
-			$("#temasContainer").append("<div id='Modulo" + (index + 1) + "' class='col-xs-12 tituloModulo'>" +
+			$("#temasContainer").append("<div id='Modulo" + (index + 1) + "' class='col-xs-12 tituloModulo tituloTemaMenuNoIniciado'>" +
 				"<div class='col-xs-1'>" +
 				"<a	>" +
 				"<i class='fas fa-circle menuIconStyle'></i>" +
@@ -213,28 +217,28 @@ function populateMenu(jsonob) {
 		}// end for Temas
 
 		// Pintar las evaluaciones
-		if (jsonob.Evaluaciones.length > 0) { // Exists evals on object??		
-			for (let t = 0; t < jsonob.Evaluaciones.length; t++) {
-				if (jsonob.Evaluaciones[t]["Aplica"] === true && jsonob.Evaluaciones[t]["Modulo"] === (index + 1)) {// Si aplica y es para el modulo que se esta recorriendo se genera 
-					let NombreEvaluacionActual = jsonob.Evaluaciones[t]["Nombre"] !== "" &&
-						jsonob.Evaluaciones[t]["Nombre"] !== undefined &&
-						jsonob.Evaluaciones[t]["Nombre"] !== null &&
-						jsonob.Evaluaciones[t]["Nombre"] !== NaN ? Evals[t]["Nombre"] : "Modulo " + index + ": Evaluacion";
-					let Evalid = jsonob.Evaluaciones[t]["ID"];
+		// if (jsonob.Evaluaciones.length > 0) { // Exists evals on object??		
+		// 	for (let t = 0; t < jsonob.Evaluaciones.length; t++) {
+		// 		if (jsonob.Evaluaciones[t]["Aplica"] === true && jsonob.Evaluaciones[t]["Modulo"] === (index + 1)) {// Si aplica y es para el modulo que se esta recorriendo se genera 
+		// 			let NombreEvaluacionActual = jsonob.Evaluaciones[t]["Nombre"] !== "" &&
+		// 				jsonob.Evaluaciones[t]["Nombre"] !== undefined &&
+		// 				jsonob.Evaluaciones[t]["Nombre"] !== null &&
+		// 				jsonob.Evaluaciones[t]["Nombre"] !== NaN ? Evals[t]["Nombre"] : "Modulo " + index + ": Evaluacion";
+		// 			let Evalid = jsonob.Evaluaciones[t]["ID"];
 
-					$("#temasContainer").append("	<div id='Evaluacion" + Evalid + "' onclick='llamarEval(" + (jsonob.Evaluaciones[t]["ID"]) + ")' class='col-xs-12 tituloTemaMenu menuTemaDisabled'>" +
-						"<div class='col-xs-1' style='padding-top: 8px'>" +
-						"<a>" +
-						"<i class='fas fa-circle menuIconStyle'></i>" +
-						"</a>" +
-						"</div>" +
-						"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px;'>" +
-						"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + NombreEvaluacionActual + "</p>" +
-						"</div>" +
-						"</div>");
-				}// if eval apply
-			}//end for evals			
-		}// end if evals exists
+		// 			$("#temasContainer").append("	<div id='Evaluacion" + Evalid + "' onclick='llamarEval(" + (jsonob.Evaluaciones[t]["ID"]) + ")' class='col-xs-12 tituloTemaMenu menuTemaDisabled'>" +
+		// 				"<div class='col-xs-1' style='padding-top: 8px'>" +
+		// 				"<a>" +
+		// 				"<i class='fas fa-circle menuIconStyle'></i>" +
+		// 				"</a>" +
+		// 				"</div>" +
+		// 				"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px;'>" +
+		// 				"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + NombreEvaluacionActual + "</p>" +
+		// 				"</div>" +
+		// 				"</div>");
+		// 		}// if eval apply
+		// 	}//end for evals			
+		// }// end if evals exists
 	}//End Main For
 }// end PopulateMenu function
 
@@ -259,7 +263,7 @@ function habilitarEvals(nMod) {
  */
 function rollover(id) {
 	// TweenMax.to($("#"+id).find("i"), 0.2, { scaleX: 1.8, scaleY: 1.8, ease: Back.easeOut, delay: 0.35 })
-	$("#" + id).find("i").css("font-size", "9px");
+	// $("#" + id).find("i").css("font-size", "9px");
 }
 /**
  * @param id:Number
@@ -267,7 +271,7 @@ function rollover(id) {
  * @description  Crea el rollout en el icono que le pertenece al tema con el id que recibe.
  */
 function rollout(id) {
-	$("#" + id).find("i").css("font-size", "6px");
+	// $("#" + id).find("i").css("font-size", "6px");
 	// TweenMax.to($("#"+id).find("i"), 0.2, { scaleX: 1, scaleY: 1, ease: Back.easeOut, delay: 0.2 })
 }
 /**
@@ -325,6 +329,27 @@ if (debug) {
 	console.log(getBrowserInfo());
 	console.log(getBrowserInfo().split(" ")[0]);
 }
+function initialize() {
+
+	// var myVar = setInterval(myTimer, 30);
+	setTimeout(inicializar, 2000);
+	setTimeout(function () {
+		clearInterval(myVar);
+	}, 1999);
+
+
+}
+function myTimer() {
+	document.getElementById("loaderText").innerHTML = "Cargando <br /> <br /> " + contador + "%";
+	if (contador < 100)
+		contador++;
+}
+function inicializar(myVar) {
+	// Ocultar loader
+	$("#loader-wrappler").remove();
+	window.clearInterval(myVar)
+	InitApi();
+}
 /**
  * @param NA
  * @returns void
@@ -340,7 +365,7 @@ function InitApi() {
 	// Setear el height del menu html igual al tamaño del contenido.
 	document.getElementById("menuHTML").style.height = (document.getElementById("div_contenido").style.height - 30) + 'px';
 	$("#menuHTML").height($("#div_contenido").height() - 30);
-	$("#ultimoContainer").width($("#div_contenido").width());
+	$("#ultimoContainer").width($("#div_contenido").width() + 3);
 	// let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 	let diff = h - $("#content").height();
@@ -439,7 +464,7 @@ function actualizarProgressBar() {
 	let total = 100 / TRAK.length;
 	let progress = 0;
 	for (let index = 0; index < TRAK.length; index++) {
-			if (TRAK[index] > 1) {
+		if (TRAK[index] > 1) {
 			progress += total;
 		}
 	}
@@ -744,7 +769,9 @@ function final_tema() {
 	guardarDatos();
 	actualizaTemasTerminados();
 	actualizarProgressBar();
-	alertas(2, "Tema Completo. Haz Clic en Siguiente para continuar.")
+	if (banderillas) {
+		alertas(2, "Tema Completo. Haz Clic en Siguiente para continuar.")
+	}
 	console.log(" Curso Completado " + cursoCompletado());
 }
 /**
@@ -963,22 +990,56 @@ function llamar_menuHTML() {
 	if (!bussy) {
 		if (!menu_open) {
 			$("#menuHTML").addClass("menu-open");
-			TweenLite.from($("#menuHTML"), 0.3, { opacity: 0, left: '-400px' });
+			// TweenLite.from($("#menuHTML"), 0.3, { opacity: 0, left: '-400px' });
+			TweenLite.from($("#menuHTML"), 0.3, { opacity: 0, top: '1400px' });
 			this.menu_open = true;
+			setMenuBlur(true);
+
+			// Deshabilitar botones atras y siguiente.
+			habilitar_deshabilitar_btns(getBtnArray(btnAtras, btnSiguiente), "d", "llamar_menu");
+
 		} else {
-			TweenLite.to($("#menuHTML"), 0.3, { opacity: 0, left: '-400px' });
+			TweenLite.to($("#menuHTML"), 0.3, { opacity: 0, top: '1400px' });
 			bussy = false;// Deshabilitar el boton menu
+			setMenuBlur(false);
+
+			// Evaluar la habilitacion de los botones segun el edo.
+			let btnArray = new Array();
+			if (!EdoBtns.btnAtras && !(IDActual !== 1 && pagActual !== 1)) { btnArray.push(btnAtras); }
+			if (!EdoBtns.btnSiguiente) { btnArray.push(btnSiguiente); }
+			habilitar_deshabilitar_btns(btnArray, "h", "llamar_menu");
+
 			setTimeout(function () {
 				this.menu_open = false;
 				$("#menuHTML").removeClass("menu-open");
 				$("#btnMenu").css("pointer-events", "all");
-				TweenLite.to($("#menuHTML"), 0.01, { opacity: 1, left: "0px" });
+				TweenLite.to($("#menuHTML"), 0.01, { opacity: 1, top: "0px" });
 				bussy = false;
 			}, 300);
 		}
 	}
+
+	window.onresize();
 	actualizar_menuHTML(TRAK); // actualizar el menu
 	limpiarSim(); // se limpia la 
+}
+
+function setMenuBlur(action) {
+	let iframe = document.getElementById("Contenido");
+	var element = iframe.contentWindow.document.querySelector('canvas');
+	let filterVal = 'blur(0px)';
+
+	switch (action) {
+		case true:
+			filterVal = 'blur(5px)';
+			break;
+		default:
+			filterVal = "";
+			break;
+	}
+
+	element.style.filter = filterVal;
+
 }
 
 /**
@@ -1015,11 +1076,12 @@ function cargarPortada() {
 	if (debug) { console.log("cargar portada"); }
 	var iframe = document.getElementById("Contenido");
 	if (debug) { console.log("temas/" + obj.NombreIntro + ".html"); }
-	iframe.src = "temas/" + obj.NombreIntro + ".html";
+	// iframe.src = "temas/" + obj.NombreIntro + ".html";
 	$('#div_sim').hide();
-	$('#loader-wrapper').html("");
+	// $('#loader-wrapper').html("");
 	$('#div_vid').hide();
 	limpiarSim();
+	ir(0);
 }
 //Función paraactualizar el menu y el estado de los temas
 /**
@@ -1225,7 +1287,9 @@ function habilitar_deshabilitar_btns(arraybtn, action, functionName) {
 }
 function habilitarSiguiente() {
 	habilitar_deshabilitar_btns(getBtnArray(btnSiguiente), "h", "habilitarSiguiente");
-	alertas(1, "Da clic en siguiente para continuar.");
+	if (banderillas) {
+		alertas(1, "Da clic en siguiente para continuar.");
+	}
 }
 function habilitarAtras() {
 	habilitar_deshabilitar_btns(getBtnArray(btnAtras), "h", "habilitarAtras")
@@ -1457,12 +1521,13 @@ function cursoCompletado() {
  * @description Actualiza los indicadores y desbloquea/bloquea los botones segun el avance del TRAK.
  */
 function actualizar_menuHTML(TrakCurso) {
+// debugger
 	for (let i = 0; i < TrakCurso.length; i++) {
 		var element = $("#" + i).find("i");
 		var tema = $("#" + (i + 1));
 		actualizarIndicadores(tema, TrakCurso[i]);
 
-		if (i > 0 && TrakCurso[i - 1] >= 2) { //bloquear botones aun no terminados
+		if (i > 0 && TrakCurso[i - 1] >= 2 || libre ) { //bloquear botones aun no terminados
 			if (debug) { console.log("desbloqueo Tema: " + i); }
 			desbloquearTema(tema);
 		} else {
@@ -1473,6 +1538,12 @@ function actualizar_menuHTML(TrakCurso) {
 		}//terminan funciones de bloqueo de temas.
 		// Actualizar el estatus de los modulos
 		actualizarEstatusModulo(i);
+
+		if(TRAK[tema.attr("id") - 1] == 0){
+			tema.addClass("tituloTemaMenuNoIniciado")
+		}else{
+			tema.removeClass("tituloTemaMenuNoIniciado")
+		}
 	}
 	/**
 	 * @param {*} Elemento: DOM HTML Element
@@ -1530,6 +1601,7 @@ function actualizar_menuHTML(TrakCurso) {
 			habilitarEvals(numModulo);
 		} else if (arreglo.indexOf(1) !== -1 || arreglo.indexOf(2) !== -1) {
 			actualizarIndicadores($("#Modulo" + numModulo), 1);
+			$("#Modulo"+numModulo).removeClass("tituloTemaMenuNoIniciado");
 		}
 		arreglo = [];
 	}

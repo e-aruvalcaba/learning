@@ -17,7 +17,7 @@
 	<link href="css/style.css" rel="stylesheet">
 
 	<!--  Comienza la carga de librerias JS-->
-	<script src="js/jquery.js"></script> <!-- JQuery -->
+	<script src="js/jquery.min.js"></script> <!-- JQuery 1.9-->
 	<script src="js/libs/createjs-2015.11.26.min.js"></script> <!-- CreateJS local -->
 	<script src="js/modernizr-2.6.2.min.js"></script><!-- Necesario para preloader -->
 	<script src="js/sweetalert2.all.min.js"></script> <!-- Librerias sweetAlert2 -->
@@ -30,49 +30,30 @@
 	<script src="js/start.js"></script> <!-- Funciones del Start -->
 </head>
 
-<body class="h-100" onload="SCOInitialize(); InitApi();" style="background: url('img/fondoblur.jpg'), no-repeat, center, center, fixed!important;
+<body class="h-100" onload="SCOInitialize(); initialize();" style="background: url('img/fondoblur.jpg'), no-repeat, center, center, fixed!important;
 																-webkit-background-size: cover!important;
 																	-moz-background-size: cover!important;
 																	-o-background-size: cover!important;
 																	background-size: cover!important;">
+
+<!-- Loader -->
+	<div id="loader-wrappler" class="loader-wrappler" 
+			style=" margin: 0;
+					height: 100vh;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					background-color: black;
+					overflow: hidden;">
+		<div class="loader" style="">
+			<center>
+				<h2 id="loaderText" class="animate">Loading <br /> <br /> 0% </h2>
+			</center>
+		</div>
+	</div>
+	<!-- Termina Loader -->
+
 	<center class="h-100" style="height: 100vh!important">
-		<!-- NAVBAR HTML  VERSION ARCA CONTINENTAL --- CONGELADA FUNCIONAL 100%-->
-		<!-- <div class="container" style=" max-width: 950px;">
-			<div class="row">
-				<nav class="navbar navbar-default barraHTML">
-					<div class="barraHTMLLogoBackground col-xs-4 col-sm-3 col-md-3">
-						<img class="navbar-brand barraHTMLLogo" src="img/ac.png" alt="" width="50%">
-					</div>
-
-					<div class="CourseTitle col-sm-4 col-md-4">
-						<a class="navbar-brand Title"> Talent Management Review </a>
-					</div>
-
-					<ul class="nav navbar-nav navbar-right  col-xs-8 col-sm-4 col-md-4 barraIcons"
-						style="margin-right: 0%!important; cursor: pointer; padding: 0%!important; margin-top: 0%!important;">
-						<li class="reset"><a id="btnCerrar" onclick="cerrar()" class="iconStyle"
-								style="padding-left: 12px!important; padding-right: 13px!important;"><i
-									class="fas fa-times iconColor"></i></a></li>
-						<li class="reset"><a id="btnSiguiente" onclick="siguiente_frame()" class="iconStyle"
-								style="padding-left: 12px!important; padding-right: 13px!important;"><i
-									class="fas fa-chevron-right iconColor"></i></a></li>
-						<li class="reset"><a id="btnAtras" onclick="anterior_frame()" class="iconStyle"
-								style="padding-left: 12px!important; padding-right: 13px!important;"><i
-									class="fas fa-chevron-left iconColor"></i></a></li>
-						<li class="reset"><a id="btnMenu" onclick="llamar_menuHTML()" class="iconStyle"><i
-									class="fas fa-ellipsis-h iconColor"></i></a></li>
-						<li class="reset"><a id="btnHome" onclick="home()" class="iconStyle"
-								style="padding-left: 9px!important; padding-right: 9px!important;"><i
-									class="fas fa-home iconColor"></i></a></li>
-						<li class="reset"><a id="btnEval" onclick="alert('Lanzar la Evaluacion')" class="iconStyle"
-								style="padding-left: 8px!important; padding-right: 8px!important;"><i
-									class="fas fa-graduation-cap iconColor"></i></a></li>
-					</ul>
-
-
-				</nav>
-			</div>
-		</div> -->
 		<div id="content" class="contenedor">
 			<!--Contenido-->
 			<div id="div_contenido" class="container theme-showcase" style="background-color: white;">
@@ -80,28 +61,105 @@
 					<div class="container ultimoContainer" id="ultimoContainer">
 						<div style="color:white" class=" row">
 							<div class="col-xs-12 vertical-center">
-								<div class="col-xs-4 col-xs-offset-1 col-sm-offset-4 ultimoTema verticalCenterResponsive">
-									<p>¿Deseas continuar en el ultimo tema visto?</p>
+								<div
+									class="col-xs-8 col-xs-offset-1 col-sm-offset-2 col-md-offset-3 ultimoTema verticalCenterResponsive">
+									<p style="    font-size: 18px;
+									font-weight: bold;">¿Deseas continuar en el ultimo tema visto?</p>
 									<br>
-									<button class="btn btn-default btnUltimo" onclick="irUltimo()">Si</button>
+									<button class="btn btn-danger btnUltimo" onclick="irUltimo()">Si</button>
 									<button class="btn btn-danger btnUltimo" onclick="cerrarUltimo()">No</button>
-								</div>	
+								</div>
 							</div>
 						</div>
 					</div>
 					<!--INICIA Nuevo Menu HTML  -->
-					<div class="container menuHTML " id="menuHTML">
-						<div id='menuTitle' class='col-xs-12 menuTitle'>Menú del curso </div>
-						<div id="menuContainer" class="row">
-							<!-- menu title -->
-							<!-- El contenido se clona apartir de aqui -->
-							<div id="temasContainer" class="container temasContainer" style="
-							/*height: 434px;*/
-							overflow-y: auto;
-							padding-top: 13px;
-							/* padding-right: 10px; */
-							width: 85%;">
+					<div class="container menuHTML " id="menuHTML" style="overflow: hidden;">
+						<div class="row">
+							<div class="col-xs-12 col-md-6">
+								<div id='menuTitle' class='col-xs-9 menuTitle'>Menú del curso </div>
+								<div id="menuContainer" class="row">
+									<!-- menu title -->
+									<!-- El contenido se clona apartir de aqui -->
+									<div id="temasContainer" class="container temasContainer" style="
+										/*height: 434px;*/
+										overflow-y: auto;
+										padding-top: 13px;
+										/* padding-right: 10px; */
+										width: 60%;">
+									</div>
+								</div>
 							</div>
+
+							<div class="d-xl-none col-md-6 menuDerecha">
+								<div id='menuTitle' class='col-xs-6 menuTitle'>Menú del curso </div>
+								<div id="menuContainer" class="row">
+									<!-- menu title -->
+									<!-- El contenido se clona apartir de aqui -->
+									<div id="InstruccionesContainer" class="container temasContainer" style="
+										/*height: 434px;*/
+										overflow-y: auto;
+										padding-top: 13px;
+										/* padding-right: 10px; */
+										width: 100%;
+										line-height: 10px;">
+
+										<div id='' class='col-xs-12 tituloModulo'>
+											<div class='col-xs-1'>
+												<a><i class='fas fa-circle menuIconStyle'></i></a>
+											</div>
+											<div class='col-xs-11' style='color:white'>
+												<p class='reset'
+													style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>
+													Selecciona cada tema para ver su contenido </p>
+											</div>
+										</div>
+
+										<div id='' class='col-xs-12 tituloModulo'>
+											<div class='col-xs-1'>
+												<a><i class='fas fa-circle menuIconStyle'></i></a>
+											</div>
+											<div class='col-xs-11' style='color:white'>
+												<p class='reset'
+													style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>
+													El curso guarda tu avance con el siguiente registro: </p>
+											</div>
+										</div>
+
+										<div id='' class='col-xs-10 tituloModulo indent'>
+											<div class='col-xs-1'>
+												<a><i class='fas fa-circle menuIconStyleCompletado'></i></a>
+											</div>
+											<div class='col-xs-10' style='color:white'>
+												<p class='reset'
+													style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>
+													Tema Completado </p>
+											</div>
+										</div>
+										<div id='' class='col-xs-10 tituloModulo indent'>
+											<div class='col-xs-1'>
+												<a><i class='fas fa-circle menuIconStyleIniciado'></i></a>
+											</div>
+											<div class='col-xs-10' style='color:white'>
+												<p class='reset'
+													style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>
+													Tema Iniciado </p>
+											</div>
+										</div>
+										<div id='' class='col-xs-10 tituloModulo menuTemaDisabled indent'>
+											<div class='col-xs-1'>
+												<a><i class='fas fa-circle menuIconStyle'></i></a>
+											</div>
+											<div class='col-xs-10' style='color:white'>
+												<p class='reset'
+													style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>
+													Tema no Iniciado </p>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+
 						</div>
 					</div>
 					<!-- TERMINA Nuevo Menu HTML  -->
@@ -114,27 +172,27 @@
 						</div>
 					</div>
 					<!-- TERMINA CONTENEDOR DE ALERTAS  -->
-					<iframe class="embed-responsive-item content" frameborder="0" width="950" height="550" name="Contenido"
-						id="Contenido" onload="" allowfullscreen allow="autoplay;">
+					<iframe id="Contenido" class="embed-responsive-item content Contenidos" frameborder="0" onload=""
+						allowfullscreen allow="autoplay;">
 					</iframe>
 					<!--Nueva barra HTML -->
 					<div class="container barraInferior navbar-fixed-bottom" id="barraInferior">
 						<div id="barraInferiorControles" class="row">
-							<div class="col-xs-4 col-sm-3 col-md-3 rowInferior"
-								style="font-size: 20px; padding-right: 50px; color: white;">
+							<div class="col-xs-4 col-sm-2 col-md-2 rowInferior"
+								style="font-size: 20px; padding-right: 30px; color: white;">
 								<a id="btnMenu" onclick="llamar_menuHTML()" style="cursor: pointer;float: left;padding-left: 20px; text-decoration: none;
 									color:white;"><i class="fas fa-bars iconColor" style="font-size: 20px;"></i>
 									<p class="reset" style="display: inline-block;font-size: 15px;margin-left: 5px;">
 										Menú</p>
 								</a>
 							</div>
-							<div class="col-xs-3 col-sm-4 col-md-6" style="color: white;padding-top: 5px;">
+							<div class="col-xs-3 col-sm-5 col-md-7" style="color: white;padding-top: 5px;">
 								<div class="row">
-									<div class="col-xs-1 col-sm-4 col-md-2" style="padding-top: 2px;">
+									<div class="col-xs-1 avance" style="padding-top: 2px;">
 										<p class="reset" style="font-size: 12px;">Avance</p>
 									</div>
-									<div class="col-xs-1 col-sm-6 col-md-8">
-										<div class="progress progressMod" style="width: 100%; background-color: gray;">
+									<div class="col-xs-1 col-sm-12 col-md-10">
+										<div class="progress progressMod" style="width: 100%; background-color: #b5b5b573; box-shadow: inset 4px 3px 10px 0px #000;">
 											<!-- To control the progressbar must modify the width property  -->
 											<div id="progressBar" class="progress-bar" role="progressbar"
 												aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
@@ -193,50 +251,7 @@
 			</div>
 		</div>
 		</div>
-		<!-- NAVBAR HTML 
-		<div class="container" style=" max-width: 950px;">
-				<div class="row">
-					<nav class="navbar navbar-default barraHTML">
-						<div class="barraHTMLLogoBackground col-xs-4 col-sm-3 col-md-3">
-							<img class="navbar-brand barraHTMLLogo" src="img/ac.png" alt="" width="50%">
-						</div>
-	
-						<div class="CourseTitle col-sm-4 col-md-4">
-							<a class="navbar-brand Title"> Talent Management Review </a>
-						</div>
-	
-						<ul class="nav navbar-nav navbar-right  col-xs-8 col-sm-4 col-md-4 barraIcons"
-							style="margin-right: 0%!important; cursor: pointer; padding: 0%!important; margin-top: 0%!important;">
-							<li class="reset"><a id="btnCerrar" onclick="cerrar()" class="iconStyle"
-									style="padding-left: 12px!important; padding-right: 13px!important;"><i
-										class="fas fa-times iconColor"></i></a></li>
-							<li class="reset"><a id="btnSiguiente" onclick="siguiente_frame()" class="iconStyle"
-									style="padding-left: 12px!important; padding-right: 13px!important;"><i
-										class="fas fa-chevron-right iconColor"></i></a></li>
-							<li class="reset"><a id="btnAtras" onclick="anterior_frame()" class="iconStyle"
-									style="padding-left: 12px!important; padding-right: 13px!important;"><i
-										class="fas fa-chevron-left iconColor"></i></a></li>
-							<li class="reset"><a id="btnMenu" onclick="llamar_menu()" class="iconStyle"><i
-										class="fas fa-ellipsis-h iconColor"></i></a></li>
-							<li class="reset"><a id="btnHome" onclick="home()" class="iconStyle"
-									style="padding-left: 9px!important; padding-right: 9px!important;"><i
-										class="fas fa-home iconColor"></i></a></li>
-							<li class="reset"><a id="btnEval" onclick="alert('Lanzar la Evaluacion')" class="iconStyle"
-									style="padding-left: 8px!important; padding-right: 8px!important;"><i
-										class="fas fa-graduation-cap iconColor"></i></a></li>
-						</ul>
-	
-	
-					</nav>
-				</div>
-			</div> -->
 	</center>
-
-	<div id="loader-wrapper">
-		<div id="loader"></div>
-		<div class="loader-section section-left"></div>
-		<div class="loader-section section-right"></div>
-	</div>
 </body>
 
 </html>
