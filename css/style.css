@@ -2,54 +2,37 @@ html {
   overflow-y: hidden;
   overflow-x: hidden;
 }
-
 body {
   width: 100%;
 }
-
 .contenedor {
   width: 75%;
   margin: 0;
   padding: 0;
   max-width: 1200px;
   max-height: 700px;
-  /* position: relative; */
   -webkit-box-shadow: -2px 5px 15px 4px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: -2px 5px 15px 4px rgba(0, 0, 0, 0.75);
   box-shadow: -2px 5px 15px 4px rgba(0, 0, 0, 0.75);
 }
-
 .container {
   width: 100%;
   margin: 0;
   padding: 0;
 }
-
-/* .vertical-center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-} */
-
 .vertical-center {
   display: inline-block;
   vertical-align: middle;
   float: none;
 }
-
 .verticalCenterResponsive {
   margin-top: 20%;
   transition: all, 0.5s, ease-in;
 }
-
 h1 {
   color: white;
 }
-
 /*BARRA CANVAS ESTILOS LEGACY */
-
 .barra {
   background-color: white;
   border-radius: 0px;
@@ -69,37 +52,24 @@ h1 {
   width: 60%;
   text-align: center;
 }
-
-/*
-Estos contenedores son la parte izq y derecha del preloader principal que determina si los xml se parsearon correctamente
-*/
-
 .Contenedor1 {
   margin-top: 2%;
   width: 100%;
 }
-
 .Contenedor2 {
   margin-top: 2%;
   width: 100%;
 }
-
-/*
- Y aqui se decide que colores iran en las lineas del preloader 
- */
-
 .back-link a {
   color: #4ca340;
   text-decoration: none;
   border-bottom: 1px #4ca340 solid;
 }
-
 .back-link a:hover, .back-link a:focus {
   color: #408536;
   text-decoration: none;
   border-bottom: 1px #408536 solid;
 }
-
 .entry-header {
   text-align: left;
   width: 80%;
@@ -109,7 +79,6 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
 }
 
 /* Estilos para barra HTML CDI */
-
 .barraInferior {
   position: absolute;
   z-index: 7;
@@ -194,7 +163,7 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   /* Nuevo tamaño para dar espacio a la barra inferior  */
   /* height: 521px; */
   /* max-height: 521px; */
-  background: rgba(0, 0, 0, .75);
+  background: rgba(0, 0, 0, .8);
   display: none;
   /* max-width: 450px; */
   /* z-index: 9998; */
@@ -313,13 +282,9 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   padding-bottom: 2px;
   pointer-events: all;
 }
-
-
-/*  */
 .tituloModulo {
   padding-left: 0px;
 }
-
 .tituloModulo>p {
   padding-left: 0px;
 }
@@ -334,13 +299,10 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
   font-family: sans-serif;
   transition: all 0.7s ease-out;
 }
-
 .tituloTemaMenu:hover p {
-  /* background-color: rgb(75, 75, 75); */
   color: lightgray;
   transition: 0.5s, ease-in;
 }
-
 .tituloTemaMenu:hover .menuIconStyle {
   transform: scale3d(1.5, 1.5, 1.5);
 }
@@ -354,30 +316,20 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
 .menu-open {
   display: block;
 }
-
-
-
 /* BARRA DE SCROLL PERSONALIZADA */
-
-/* width */
-
 ::-webkit-scrollbar {
   width: 10px;
   height: 30px!important;
   padding-right: 150px;
 }
-
 /* Track */
-
 ::-webkit-scrollbar-track {
   background: rgb(5, 12, 19);
   margin: 30px 0;
   border-radius: 20px;
   margin-right: 30px;
 }
-
 /* Handle */
-
 ::-webkit-scrollbar-thumb {
   background: rgb(192, 186, 186);
   border-radius: 20px;
@@ -478,8 +430,6 @@ Estos contenedores son la parte izq y derecha del preloader principal que determ
 @keyframes load {
   0%{
       opacity: 0.08;
-/*         font-size: 10px; */
-/* 				font-weight: 400; */
       filter: blur(5px);
       letter-spacing: 3px;
       }

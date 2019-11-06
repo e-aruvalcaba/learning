@@ -85,7 +85,7 @@ var EdoBtns = {
 var btnArray = [];
 var libre = false;
 var tl = new TimelineMax();
-var debug = false;
+var debug = true;
 var myVar = setInterval(myTimer, 20);
 
 window.onresize = function () {
@@ -683,7 +683,7 @@ function guardarDatos() {
 function limpiarContenido() {
 	if (debug) {
 		console.log("**********************limpiarContenido");
-		console.log(contenido.src);
+		// console.log(contenido.src);
 	}
 	var contenido = document.getElementById("Contenido");
 	contenido.src = "*";
@@ -1521,13 +1521,13 @@ function cursoCompletado() {
  * @description Actualiza los indicadores y desbloquea/bloquea los botones segun el avance del TRAK.
  */
 function actualizar_menuHTML(TrakCurso) {
-// debugger
+	// debugger
 	for (let i = 0; i < TrakCurso.length; i++) {
 		var element = $("#" + i).find("i");
 		var tema = $("#" + (i + 1));
 		actualizarIndicadores(tema, TrakCurso[i]);
 
-		if (i > 0 && TrakCurso[i - 1] >= 2 || libre ) { //bloquear botones aun no terminados
+		if (i > 0 && TrakCurso[i - 1] >= 2 || libre) { //bloquear botones aun no terminados
 			if (debug) { console.log("desbloqueo Tema: " + i); }
 			desbloquearTema(tema);
 		} else {
@@ -1539,9 +1539,9 @@ function actualizar_menuHTML(TrakCurso) {
 		// Actualizar el estatus de los modulos
 		actualizarEstatusModulo(i);
 
-		if(TRAK[tema.attr("id") - 1] == 0){
+		if (TRAK[tema.attr("id") - 1] == 0) {
 			tema.addClass("tituloTemaMenuNoIniciado")
-		}else{
+		} else {
 			tema.removeClass("tituloTemaMenuNoIniciado")
 		}
 	}
@@ -1599,9 +1599,10 @@ function actualizar_menuHTML(TrakCurso) {
 			actualizarIndicadores($("#Modulo" + numModulo), 2);
 			//Habilitar Evals del modulo
 			habilitarEvals(numModulo);
+			$("#Modulo" + numModulo).removeClass("tituloTemaMenuNoIniciado");
 		} else if (arreglo.indexOf(1) !== -1 || arreglo.indexOf(2) !== -1) {
 			actualizarIndicadores($("#Modulo" + numModulo), 1);
-			$("#Modulo"+numModulo).removeClass("tituloTemaMenuNoIniciado");
+			$("#Modulo" + numModulo).removeClass("tituloTemaMenuNoIniciado");
 		}
 		arreglo = [];
 	}
