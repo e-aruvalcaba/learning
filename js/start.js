@@ -85,7 +85,7 @@ var EdoBtns = {
 var btnArray = [];
 var libre = false;
 var tl = new TimelineMax();
-var debug = true;
+var debug = false;
 var myVar = setInterval(myTimer, 20);
 
 window.onresize = function () {
