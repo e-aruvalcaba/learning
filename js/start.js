@@ -84,10 +84,11 @@ var EdoBtns = {
 	btnHome: true,
 	barra: true
 };
+var Temaslibre = true;
 var btnArray = [];
 var libre = false;
 var tl = new TimelineMax();
-var debug = true;
+var debug = false;
 var myVar = setInterval(myTimer, 20);
 
 window.onresize = function () {
@@ -180,6 +181,7 @@ function mostrarTemaCompletado(texto) {
  * @description Crea dinamicamente los elementos mostrados en el menuHTML ademas les asigna su evento clic y los elementos como el titulo del curso evaluaciones etc.
  */
 function populateMenu(jsonob) {
+	let modulosbreak = [0, 3, 8, 11, 18, 20];
 	// Agregar Nombre del Curso
 	// 
 	// $("#menuContainer").append("<div id='menuTitle' class='col-xs-12 menuTitle'>Menú del curso </div>");
@@ -203,7 +205,7 @@ function populateMenu(jsonob) {
 		for (let j = 0; j < jsonob.Modulos[index]['Mod' + (index + 1)].length; j++) {
 			//pintar cada tema del modulo
 			id = consecutivo; //onclick='alert('Modulo" + (consecutivo) + "')'
-			if (j === 0) {
+			if (modulosbreak.indexOf(j) !== -1) { //(j === 0) {
 				$("#temasContainer").append("<div id='" + (consecutivo + 1) + "' onclick='llamarTema(" + (consecutivo) + ")' onmouseover='rollover(" + (consecutivo + 1) + ")' onmouseout='rollout(" + (consecutivo + 1) + ")' class='col-xs-12 tituloTemaMenu'>" +
 					"<div class='col-xs-1' style='padding-top: 8px; padding-left:0px; padding-right:0px;'>" +
 					"<a>" +
@@ -211,7 +213,7 @@ function populateMenu(jsonob) {
 					"</a>" +
 					"</div>" +
 					"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px; padding-left:0px;'>" +
-					"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
+					"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none; text-align:left'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
 					"</div>" +
 					"</div>");
 
@@ -223,7 +225,7 @@ function populateMenu(jsonob) {
 					"</a>" +
 					"</div>" +
 					"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px; padding-left:0px;'>" +
-					"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
+					"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none; text-align:left'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
 					"</div>" +
 					"</div>");
 
@@ -481,6 +483,7 @@ function actualizaTemasTerminados() {
 	// }
 	//estupido
 	// actualizar este valor en sig frame, anterior frame, siguiente pag, anterior pag, ir
+	// debugger
 	let text = currentPagina + "/" + PagTotal;
 	// let text = completed + "/" + TRAK.length;
 	actualizarProgressBarCDI();
@@ -554,13 +557,19 @@ function setValues(ob) {
 	SCORE = ob.Evaluaciones[0].CalActual; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
 	califMinima = ob.Evaluaciones[0].CalMinima; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
 	TRAK = ob.Trak;
+	if (TRAK.length === 0 || TRAK === undefined || TRAK === null || TRAK === NaN) {
+		for (let i = 0; i < ob.Pag.length; i++) {
+			TRAK.push(0);
+		}
+	}
 	Pag = ob.Pag;
 	libre = ob.Libre;
 	NombreModulos = ob.NombreModulos;
 	Modulos = ob.Modulos;
 	Evals = ob.Evaluaciones; //New implemented feature multi eval
+	// debugger
 	for (let i = 0; i < ob.Pag.length; i++) {
-		PagTotal += ob.Pag[i];
+		PagTotal += parseInt(ob.Pag[i]);
 	}
 }
 /**
@@ -741,6 +750,7 @@ function limpiarContenido() {
  * @description Carga el contenido especificado por el parametro ID y lo carga en el div contenido del template.
  */
 function ir(id) {
+	debugger
 	if (menu_open) {
 		llamar_menuHTML();
 	}
@@ -768,6 +778,10 @@ function ir(id) {
 	if (canvasContenido) {
 		reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 	}
+	// else{
+	// 	console.log("No se encontro")
+	// 	iframe.src = "temas/NoFound.html"
+	// }
 	actualizaTemasTerminados();
 }
 /**
@@ -776,9 +790,10 @@ function ir(id) {
  * @description Recalcula la pagina actual en la que esta navegando el usuario basandose en el id del tema a cargar.
  */
 function recalcularPaginaActual(newID) {
+	debugger
 	let nPag = 1;
 	for (let i = 0; i < newID; i++) {
-		nPag += Pag[i];
+		nPag += parseInt(Pag[i]);
 	}
 	currentPagina = nPag;
 }
@@ -798,19 +813,23 @@ function iniciar_tema(canvasTema) {
 		}
 		//en caso de venir desde la opcion de ultimo tema, va a la ultima pagina visitada
 		if (controlIrUltimo) {
-			
+			debugger
 			if (debug) { console.log("llendo a la ultima pagina desde reset_navegacion"); }
 			let resp = obtenerFramePorPagina(_root.ULTIMO);
-			canvasContenido.gotoAndPlay(resp[1] - 1);
+			console.log("Frame al que navegara: "+resp[1])
+			// canvasContenido.gotoAndPlay(resp[1]-1); // esto funcionaba para TMR no tengo idea
+			canvasContenido.gotoAndPlay(resp[1]);
 			controlIrUltimo = false;
 		}
 		//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
 		// if (controlAtras || controlIrUltimo) {
 		if (controlAtras) {
-			// 
+			// debugger
 			if (debug) { console.log("entro a control atras"); }
 			// canvasContenido.gotoAndStop(Pag[IDActual]);
-			canvasContenido.gotoAndStop(canvasContenido.timeline.duration - 1);
+			// canvasContenido.gotoAndStop(canvasContenido.timeline.duration-1); //esto funcionaba par tmr no tengo idea
+			let frame = canvasContenido.timeline.duration;
+			canvasContenido.gotoAndPlay(frame);
 
 			controlAtras = false;
 		}
@@ -829,13 +848,13 @@ function iniciar_tema(canvasTema) {
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 }
 function obtenerFramePorPagina(pagDestino) {
-
+	// debugger
 	let sum = 0;
 	let antSum = 0;
 	for (let i = 0; i < obj.Pag.length; i++) {
-		sum += obj.Pag[i];
+		sum += parseInt(obj.Pag[i]);
 		if (pagDestino >= antSum && pagDestino <= sum) {
-			
+
 			let ret = [];
 			ret[0] = i;
 			ret[1] = pagDestino - antSum;
@@ -911,6 +930,7 @@ function glosarioX() {
  * @description Carga el ultimo tema visitado por el usuario
  */
 function irUltimo() {
+	// debugger
 	let resp = obtenerFramePorPagina(ULTIMO);
 	ir(resp[0]);
 	controlIrUltimo = true;
@@ -1128,20 +1148,25 @@ function llamar_menuHTML() {
 }
 
 function setMenuBlur(action) {
-	let iframe = document.getElementById("Contenido");
-	var element = iframe.contentWindow.document.querySelector('canvas');
-	let filterVal = 'blur(0px)';
+	try {
 
-	switch (action) {
-		case true:
-			filterVal = 'blur(5px)';
-			break;
-		default:
-			filterVal = "";
-			break;
+		let iframe = document.getElementById("Contenido");
+		var element = iframe.contentWindow.document.querySelector('canvas');
+		let filterVal = 'blur(0px)';
+
+		switch (action) {
+			case true:
+				filterVal = 'blur(5px)';
+				break;
+			default:
+				filterVal = "";
+				break;
+		}
+
+		element.style.filter = filterVal;
+	} catch (error) {
+		console.log("Error tratando de aplicar blur. Error: " + error)
 	}
-
-	element.style.filter = filterVal;
 
 }
 
@@ -1397,6 +1422,12 @@ function habilitarSiguiente() {
 function habilitarAtras() {
 	habilitar_deshabilitar_btns(getBtnArray(btnAtras), "h", "habilitarAtras")
 }
+function deshabilitarSiguiente() {
+	habilitar_deshabilitar_btns(getBtnArray(btnSiguiente), "d", "deshabilitarSiguiente");
+}
+function deshabilitarAtras() {
+	habilitar_deshabilitar_btns(getBtnArray(btnAtras), "d", "deshabilitaratras");
+}
 /**
  * @params NA
  * @returns void
@@ -1494,7 +1525,7 @@ function habilitar_deshabilitar_eval(action) {
  * */
 //Función para cambio de frame dentro del div contenido
 function siguiente_frame() {
-
+	// debugger
 	//Para ocultar o mostrar el canvas de siguiente frame o siguiente tema
 	if ($('#div_sim').show()) {
 		$('#div_sim').hide();// Esconder el iframe de las evaluaciones
@@ -1513,10 +1544,11 @@ function siguiente_frame() {
  * 
  * *///Función para retroceder frames dentro del div contenido
 function anterior_frame() {
+	debugger
 	// $('#div_sim').hide();
 	// limpiarSim();
 	// if (debug) { console.log("Funcion Siguiente(); " + estadoSim) }
-	if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina -= 1; ULTIMO = currentPagina;}// retrocede una pagina 
+	if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina -= 1; ULTIMO = currentPagina; }// retrocede una pagina 
 	else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 	// ULTIMO = currentPagina - 1;
@@ -1638,13 +1670,13 @@ function cursoCompletado() {
  * @description Actualiza los indicadores y desbloquea/bloquea los botones segun el avance del TRAK.
  */
 function actualizar_menuHTML(TrakCurso) {
-	// 
+	// debugger
 	for (let i = 0; i < TrakCurso.length; i++) {
 		var element = $("#" + i).find("i");
 		var tema = $("#" + (i + 1));
 		actualizarIndicadores(tema, TrakCurso[i]);
 
-		if (i > 0 && TrakCurso[i - 1] >= 2 || libre) { //bloquear botones aun no terminados
+		if (i > 0 && TrakCurso[i - 1] >= 2 || Temaslibre) { //bloquear botones aun no terminados
 			if (debug) { console.log("desbloqueo Tema: " + i); }
 			desbloquearTema(tema);
 		} else {
@@ -1654,7 +1686,7 @@ function actualizar_menuHTML(TrakCurso) {
 			}
 		}//terminan funciones de bloqueo de temas.
 		// Actualizar el estatus de los modulos
-		actualizarEstatusModulo(i);
+		// actualizarEstatusModulo(i); // de momento para el template CDI no se usara
 
 		if (TRAK[tema.attr("id") - 1] == 0) {
 			tema.addClass("tituloTemaMenuNoIniciado")
