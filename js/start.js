@@ -12,6 +12,8 @@ var termino = false;
 var banderillas = false;
 var Rutas = new Array();
 var Pag = new Array();
+var PagTotal = 0;
+var currentPagina = 0;
 var TRAK = new Array();
 var NombreModulos = new Array();
 var Modulos = new Array();
@@ -179,37 +181,63 @@ function mostrarTemaCompletado(texto) {
  */
 function populateMenu(jsonob) {
 	// Agregar Nombre del Curso
+	debugger
 	// $("#menuContainer").append("<div id='menuTitle' class='col-xs-12 menuTitle'>Menú del curso </div>");
 	let consecutivo = 0;
 	for (let index = 0; index < jsonob.Modulos.length; index++) {
 		//pintar nombre de modulo1
-		if (NombreModulos[index] !== "" && NombreModulos[index] !== null && NombreModulos[index] !== undefined) {
-			//
-			$("#temasContainer").append("<div id='Modulo" + (index + 1) + "' class='col-xs-12 tituloModulo tituloTemaMenuNoIniciado'>" +
-				"<div class='col-xs-1'>" +
-				"<a	>" +
-				"<i class='fas fa-circle menuIconStyle'></i>" +
-				"</a>" +
-				"</div>" +
-				"<div class='col-xs-8' style='color:white'>" +
-				"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + NombreModulos[index] + "</p>" +
-				"</div>" +
-				"</div>");
-		} //end if Nombre para modulos
+		// if (NombreModulos[index] !== "" && NombreModulos[index] !== null && NombreModulos[index] !== undefined) {
+		// 	//
+		// 	$("#temasContainer").append("<div id='Modulo" + (index + 1) + "' class='col-xs-12 tituloModulo tituloTemaMenuNoIniciado'>" +
+		// 		"<div class='col-xs-1'>" +
+		// 		"<a	>" +
+		// 		"<i class='fas fa-circle menuIconStyle'></i>" +
+		// 		"</a>" +
+		// 		"</div>" +
+		// 		"<div class='col-xs-8' style='color:white'>" +
+		// 		"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + NombreModulos[index] + "</p>" +
+		// 		"</div>" +
+		// 		"</div>");
+		// } //end if Nombre para modulos
 		//pintar Nombre del modulo
 		for (let j = 0; j < jsonob.Modulos[index]['Mod' + (index + 1)].length; j++) {
 			//pintar cada tema del modulo
 			id = consecutivo; //onclick='alert('Modulo" + (consecutivo) + "')'
-			$("#temasContainer").append("<div id='" + (consecutivo + 1) + "' onclick='llamarTema(" + (consecutivo) + ")' onmouseover='rollover(" + (consecutivo + 1) + ")' onmouseout='rollout(" + (consecutivo + 1) + ")' class='col-xs-12 tituloTemaMenu'>" +
-				"<div class='col-xs-1' style='padding-top: 8px'>" +
+			if (j === 0) {
+				$("#temasContainer").append("<div id='" + (consecutivo + 1) + "' onclick='llamarTema(" + (consecutivo) + ")' onmouseover='rollover(" + (consecutivo + 1) + ")' onmouseout='rollout(" + (consecutivo + 1) + ")' class='col-xs-12 tituloTemaMenu'>" +
+				"<div class='col-xs-1' style='padding-top: 8px; padding-left:0px; padding-right:0px;'>" +
 				"<a>" +
 				"<i class='fas fa-circle menuIconStyle'></i>" +
 				"</a>" +
 				"</div>" +
-				"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px;'>" +
+				"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px; padding-left:0px;'>" +
 				"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
 				"</div>" +
 				"</div>");
+
+			}else{
+				$("#temasContainer").append("<div id='" + (consecutivo + 1) + "' style='padding-left: 30px;' onclick='llamarTema(" + (consecutivo) + ")' onmouseover='rollover(" + (consecutivo + 1) + ")' onmouseout='rollout(" + (consecutivo + 1) + ")' class='col-xs-12 tituloTemaMenu'>" +
+				"<div class='col-xs-1' style='padding-top: 8px;'>" +
+				"<a>" +
+				"<i class='fas fa-circle menuIconStyle'></i>" +
+				"</a>" +
+				"</div>" +
+				"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px; padding-left:0px;'>" +
+				"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
+				"</div>" +
+				"</div>");
+
+			}
+			// $("#temasContainer").append("<div id='" + (consecutivo + 1) + "' onclick='llamarTema(" + (consecutivo) + ")' onmouseover='rollover(" + (consecutivo + 1) + ")' onmouseout='rollout(" + (consecutivo + 1) + ")' class='col-xs-12 tituloTemaMenu'>" +
+			// 	"<div class='col-xs-1' style='padding-top: 8px'>" +
+			// 	"<a>" +
+			// 	"<i class='fas fa-circle menuIconStyle'></i>" +
+			// 	"</a>" +
+			// 	"</div>" +
+			// 	"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px;'>" +
+			// 	"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
+			// 	"</div>" +
+			// 	"</div>");
 			consecutivo++;
 			if (debug) {
 				console.log(jsonob.Modulos[index]['Mod' + (index + 1)][j]);
@@ -444,14 +472,18 @@ function llamarRetros() {
  * @description Actualiza el texto de la barraHTML que muestra el total de temas completados / total temas del curso
  */
 function actualizaTemasTerminados() {
-	let completed = 0;
-	for (let index = 0; index < TRAK.length; index++) {
-		// completed = TRAK[index] > 1 ? completed++ : completed;
-		if (TRAK[index] > 1) {
-			completed++;
-		}
-	}
-	let text = completed + "/" + TRAK.length;
+	// let completed = 0;
+	// for (let index = 0; index < TRAK.length; index++) {
+	// 	// completed = TRAK[index] > 1 ? completed++ : completed;
+	// 	if (TRAK[index] > 1) {
+	// 		completed++;
+	// 	}
+	// }
+	//estupido
+	// actualizar este valor en sig frame, anterior frame, siguiente pag, anterior pag, ir
+	let text = currentPagina + "/" + PagTotal;
+	// let text = completed + "/" + TRAK.length;
+	actualizarProgressBarCDI();
 	return $("#numTemasCompletados").html(text);
 }
 /**
@@ -461,13 +493,25 @@ function actualizaTemasTerminados() {
  */
 function actualizarProgressBar() {
 
-	let total = 100 / TRAK.length;
-	let progress = 0;
-	for (let index = 0; index < TRAK.length; index++) {
-		if (TRAK[index] > 1) {
-			progress += total;
-		}
-	}
+	// let total = 100 / TRAK.length;
+	// let progress = 0;
+	// for (let index = 0; index < TRAK.length; index++) {
+	// 	if (TRAK[index] > 1) {
+	// 		progress += total;
+	// 	}
+	// }
+	// $("#progressBar").css("width", progress + "%");
+	// $("#percent").html(progress.toFixed(0) + "%");
+}
+/**
+ * @param NA
+ * @returns void
+ * @description Actualiza la barra de progreso que se encuentra en la barraHTML basandose en el avance del trak global.
+ */
+function actualizarProgressBarCDI() {
+
+	// let total = 100 / Pag.length;
+	let progress = ((currentPagina * 100) / PagTotal);
 	$("#progressBar").css("width", progress + "%");
 	$("#percent").html(progress.toFixed(0) + "%");
 }
@@ -515,6 +559,9 @@ function setValues(ob) {
 	NombreModulos = ob.NombreModulos;
 	Modulos = ob.Modulos;
 	Evals = ob.Evaluaciones; //New implemented feature multi eval
+	for (let i = 0; i < ob.Pag.length; i++) {
+		PagTotal+=ob.Pag[i];
+	}
 }
 /**
  * @param NA
@@ -528,7 +575,7 @@ function setObject() {
 	obj.Evaluaciones[0]["MaxIntentos"] = oportunidades;  //Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
 	obj.Evaluaciones[0]["IntentoActual"] = intentoAct;  //Will be deprecated, not functional for multiple evals MUST BE AN ARRAY
 	obj.Evaluaciones[0].CalMinima = califMinima;  //Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
-	obj.Pag = Pag;
+	// obj.Pag = Pag;
 	obj.Libre = libre;
 }
 
@@ -710,10 +757,27 @@ function ir(id) {
 	// };
 	_root.IDActual = id;
 	_root.ULTIMO = id;
+
+	//calcular la pagina donde esta parado el usuario
+	recalcularPaginaActual(id);
+
 	if (debug) { console.log("IDActual: ", _root.IDActual, " ULTIMO: ", _root.ULTIMO); }
 	if (canvasContenido) {
 		reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 	}
+	actualizaTemasTerminados();
+}
+/**
+ * @param {*}newID	ID del tema que se esta cargando. 
+ * @returns void
+ * @description Recalcula la pagina actual en la que esta navegando el usuario basandose en el id del tema a cargar.
+ */
+function recalcularPaginaActual(newID){
+	let nPag = 1;
+	for (let i = 0; i < newID; i++) {
+		nPag += Pag[i];
+	}
+	currentPagina = nPag;
 }
 /**
  * @param {*}Canvas	Canvas del Tema a iniciar. 
@@ -767,7 +831,7 @@ function final_tema() {
 	habilitar_deshabilitar_btns(getBtnArray(btnSiguiente), "h", "final_tema")
 	actualizar_menuHTML(TRAK); // actualizar el menu
 	guardarDatos();
-	actualizaTemasTerminados();
+	// actualizaTemasTerminados();
 	actualizarProgressBar();
 	if (banderillas) {
 		alertas(2, "Tema Completo. Haz Clic en Siguiente para continuar.")
@@ -1397,10 +1461,12 @@ function siguiente_frame() {
 		$('#div_sim').hide();// Esconder el iframe de las evaluaciones
 		limpiarSim();// Limpiar el frame de las simulaciones
 	}
-	if (pagActual < numPags - 1) { paginaSiguiente(); } //  en este caso se avanza a la siguiente pagina 
+	if (pagActual < numPags - 1) { paginaSiguiente(); currentPagina+=1; } //  en este caso se avanza a la siguiente pagina 
 	else { siguienteTema(); } // en este caso avanza al siguiente tema 
 	// habilitar_deshabilitar_btns()
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+
+	actualizaTemasTerminados();
 }
 /**
  * @params NA
@@ -1412,9 +1478,10 @@ function anterior_frame() {
 	$('#div_sim').hide();
 	limpiarSim();
 	if (debug) { console.log("Funcion Siguiente(); " + estadoSim) }
-	if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); }// retrocede una pagina 
+	if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina-=1;}// retrocede una pagina 
 	else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+	actualizaTemasTerminados();
 }
 /**
  * @params NA
@@ -1427,6 +1494,7 @@ function paginaSiguiente() {
 	canvasContenido.gotoAndStop(pagActual);
 	guardarDatos();
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+	actualizaTemasTerminados();
 }
 /**
  * @params NA
@@ -1445,6 +1513,7 @@ function paginaAnterior() {
 	pagActual -= 1;
 	canvasContenido.gotoAndStop(pagActual);
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+	actualizaTemasTerminados();
 }
 /**
  * @params NA
@@ -1473,16 +1542,16 @@ function actualizarNavegacion(currentPage, totalPages) {
 	pagActual = currentPage; // Pagina Actual
 	numPags = totalPages; // Total de paginas del tema en curso
 }
-
+var sumaPag = 0;
 //#endregion BARRAHTML
 //-------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------
 //inicia un nuevo archivo 
 function reset_navegacion(pagin, cantPag) { // Usandose provisionalmente sera reelevada a legacy--- se validara al cambiar de pag
-	console.log("reset navegacion")
 	stopAlertas();
 	pagActual = pagin; //pagina actual del tema
 	numPags = cantPag; //cantidad total de las paginas del tema
+	
 	this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "d", "reset_navegacion");
 	if (pagActual == 0 && IDActual == 0) {
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras), "d", "reset_navegacion");
