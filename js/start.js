@@ -181,7 +181,7 @@ function mostrarTemaCompletado(texto) {
  */
 function populateMenu(jsonob) {
 	// Agregar Nombre del Curso
-	// debugger
+	// 
 	// $("#menuContainer").append("<div id='menuTitle' class='col-xs-12 menuTitle'>Menú del curso </div>");
 	let consecutivo = 0;
 	for (let index = 0; index < jsonob.Modulos.length; index++) {
@@ -559,7 +559,6 @@ function setValues(ob) {
 	NombreModulos = ob.NombreModulos;
 	Modulos = ob.Modulos;
 	Evals = ob.Evaluaciones; //New implemented feature multi eval
-	// debugger
 	for (let i = 0; i < ob.Pag.length; i++) {
 		PagTotal += ob.Pag[i];
 	}
@@ -799,7 +798,7 @@ function iniciar_tema(canvasTema) {
 		}
 		//en caso de venir desde la opcion de ultimo tema, va a la ultima pagina visitada
 		if (controlIrUltimo) {
-			// debugger
+			
 			if (debug) { console.log("llendo a la ultima pagina desde reset_navegacion"); }
 			let resp = obtenerFramePorPagina(_root.ULTIMO);
 			canvasContenido.gotoAndPlay(resp[1] - 1);
@@ -808,7 +807,7 @@ function iniciar_tema(canvasTema) {
 		//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
 		// if (controlAtras || controlIrUltimo) {
 		if (controlAtras) {
-			// debugger
+			// 
 			if (debug) { console.log("entro a control atras"); }
 			// canvasContenido.gotoAndStop(Pag[IDActual]);
 			canvasContenido.gotoAndStop(canvasContenido.timeline.duration - 1);
@@ -836,7 +835,7 @@ function obtenerFramePorPagina(pagDestino) {
 	for (let i = 0; i < obj.Pag.length; i++) {
 		sum += obj.Pag[i];
 		if (pagDestino >= antSum && pagDestino <= sum) {
-			debugger
+			
 			let ret = [];
 			ret[0] = i;
 			ret[1] = pagDestino - antSum;
@@ -1108,7 +1107,8 @@ function llamar_menuHTML() {
 
 			// Evaluar la habilitacion de los botones segun el edo.
 			let btnArray = new Array();
-			if (!EdoBtns.btnAtras && !(IDActual !== 1 && pagActual !== 1)) { btnArray.push(btnAtras); }
+			if (!EdoBtns.btnAtras && currentPagina > 1) { btnArray.push(btnAtras); }
+			// if (!EdoBtns.btnAtras && !(IDActual !== 1 && pagActual !== 1)) { btnArray.push(btnAtras); }
 			if (!EdoBtns.btnSiguiente) { btnArray.push(btnSiguiente); }
 			habilitar_deshabilitar_btns(btnArray, "h", "llamar_menu");
 
@@ -1590,7 +1590,7 @@ var sumaPag = 0;
 //inicia un nuevo archivo 
 function reset_navegacion(pagin, cantPag) { // Usandose provisionalmente sera reelevada a legacy--- se validara al cambiar de pag
 	stopAlertas();
-	// debugger
+	// 
 	pagActual = pagin; //pagina actual del tema
 	numPags = cantPag; //cantidad total de las paginas del tema
 	// if(currentPagina > 1 && IDActual > 0){
@@ -1638,7 +1638,7 @@ function cursoCompletado() {
  * @description Actualiza los indicadores y desbloquea/bloquea los botones segun el avance del TRAK.
  */
 function actualizar_menuHTML(TrakCurso) {
-	// debugger
+	// 
 	for (let i = 0; i < TrakCurso.length; i++) {
 		var element = $("#" + i).find("i");
 		var tema = $("#" + (i + 1));
