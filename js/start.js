@@ -751,6 +751,7 @@ function ir(id) {
 		console.log("ir " + id);
 	}
 	limpiarContenido();
+
 	let iframe = document.getElementById("Contenido");
 	iframe.src = Rutas[id];
 	iframe.onload = function () {
@@ -798,20 +799,20 @@ function iniciar_tema(canvasTema) {
 		}
 		//en caso de venir desde la opcion de ultimo tema, va a la ultima pagina visitada
 		if (controlIrUltimo) {
-			debugger
+			// debugger
 			if (debug) { console.log("llendo a la ultima pagina desde reset_navegacion"); }
 			let resp = obtenerFramePorPagina(_root.ULTIMO);
 			canvasContenido.gotoAndPlay(resp[1] - 1);
-			currentPagina = ULTIMO;
-			actualizaTemasTerminados();
 			controlIrUltimo = false;
 		}
 		//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
 		// if (controlAtras || controlIrUltimo) {
-		if (controlAtras || controlIrUltimo) {
+		if (controlAtras) {
+			// debugger
 			if (debug) { console.log("entro a control atras"); }
 			// canvasContenido.gotoAndStop(Pag[IDActual]);
-			canvasContenido.gotoAndStop(canvasContenido.timeline.duration);
+			canvasContenido.gotoAndStop(canvasContenido.timeline.duration - 1);
+
 			controlAtras = false;
 		}
 		// ULTIMO = IDActual;
@@ -915,6 +916,8 @@ function irUltimo() {
 	ir(resp[0]);
 	controlIrUltimo = true;
 	cerrarUltimo();
+	currentPagina = ULTIMO;
+	actualizaTemasTerminados();
 }
 /**
  * @param NA
@@ -1571,7 +1574,9 @@ function siguienteTema() {
  * */
 function temaAnterior() {
 	ir(IDActual - 1);
-	// controlAtras = true; //setear en true para al iniciar tema enviar a ultima pagina
+	controlAtras = true; //setear en true para al iniciar tema enviar a ultima pagina
+	currentPagina = ULTIMO - 1;
+	actualizaTemasTerminados();
 }
 
 function actualizarNavegacion(currentPage, totalPages) {
