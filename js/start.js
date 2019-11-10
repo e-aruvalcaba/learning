@@ -87,7 +87,7 @@ var EdoBtns = {
 var btnArray = [];
 var libre = false;
 var tl = new TimelineMax();
-var debug = false;
+var debug = true;
 var myVar = setInterval(myTimer, 20);
 
 window.onresize = function () {
@@ -181,7 +181,7 @@ function mostrarTemaCompletado(texto) {
  */
 function populateMenu(jsonob) {
 	// Agregar Nombre del Curso
-	debugger
+	// debugger
 	// $("#menuContainer").append("<div id='menuTitle' class='col-xs-12 menuTitle'>Menú del curso </div>");
 	let consecutivo = 0;
 	for (let index = 0; index < jsonob.Modulos.length; index++) {
@@ -205,27 +205,27 @@ function populateMenu(jsonob) {
 			id = consecutivo; //onclick='alert('Modulo" + (consecutivo) + "')'
 			if (j === 0) {
 				$("#temasContainer").append("<div id='" + (consecutivo + 1) + "' onclick='llamarTema(" + (consecutivo) + ")' onmouseover='rollover(" + (consecutivo + 1) + ")' onmouseout='rollout(" + (consecutivo + 1) + ")' class='col-xs-12 tituloTemaMenu'>" +
-				"<div class='col-xs-1' style='padding-top: 8px; padding-left:0px; padding-right:0px;'>" +
-				"<a>" +
-				"<i class='fas fa-circle menuIconStyle'></i>" +
-				"</a>" +
-				"</div>" +
-				"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px; padding-left:0px;'>" +
-				"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
-				"</div>" +
-				"</div>");
+					"<div class='col-xs-1' style='padding-top: 8px; padding-left:0px; padding-right:0px;'>" +
+					"<a>" +
+					"<i class='fas fa-circle menuIconStyle'></i>" +
+					"</a>" +
+					"</div>" +
+					"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px; padding-left:0px;'>" +
+					"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
+					"</div>" +
+					"</div>");
 
-			}else{
+			} else {
 				$("#temasContainer").append("<div id='" + (consecutivo + 1) + "' style='padding-left: 30px;' onclick='llamarTema(" + (consecutivo) + ")' onmouseover='rollover(" + (consecutivo + 1) + ")' onmouseout='rollout(" + (consecutivo + 1) + ")' class='col-xs-12 tituloTemaMenu'>" +
-				"<div class='col-xs-1' style='padding-top: 8px;'>" +
-				"<a>" +
-				"<i class='fas fa-circle menuIconStyle'></i>" +
-				"</a>" +
-				"</div>" +
-				"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px; padding-left:0px;'>" +
-				"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
-				"</div>" +
-				"</div>");
+					"<div class='col-xs-1' style='padding-top: 8px;'>" +
+					"<a>" +
+					"<i class='fas fa-circle menuIconStyle'></i>" +
+					"</a>" +
+					"</div>" +
+					"<div class='col-xs-8' style='color:white; margin: 0px;padding-top: 7px; padding-left:0px;'>" +
+					"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
+					"</div>" +
+					"</div>");
 
 			}
 			// $("#temasContainer").append("<div id='" + (consecutivo + 1) + "' onclick='llamarTema(" + (consecutivo) + ")' onmouseover='rollover(" + (consecutivo + 1) + ")' onmouseout='rollout(" + (consecutivo + 1) + ")' class='col-xs-12 tituloTemaMenu'>" +
@@ -559,8 +559,9 @@ function setValues(ob) {
 	NombreModulos = ob.NombreModulos;
 	Modulos = ob.Modulos;
 	Evals = ob.Evaluaciones; //New implemented feature multi eval
+	// debugger
 	for (let i = 0; i < ob.Pag.length; i++) {
-		PagTotal+=ob.Pag[i];
+		PagTotal += ob.Pag[i];
 	}
 }
 /**
@@ -732,7 +733,7 @@ function limpiarContenido() {
 		console.log("**********************limpiarContenido");
 		// console.log(contenido.src);
 	}
-	var contenido = document.getElementById("Contenido");
+	let contenido = document.getElementById("Contenido");
 	contenido.src = "*";
 }
 /**
@@ -750,13 +751,15 @@ function ir(id) {
 		console.log("ir " + id);
 	}
 	limpiarContenido();
-	var iframe = document.getElementById("Contenido");
+	let iframe = document.getElementById("Contenido");
 	iframe.src = Rutas[id];
-	// iframe.onload = function () {
-	// 	$('#div_contenido').fadeIn();
-	// };
+	iframe.onload = function () {
+		$('#div_contenido').fadeIn();
+	};
 	_root.IDActual = id;
-	_root.ULTIMO = id;
+	// if(IDActual > 0){
+	// 	_root.ULTIMO = id;
+	// }
 
 	//calcular la pagina donde esta parado el usuario
 	recalcularPaginaActual(id);
@@ -772,7 +775,7 @@ function ir(id) {
  * @returns void
  * @description Recalcula la pagina actual en la que esta navegando el usuario basandose en el id del tema a cargar.
  */
-function recalcularPaginaActual(newID){
+function recalcularPaginaActual(newID) {
 	let nPag = 1;
 	for (let i = 0; i < newID; i++) {
 		nPag += Pag[i];
@@ -793,19 +796,30 @@ function iniciar_tema(canvasTema) {
 		if (TRAK[IDActual] < 1) {
 			TRAK[IDActual] = 1;
 		}
-		//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
-		if (controlAtras || controlIrUltimo) {
-			if (debug) { console.log("entro a control atras"); }
-			canvasContenido.gotoAndStop(Pag[IDActual]);
-			controlAtras = false;
-		}
 		//en caso de venir desde la opcion de ultimo tema, va a la ultima pagina visitada
 		if (controlIrUltimo) {
+			debugger
 			if (debug) { console.log("llendo a la ultima pagina desde reset_navegacion"); }
-			canvasContenido.gotoAndStop(Pag[IDActual]);
+			let resp = obtenerFramePorPagina(_root.ULTIMO);
+			canvasContenido.gotoAndPlay(resp[1] - 1);
+			currentPagina = ULTIMO;
+			actualizaTemasTerminados();
 			controlIrUltimo = false;
 		}
-		ULTIMO = IDActual;
+		//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
+		// if (controlAtras || controlIrUltimo) {
+		if (controlAtras || controlIrUltimo) {
+			if (debug) { console.log("entro a control atras"); }
+			// canvasContenido.gotoAndStop(Pag[IDActual]);
+			canvasContenido.gotoAndStop(canvasContenido.timeline.duration);
+			controlAtras = false;
+		}
+		// ULTIMO = IDActual;
+		if (IDActual !== 0) {
+			// _root.ULTIMO = _root.IDActual; // se actualiza el ultimo tema
+			_root.ULTIMO = _root.currentPagina; // se actualiza el ultimo tema			
+		}
+
 		guardarDatos();
 		if (debug) { console.log("fin inicio tema"); }
 	} catch (error) {
@@ -813,6 +827,22 @@ function iniciar_tema(canvasTema) {
 	}
 	actualizar_menuHTML(TRAK);
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+}
+function obtenerFramePorPagina(pagDestino) {
+
+	let sum = 0;
+	let antSum = 0;
+	for (let i = 0; i < obj.Pag.length; i++) {
+		sum += obj.Pag[i];
+		if (pagDestino >= antSum && pagDestino <= sum) {
+			debugger
+			let ret = [];
+			ret[0] = i;
+			ret[1] = pagDestino - antSum;
+			return ret;
+		}
+		antSum = sum;
+	}
 }
 /**
  * @param NA
@@ -825,7 +855,11 @@ function final_tema() {
 	if (TRAK[IDActual] < 2) {
 		TRAK[IDActual] = 2;
 	}
-	_root.ULTIMO = _root.IDActual; // se actualiza el ultimo tema
+	// _root.ULTIMO = _root.IDActual; // se actualiza el ultimo tema
+	if (IDActual > 0) {
+		// _root.ULTIMO = _root.IDActual; // se actualiza el ultimo tema
+		_root.ULTIMO = _root.currentPagina; // se actualiza el ultimo tema			
+	}
 	if (debug) { console.log(_root.ULTIMO, _root.IDActual, TRAK, TRAK[_root.IDActual]); }
 	//activar boton siguiente
 	habilitar_deshabilitar_btns(getBtnArray(btnSiguiente), "h", "final_tema")
@@ -877,7 +911,9 @@ function glosarioX() {
  * @description Carga el ultimo tema visitado por el usuario
  */
 function irUltimo() {
-	ir(ULTIMO);
+	let resp = obtenerFramePorPagina(ULTIMO);
+	ir(resp[0]);
+	controlIrUltimo = true;
 	cerrarUltimo();
 }
 /**
@@ -1461,11 +1497,10 @@ function siguiente_frame() {
 		$('#div_sim').hide();// Esconder el iframe de las evaluaciones
 		limpiarSim();// Limpiar el frame de las simulaciones
 	}
-	if (pagActual < numPags - 1) { paginaSiguiente(); currentPagina+=1; } //  en este caso se avanza a la siguiente pagina 
+	if (pagActual < numPags - 1) { paginaSiguiente(); currentPagina += 1; ULTIMO = currentPagina; } //  en este caso se avanza a la siguiente pagina 
 	else { siguienteTema(); } // en este caso avanza al siguiente tema 
 	// habilitar_deshabilitar_btns()
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
-
 	actualizaTemasTerminados();
 }
 /**
@@ -1475,12 +1510,13 @@ function siguiente_frame() {
  * 
  * *///Función para retroceder frames dentro del div contenido
 function anterior_frame() {
-	$('#div_sim').hide();
-	limpiarSim();
-	if (debug) { console.log("Funcion Siguiente(); " + estadoSim) }
-	if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina-=1;}// retrocede una pagina 
+	// $('#div_sim').hide();
+	// limpiarSim();
+	// if (debug) { console.log("Funcion Siguiente(); " + estadoSim) }
+	if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina -= 1; ULTIMO = currentPagina;}// retrocede una pagina 
 	else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+	// ULTIMO = currentPagina - 1;
 	actualizaTemasTerminados();
 }
 /**
@@ -1535,7 +1571,7 @@ function siguienteTema() {
  * */
 function temaAnterior() {
 	ir(IDActual - 1);
-	controlAtras = true; //setear en true para al iniciar tema enviar a ultima pagina
+	// controlAtras = true; //setear en true para al iniciar tema enviar a ultima pagina
 }
 
 function actualizarNavegacion(currentPage, totalPages) {
@@ -1549,24 +1585,31 @@ var sumaPag = 0;
 //inicia un nuevo archivo 
 function reset_navegacion(pagin, cantPag) { // Usandose provisionalmente sera reelevada a legacy--- se validara al cambiar de pag
 	stopAlertas();
+	// debugger
 	pagActual = pagin; //pagina actual del tema
 	numPags = cantPag; //cantidad total de las paginas del tema
-	
+	// if(currentPagina > 1 && IDActual > 0){
+	// 	ULTIMO = currentPagina;
+	// }
+
 	this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "d", "reset_navegacion");
 	if (pagActual == 0 && IDActual == 0) {
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras), "d", "reset_navegacion");
 	} else {
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras), "h", "reset_navegacion");
 	}
-	if (ULTIMO > IDActual || Pag[IDActual] > pagin) {
+	// if (ULTIMO > IDActual || Pag[IDActual] > pagin) {
+	// 	this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "h", "reset_navegacion");
+	// }
+	if (ULTIMO > currentPagina || libre) {
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "h", "reset_navegacion");
 	}
 	if (backdoor) {
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras, this.btnSiguiente), "h", "reset_navegacion");
 	}
-	if (Pag[IDActual] < pagin) {
-		Pag[IDActual] = pagin;
-	}
+	// if (Pag[IDActual] < pagin) {
+	// 	Pag[IDActual] = pagin;
+	// }
 	guardarDatos();
 }
 /**

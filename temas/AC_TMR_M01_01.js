@@ -9869,13 +9869,13 @@ p.nominalBounds = new cjs.Rectangle(-149.2,-36,710.2,531.7);
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_2}]}).to({state:[{t:this.instance_3}]},1).to({state:[{t:this.instance_4}]},1).to({state:[{t:this.instance_5}]},1).to({state:[{t:this.instance_6}]},1).to({state:[{t:this.instance_7}]},1).to({state:[{t:this.instance_8}]},1).to({state:[{t:this.instance_9}]},1).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(603.6,360.2,986.4,566.1);
+p.nominalBounds = new cjs.Rectangle(438.6,250.2,986.4,566.1);
 // library properties:
 lib.properties = {
-	width: 1280,
-	height: 720,
+	width: 950,
+	height: 500,
 	fps: 24,
-	color: "#999999",
+	color: "#FFFFFF",
 	opacity: 1.00,
 	webfonts: {},
 	manifest: [
