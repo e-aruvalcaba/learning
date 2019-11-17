@@ -194,7 +194,6 @@ h1 {
 .content {
   min-height: 931px;
 }
-
 .ultimoContainer {
   /* position: absolute; */
   z-index: 9999;
@@ -555,3 +554,70 @@ h1 {
     padding-right: 0px!important;
   }
 }
+
+.temasContainer{
+  scrollbar-base-color: #222;
+  scrollbar-3dlight-color: #222;
+  scrollbar-highlight-color: #222;
+  scrollbar-track-color: #3e3e42;
+  scrollbar-arrow-color: #111;
+  scrollbar-shadow-color: #222;
+  scrollbar-dark-shadow-color: #222; 
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/*IE*/
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .scrollable {
+          margin-right: -10px;
+          padding-top: 32px;
+          margin-top: -32px;
+          margin-bottom: -32px;
+          padding-bottom: 32px;
+  
+          /* ie scrollbar color properties */
+          scrollbar-base-color: #efefef;
+          scrollbar-face-color: #666666;
+          scrollbar-3dlight-color: #666666;
+          scrollbar-highlight-color: #666666;
+          scrollbar-track-color: #efefef;
+          scrollbar-arrow-color: #666666;
+          scrollbar-shadow-color: #666666;
+          scrollbar-dark-shadow-color: #666666;
+          scrollbar-track-color:  #efefef;
+          scrollbar-3dlight-color:  #efefef;
+          scrollbar-darkshadow-color:  #efefef;
+          scrollbar-arrow-color:  #efefef;
+    }
+    
+        .scrollable:after {
+          content: "";
+          height: 32px;
+          display: block;
+      }
+      
+  }
+  
+  /*Edge*/
+  @supports (-ms-ime-align:auto)  {
+  .scrollable {
+          margin-right: -10px;
+          padding-top: 16px;
+          margin-top: -16px;
+          margin-bottom: -16px;
+          padding-bottom: 16px;
+  }
+    
+  .scrollable:after {
+      content: "";
+      height: 16px;
+      display: block;
+  }
+  }
+  
+  /*Firefox*/
+  /*From version 64 - https://drafts.csswg.org/css-scrollbars-1/*/
+  .scrollable {
+      scrollbar-width: thin;
+      scrollbar-color: #666666 #efefef;
+  }

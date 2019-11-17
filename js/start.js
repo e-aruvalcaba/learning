@@ -19,6 +19,7 @@ var NombreModulos = new Array();
 var Modulos = new Array();
 var menu_open = false;
 var bussy = false;
+var fullscreen = false;
 var Total;
 var TRAKtmp = new Array();
 var Evals = new Array();
@@ -84,7 +85,7 @@ var EdoBtns = {
 	btnHome: true,
 	barra: true
 };
-var Temaslibre = true;
+var Temaslibre = false;
 var btnArray = [];
 var libre = false;
 var tl = new TimelineMax();
@@ -92,6 +93,28 @@ var debug = false;
 var myVar = setInterval(myTimer, 20);
 
 window.onresize = function () {
+	// Parte para la funcionalidad completa en el fullscreen para todos los navegadores.
+	let maxHeight = window.screen.height,
+        maxWidth = window.screen.width,
+        curHeight = window.innerHeight,
+        curWidth = window.innerWidth;
+
+    if (maxWidth == curWidth && maxHeight >= (curHeight - 10) && maxHeight <= (curHeight + 10)) {
+		fullscreen = true;
+    }else{
+		fullscreen = false;
+	}
+
+	if (fullscreen) {
+		fullscreen = true;
+		$(".contenedor").css("width", "100%");
+	} else{
+		fullscreen = false;
+		$(".contenedor").css("width", "75%");
+	}
+
+	// Termina Parte para la funcionalidad completa en el fullscreen para todos los navegadores.
+
 	if (debug) {
 		console.log("--------------------------------------"); console.log($("#menuHTML").height());	// console.log($("#div_contenido").height());	// console.log("--------------------------------------");
 	}
@@ -103,7 +126,7 @@ window.onresize = function () {
 	$("#ultimoContainer").width($("#div_contenido").width());
 	let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 	let diff = h - $("#content").height();
-	$("#content").css("margin-top", ((diff / 2).toString() + "px"));
+	$("#content").css("margin-top", (((diff / 2)).toString() + "px"));
 }
 
 /**
@@ -366,7 +389,7 @@ function initialize() {
 	setTimeout(function () {
 		clearInterval(myVar);
 	}, 1999);
-
+	window.onresize();
 
 }
 function myTimer() {
@@ -483,7 +506,7 @@ function actualizaTemasTerminados() {
 	// }
 	//estupido
 	// actualizar este valor en sig frame, anterior frame, siguiente pag, anterior pag, ir
-	// debugger
+	// 
 	let text = currentPagina + "/" + PagTotal;
 	// let text = completed + "/" + TRAK.length;
 	actualizarProgressBarCDI();
@@ -551,6 +574,7 @@ function leeLocal() {
  * @description Establece los valores contenidos en el objeto JSON del curso que fue leido previamente del LocalStorage o el CMI SuspendData del LMS y los asigna a objetos locales para trabajarlos.
  */
 function setValues(ob) {
+	// 
 	ULTIMO = ob.Ultimo;
 	oportunidades = ob.Evaluaciones[0].MaxIntentos; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
 	intentoAct = ob.Evaluaciones[0].IntentoActual; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
@@ -567,7 +591,7 @@ function setValues(ob) {
 	NombreModulos = ob.NombreModulos;
 	Modulos = ob.Modulos;
 	Evals = ob.Evaluaciones; //New implemented feature multi eval
-	// debugger
+
 	for (let i = 0; i < ob.Pag.length; i++) {
 		PagTotal += parseInt(ob.Pag[i]);
 	}
@@ -578,6 +602,7 @@ function setValues(ob) {
  * @description Actualiza los valores al objeto JSON que fue leido al iniciar el curso desde el LOCAL STORAGE o el CMI SUSPEND DATA del LMS para volverlo a almacenar.
  */
 function setObject() {
+
 	obj.Trak = TRAK;
 	obj.Ultimo = ULTIMO;
 	obj.Evaluaciones[0]["CalActual"] = SCORE; //Will be deprecated, not functional for multiple evals::: SCORES MUST BE AN ARRAY
@@ -750,7 +775,7 @@ function limpiarContenido() {
  * @description Carga el contenido especificado por el parametro ID y lo carga en el div contenido del template.
  */
 function ir(id) {
-	debugger
+	// 
 	if (menu_open) {
 		llamar_menuHTML();
 	}
@@ -790,7 +815,7 @@ function ir(id) {
  * @description Recalcula la pagina actual en la que esta navegando el usuario basandose en el id del tema a cargar.
  */
 function recalcularPaginaActual(newID) {
-	debugger
+	// 
 	let nPag = 1;
 	for (let i = 0; i < newID; i++) {
 		nPag += parseInt(Pag[i]);
@@ -813,10 +838,10 @@ function iniciar_tema(canvasTema) {
 		}
 		//en caso de venir desde la opcion de ultimo tema, va a la ultima pagina visitada
 		if (controlIrUltimo) {
-			debugger
+			// 
 			if (debug) { console.log("llendo a la ultima pagina desde reset_navegacion"); }
 			let resp = obtenerFramePorPagina(_root.ULTIMO);
-			console.log("Frame al que navegara: "+resp[1])
+			console.log("Frame al que navegara: " + resp[1])
 			// canvasContenido.gotoAndPlay(resp[1]-1); // esto funcionaba para TMR no tengo idea
 			canvasContenido.gotoAndPlay(resp[1]);
 			controlIrUltimo = false;
@@ -824,7 +849,7 @@ function iniciar_tema(canvasTema) {
 		//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
 		// if (controlAtras || controlIrUltimo) {
 		if (controlAtras) {
-			// debugger
+			// 
 			if (debug) { console.log("entro a control atras"); }
 			// canvasContenido.gotoAndStop(Pag[IDActual]);
 			// canvasContenido.gotoAndStop(canvasContenido.timeline.duration-1); //esto funcionaba par tmr no tengo idea
@@ -848,7 +873,7 @@ function iniciar_tema(canvasTema) {
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 }
 function obtenerFramePorPagina(pagDestino) {
-	// debugger
+	// 
 	let sum = 0;
 	let antSum = 0;
 	for (let i = 0; i < obj.Pag.length; i++) {
@@ -930,7 +955,7 @@ function glosarioX() {
  * @description Carga el ultimo tema visitado por el usuario
  */
 function irUltimo() {
-	// debugger
+	// 
 	let resp = obtenerFramePorPagina(ULTIMO);
 	ir(resp[0]);
 	controlIrUltimo = true;
@@ -1116,10 +1141,12 @@ function llamar_menuHTML() {
 			TweenLite.from($("#menuHTML"), 0.3, { opacity: 0, top: '1400px' });
 			this.menu_open = true;
 			setMenuBlur(true);
+			let stateBackup = [EdoBtns.btnSiguiente, EdoBtns.btnAtras];
 
 			// Deshabilitar botones atras y siguiente.
 			habilitar_deshabilitar_btns(getBtnArray(btnAtras, btnSiguiente), "d", "llamar_menu");
-
+			EdoBtns.btnSiguiente = stateBackup[0];
+			EdoBtns.btnAtras = stateBackup[1];			
 		} else {
 			TweenLite.to($("#menuHTML"), 0.3, { opacity: 0, top: '1400px' });
 			bussy = false;// Deshabilitar el boton menu
@@ -1127,9 +1154,9 @@ function llamar_menuHTML() {
 
 			// Evaluar la habilitacion de los botones segun el edo.
 			let btnArray = new Array();
-			if (!EdoBtns.btnAtras && currentPagina > 1) { btnArray.push(btnAtras); }
+			if (EdoBtns.btnAtras && currentPagina > 1) { btnArray.push(btnAtras); }
 			// if (!EdoBtns.btnAtras && !(IDActual !== 1 && pagActual !== 1)) { btnArray.push(btnAtras); }
-			if (!EdoBtns.btnSiguiente) { btnArray.push(btnSiguiente); }
+			if (EdoBtns.btnSiguiente) { btnArray.push(btnSiguiente); }
 			habilitar_deshabilitar_btns(btnArray, "h", "llamar_menu");
 
 			setTimeout(function () {
@@ -1262,6 +1289,7 @@ function saltar_intro() {
 }
 
 window.onkeyup = function (event) {
+	// alert(event);
 	if (event.keyCode == 17) {
 		console.log("CONTROL UP");
 		validar_control = false;
@@ -1272,15 +1300,13 @@ window.onkeyup = function (event) {
 	}
 }
 
-//backdoor
-//window.onkeydown = teclas(event);
 window.onkeydown = function (event) {
 	if (event.keyCode == 17) {
-		console.log("CONTROL");
+		// console.log("CONTROL");
 		validar_control = true;
 	}
 	if (event.keyCode == 16 && validar_control == true) {
-		console.log("SHIFT");
+		// console.log("SHIFT");
 		validar_shift = true;
 	}
 	if (event.keyCode == 32 && validar_control == true && validar_shift == true) {
@@ -1405,11 +1431,15 @@ function habilitar_deshabilitar_btns(arraybtn, action, functionName) {
 	for (let index = 0; index < arraybtn.length; index++) {
 		if (action === "d") {
 			$("#" + arraybtn[index].id.toString()).addClass(name);
+			EdoBtns[arraybtn[index].id.toString()] = false;
 		} else {
 			$("#" + arraybtn[index].id.toString()).removeClass(name);
+			EdoBtns[arraybtn[index].id.toString()] = true;
 		}
 	}
-	actualizarEdoBotones();
+	console.log("Nuevo edo btns")
+	console.log(this.EdoBtns);
+	// actualizarEdoBotones();
 	if (debug) { console.log("Nuevo edo de botones: "); }
 	if (debug) { console.log(this.EdoBtns); }
 }
@@ -1428,6 +1458,21 @@ function deshabilitarSiguiente() {
 function deshabilitarAtras() {
 	habilitar_deshabilitar_btns(getBtnArray(btnAtras), "d", "deshabilitaratras");
 }
+function habilitar_deshabilitarBarra(action) {
+	switch (action) {
+		case "d":
+			habilitar_deshabilitar_btns(this.getBtnArray(this.btnAtras, this.btnSiguiente, this.btnMenu), "d", "habilitar_deshabilitarBarra");
+			break;
+		case "h":
+			habilitar_deshabilitar_btns(this.getBtnArray(this.btnAtras, this.btnSiguiente, this.btnMenu), "h", "habilitar_deshabilitarBarra");
+			break;
+
+		default:
+			habilitar_deshabilitar_btns(this.getBtnArray(this.btnAtras, this.btnSiguiente, this.btnMenu), "d", "habilitar_deshabilitarBarra");
+			break;
+	}
+}
+
 /**
  * @params NA
  * @returns void
@@ -1525,7 +1570,7 @@ function habilitar_deshabilitar_eval(action) {
  * */
 //Función para cambio de frame dentro del div contenido
 function siguiente_frame() {
-	// debugger
+	// 
 	//Para ocultar o mostrar el canvas de siguiente frame o siguiente tema
 	if ($('#div_sim').show()) {
 		$('#div_sim').hide();// Esconder el iframe de las evaluaciones
@@ -1544,7 +1589,7 @@ function siguiente_frame() {
  * 
  * *///Función para retroceder frames dentro del div contenido
 function anterior_frame() {
-	debugger
+	// 
 	// $('#div_sim').hide();
 	// limpiarSim();
 	// if (debug) { console.log("Funcion Siguiente(); " + estadoSim) }
@@ -1670,7 +1715,7 @@ function cursoCompletado() {
  * @description Actualiza los indicadores y desbloquea/bloquea los botones segun el avance del TRAK.
  */
 function actualizar_menuHTML(TrakCurso) {
-	// debugger
+	// 
 	for (let i = 0; i < TrakCurso.length; i++) {
 		var element = $("#" + i).find("i");
 		var tema = $("#" + (i + 1));
@@ -1688,7 +1733,7 @@ function actualizar_menuHTML(TrakCurso) {
 		// Actualizar el estatus de los modulos
 		// actualizarEstatusModulo(i); // de momento para el template CDI no se usara
 
-		if (TRAK[tema.attr("id") - 1] == 0) {
+		if (TRAK[tema.attr("id") - 1] == 0) { // Manejar el estilo del tema no iniciado
 			tema.addClass("tituloTemaMenuNoIniciado")
 		} else {
 			tema.removeClass("tituloTemaMenuNoIniciado")
@@ -1791,3 +1836,28 @@ function actualizar_menuHTML(TrakCurso) {
 		return nModulo;
 	}
 }
+
+// FULLSCREEM
+// function isFullscreen(){ return 1 >= outerHeight - innerHeight };
+
+// if(isFullscreen()){
+// 	console.log("ESTAS EN FULLSCREEN")
+// }
+
+//  this.fullScreenMode = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+//     console.log("initial fullScreenMode: " + this.fullScreenMode);
+
+//     $(document).on("webkitfullscreenchange", function() { //mozfullscreenchange fullscreenchange
+//         console.log('fullscreenchange Event fired');
+//         this.fullScreenMode = !this.fullScreenMode; 
+//         console.log('fullScreenMode: ' + this.fullScreenMode);
+
+//         if (!this.fullScreenMode) {
+//             console.log('we are not in fullscreen, do stuff');
+            
+//         }
+//     });
+
+// 	$(document).on("keypress", function(){
+// 		alert("asdas")
+// 	});
