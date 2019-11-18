@@ -11,9 +11,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="authoring-tool" content="Adobe_Animate_CC">
-<title>AC_IMCR_OV_26</title>
+<title>AC_IMCR_OV_12</title>
 <!-- write your code here -->
-<script src="evalConfig.js"></script>
+<script src="js/libs/createjs-2015.11.26.min.js"></script>
 <style>
   #animation_container {
 	position:absolute;
@@ -23,8 +23,7 @@
 </style>
 <!-- 
 <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script> -->
-<script src="js/libs/createjs-2015.11.26.min.js"></script>
-<script src="AC_IMCR_OV_26.js?1574056967411"></script>
+<script src="AC_IMCR_OV_12.js?1574011017394"></script>
 <script>
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
 function init() {
@@ -47,10 +46,9 @@ function handleComplete(evt) {
 	for(i=0; i<ssMetadata.length; i++) {
 		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
 	}
-	exportRoot = new lib.AC_IMCR_OV_26();
+	exportRoot = new lib.AC_IMCR_OV_12();
 	stage = new createjs.Stage(canvas);
-	stage.addChild(exportRoot);
-	stage.enableMouseOver();	
+	stage.addChild(exportRoot);	
 	//Registers the "tick" event listener.
 	fnStartAnimation = function() {
 		createjs.Ticker.setFPS(lib.properties.fps);

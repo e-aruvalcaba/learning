@@ -7,7 +7,7 @@ Notas:
 */
 //Variables Globales
 window.start = this;
-var NombreCurso = "ARCA_CONTINENTAL_TMR_ANIMATECC";
+var NombreCurso = "ARCA_CONTINENTAL_OVERVIEW_ANIMATECC";
 var termino = false;
 var banderillas = false;
 var Rutas = new Array();
@@ -23,6 +23,7 @@ var fullscreen = false;
 var Total;
 var TRAKtmp = new Array();
 var Evals = new Array();
+var EvalInProgress = false;
 var ULTIMO = null;
 var ONLINE = false;
 var xmlGlosario = "xml/glosario.xml"
@@ -95,20 +96,20 @@ var myVar = setInterval(myTimer, 20);
 window.onresize = function () {
 	// Parte para la funcionalidad completa en el fullscreen para todos los navegadores.
 	let maxHeight = window.screen.height,
-        maxWidth = window.screen.width,
-        curHeight = window.innerHeight,
-        curWidth = window.innerWidth;
+		maxWidth = window.screen.width,
+		curHeight = window.innerHeight,
+		curWidth = window.innerWidth;
 
-    if (maxWidth == curWidth && maxHeight >= (curHeight - 10) && maxHeight <= (curHeight + 10)) {
+	if (maxWidth == curWidth && maxHeight >= (curHeight - 10) && maxHeight <= (curHeight + 10)) {
 		fullscreen = true;
-    }else{
+	} else {
 		fullscreen = false;
 	}
 
 	if (fullscreen) {
 		fullscreen = true;
 		$(".contenedor").css("width", "100%");
-	} else{
+	} else {
 		fullscreen = false;
 		$(".contenedor").css("width", "75%");
 	}
@@ -574,7 +575,7 @@ function leeLocal() {
  * @description Establece los valores contenidos en el objeto JSON del curso que fue leido previamente del LocalStorage o el CMI SuspendData del LMS y los asigna a objetos locales para trabajarlos.
  */
 function setValues(ob) {
-	// 
+
 	ULTIMO = ob.Ultimo;
 	oportunidades = ob.Evaluaciones[0].MaxIntentos; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
 	intentoAct = ob.Evaluaciones[0].IntentoActual; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
@@ -829,6 +830,7 @@ function recalcularPaginaActual(newID) {
  */
 function iniciar_tema(canvasTema) {
 	try {
+		let resp = obtenerFramePorPagina(_root.ULTIMO);
 		if (debug) { console.log("inicio_tema", _root.IDActual); }
 		getCanvas(canvasTema);
 		actualizarNavegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
@@ -838,24 +840,33 @@ function iniciar_tema(canvasTema) {
 		}
 		//en caso de venir desde la opcion de ultimo tema, va a la ultima pagina visitada
 		if (controlIrUltimo) {
-			// 
+			debugger
 			if (debug) { console.log("llendo a la ultima pagina desde reset_navegacion"); }
-			let resp = obtenerFramePorPagina(_root.ULTIMO);
+			
 			console.log("Frame al que navegara: " + resp[1])
 			// canvasContenido.gotoAndPlay(resp[1]-1); // esto funcionaba para TMR no tengo idea
-			canvasContenido.gotoAndPlay(resp[1]);
+			if(resp[0] === 25){
+				EvalInProgress = true;
+			}
+			if (!EvalInProgress) {
+				canvasContenido.gotoAndPlay(resp[1]);
+			}
 			controlIrUltimo = false;
 		}
 		//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
 		// if (controlAtras || controlIrUltimo) {
 		if (controlAtras) {
-			// 
+			debugger
 			if (debug) { console.log("entro a control atras"); }
 			// canvasContenido.gotoAndStop(Pag[IDActual]);
 			// canvasContenido.gotoAndStop(canvasContenido.timeline.duration-1); //esto funcionaba par tmr no tengo idea
 			let frame = canvasContenido.timeline.duration;
-			canvasContenido.gotoAndPlay(frame);
-
+			if(resp[0] === 25){
+				EvalInProgress = true;
+			}
+			if (!EvalInProgress) {
+				canvasContenido.gotoAndPlay(frame);
+			}
 			controlAtras = false;
 		}
 		// ULTIMO = IDActual;
@@ -1146,7 +1157,7 @@ function llamar_menuHTML() {
 			// Deshabilitar botones atras y siguiente.
 			habilitar_deshabilitar_btns(getBtnArray(btnAtras, btnSiguiente), "d", "llamar_menu");
 			EdoBtns.btnSiguiente = stateBackup[0];
-			EdoBtns.btnAtras = stateBackup[1];			
+			EdoBtns.btnAtras = stateBackup[1];
 		} else {
 			TweenLite.to($("#menuHTML"), 0.3, { opacity: 0, top: '1400px' });
 			bussy = false;// Deshabilitar el boton menu
@@ -1437,8 +1448,8 @@ function habilitar_deshabilitar_btns(arraybtn, action, functionName) {
 			EdoBtns[arraybtn[index].id.toString()] = true;
 		}
 	}
-	console.log("Nuevo edo btns")
-	console.log(this.EdoBtns);
+	// console.log("Nuevo edo btns")
+	// console.log(this.EdoBtns);
 	// actualizarEdoBotones();
 	if (debug) { console.log("Nuevo edo de botones: "); }
 	if (debug) { console.log(this.EdoBtns); }
@@ -1576,8 +1587,14 @@ function siguiente_frame() {
 		$('#div_sim').hide();// Esconder el iframe de las evaluaciones
 		limpiarSim();// Limpiar el frame de las simulaciones
 	}
-	if (pagActual < numPags - 1) { paginaSiguiente(); currentPagina += 1; ULTIMO = currentPagina; } //  en este caso se avanza a la siguiente pagina 
-	else { siguienteTema(); } // en este caso avanza al siguiente tema 
+	debugger
+	if (!EvalInProgress) {
+		if (pagActual < numPags - 1) { paginaSiguiente(); currentPagina += 1; ULTIMO = currentPagina; } //  en este caso se avanza a la siguiente pagina 
+		else { siguienteTema(); } // en este caso avanza al siguiente tema 
+	} else {
+		siguienteTema();
+		EvalInProgress = false;
+	}
 	// habilitar_deshabilitar_btns()
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 	actualizaTemasTerminados();
@@ -1593,8 +1610,16 @@ function anterior_frame() {
 	// $('#div_sim').hide();
 	// limpiarSim();
 	// if (debug) { console.log("Funcion Siguiente(); " + estadoSim) }
-	if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina -= 1; ULTIMO = currentPagina; }// retrocede una pagina 
-	else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 
+	debugger
+	if (!EvalInProgress) {
+		if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina -= 1; ULTIMO = currentPagina; }// retrocede una pagina 
+		else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 	 
+	} else {
+		temaAnterior();
+		EvalInProgress = false;
+	}
+	// if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina -= 1; ULTIMO = currentPagina; }// retrocede una pagina 
+	// else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 	// ULTIMO = currentPagina - 1;
 	actualizaTemasTerminados();
@@ -1854,7 +1879,7 @@ function actualizar_menuHTML(TrakCurso) {
 
 //         if (!this.fullScreenMode) {
 //             console.log('we are not in fullscreen, do stuff');
-            
+
 //         }
 //     });
 
