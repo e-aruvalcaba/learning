@@ -174,7 +174,7 @@ p.nominalBounds = new cjs.Rectangle(86.1,86.1,35.7,35.7);
 	// Capa 4
 	this.instance = new lib.animaciontitulo();
 	this.instance.parent = this;
-	this.instance.setTransform(750.5,334,0.8,0.8);
+	this.instance.setTransform(750.5,294,0.8,0.8);
 	this.instance._off = true;
 
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(21).to({_off:false},0).wait(20));
@@ -257,7 +257,7 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/Mapadebits6.png?1573406534259", id:"Mapadebits6"}
+		{src:"images/Mapadebits6.png?1574008915235", id:"Mapadebits6"}
 	],
 	preloads: []
 };

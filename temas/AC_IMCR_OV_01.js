@@ -8,8 +8,8 @@ lib.ssMetadata = [];
 
 
 
-(lib.Mapadebits3 = function() {
-	this.initialize(img.Mapadebits3);
+(lib.Mapadebitsinicio = function() {
+	this.initialize(img.Mapadebitsinicio);
 }).prototype = p = new cjs.Bitmap();
 p.nominalBounds = new cjs.Rectangle(0,0,646,399);// helper functions:
 
@@ -50,7 +50,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.instance = new lib.Mapadebits3();
+	this.instance = new lib.Mapadebitsinicio();
 	this.instance.parent = this;
 	this.instance.setTransform(-77,-122,1.857,1.857);
 
@@ -233,12 +233,12 @@ p.nominalBounds = new cjs.Rectangle(71.1,0,76.1,70.3);
 	this.initialize(mode,startPosition,loop,{});
 
 	// timeline functions:
-	this.frame_36 = function() {
+	this.frame_31 = function() {
 		this.stop();
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).wait(36).call(this.frame_36).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).wait(31).call(this.frame_31).wait(1));
 
 	// Capa 2
 	this.instance = new lib.imag01();
@@ -247,7 +247,7 @@ p.nominalBounds = new cjs.Rectangle(71.1,0,76.1,70.3);
 	this.instance.alpha = 0;
 	this.instance._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(17).to({_off:false},0).to({scaleX:1,scaleY:1,alpha:1},14,cjs.Ease.get(1)).wait(6));
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(12).to({_off:false},0).to({scaleX:1,scaleY:1,alpha:1},14,cjs.Ease.get(1)).wait(6));
 
 	// Capa 1
 	this.instance_1 = new lib.text01();
@@ -255,7 +255,7 @@ p.nominalBounds = new cjs.Rectangle(71.1,0,76.1,70.3);
 	this.instance_1.setTransform(257.9,241.3,1.133,1.133,0,0,0,257.9,241.3);
 	this.instance_1.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(5).to({scaleX:1,scaleY:1,alpha:1},19,cjs.Ease.get(1)).wait(13));
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({scaleX:1,scaleY:1,alpha:1},19,cjs.Ease.get(1)).wait(13));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(-121.4,-170.2,1358.5,839.2);
@@ -327,7 +327,7 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/Mapadebits3.png?1573233190560", id:"Mapadebits3"}
+		{src:"images/Mapadebitsinicio.png?1574190946626", id:"Mapadebitsinicio"}
 	],
 	preloads: []
 };

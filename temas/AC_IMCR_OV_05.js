@@ -44,36 +44,36 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("\nEl programa de Manejo de Incidentes y Resolución de Crisis (IMCR) está encaminado a construir y mantener una capacidad sólida para proteger los bienes tangibles e intangibles del negocio.", "18px 'Arial'");
+	this.text = new cjs.Text("\nEl programa de Manejo de Incidentes y Resolución de Crisis (IMCR) está encaminado a construir y mantener la capacidad sólida para proteger los bienes tangibles e intangibles del negocio.", "18px 'Arial'");
 	this.text.lineHeight = 22;
 	this.text.lineWidth = 391;
 	this.text.parent = this;
-	this.text.setTransform(2,26.4);
+	this.text.setTransform(2,-13.6);
 
 	this.shape = new cjs.Shape();
 	this.shape.graphics.f("rgba(255,255,255,0.8)").s().rr(-216.7,-116.7,433.4,233.4,12);
-	this.shape.setTransform(197.1,96.5);
+	this.shape.setTransform(197.1,56.5);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.text}]}).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.text02, new cjs.Rectangle(-19.6,-20.2,433.4,233.4), null);
+}).prototype = getMCSymbolPrototype(lib.text02, new cjs.Rectangle(-19.6,-60.2,433.4,233.4), null);
 
 
 (lib.text01 = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("\nBuscamos identificar, evaluar y evitar que sucedan incidentes potenciales; y si llegan a suceder, evitar o reducir el impacto en el negocio.", "18px 'Arial'");
+	this.text = new cjs.Text("Por ello, es muy importante identificar, evaluar y evitar que sucedan incidentes potenciales y, si llegan a suceder, evitar o reducir el impacto en el negocio.", "18px 'Arial'");
 	this.text.lineHeight = 22;
 	this.text.lineWidth = 391;
 	this.text.parent = this;
-	this.text.setTransform(2,59.4);
+	this.text.setTransform(2,83.4);
 
-	this.text_1 = new cjs.Text("“Los incidentes son una parte inevitable de cualquier negocio”\n", "bold 18px 'Arial'");
-	this.text_1.lineHeight = 22;
+	this.text_1 = new cjs.Text("“Los incidentes son una realidad inevitable en cualquier negocio”\n", "bold 20px 'Arial'");
+	this.text_1.lineHeight = 24;
 	this.text_1.lineWidth = 388;
 	this.text_1.parent = this;
-	this.text_1.setTransform(2,2);
+	this.text_1.setTransform(2,10);
 
 	this.shape = new cjs.Shape();
 	this.shape.graphics.f("rgba(255,255,255,0.8)").s().rr(-216.7,-116.7,433.4,233.4,12);
@@ -81,7 +81,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.text_1},{t:this.text}]}).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.text01, new cjs.Rectangle(-19.6,-20.2,433.4,233.4), null);
+}).prototype = getMCSymbolPrototype(lib.text01, new cjs.Rectangle(-19.6,-20.2,433.4,236.2), null);
 
 
 (lib.imag01 = function(mode,startPosition,loop) {
@@ -238,13 +238,9 @@ p.nominalBounds = new cjs.Rectangle(32.2,32.4,4,4);
 	this.shape.graphics.f().s("#666666").ss(2,2,1,3,true).p("ABEgfIhEBDIhDhD");
 	this.shape.setTransform(-25.9,55.4);
 
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#FF3300").ss(3,1,1,3,true).p("ADeAAQAABchBBBQhBBBhcAAQhbAAhBhBQhBhBAAhcQAAhbBBhBQBBhBBbAAQBcAABBBBQBBBBAABbg");
-	this.shape_1.setTransform(-25.3,5.4);
+	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).wait(1));
-
-}).prototype = getMCSymbolPrototype(lib.T3_btn_activo_1_linea, new cjs.Rectangle(-49,-18.3,47.4,78.7), null);
+}).prototype = getMCSymbolPrototype(lib.T3_btn_activo_1_linea, new cjs.Rectangle(-34.2,50.8,16.5,9.6), null);
 
 
 (lib.T1_cuadrotransicion_mc = function(mode,startPosition,loop) {
@@ -488,8 +484,7 @@ p.nominalBounds = new cjs.Rectangle(-0.3,-0.5,28.3,46);
 
 	// timeline functions:
 	this.frame_0 = function() {
-		/* stop();
-		*/
+		this.stop();
 	}
 
 	// actions tween:
@@ -527,7 +522,7 @@ p.nominalBounds = new cjs.Rectangle(-0.1,0,73.2,68.6);
 
 	// visitado
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#66CC00").s().p("AgTAUQgIgJAAgLQAAgLAIgIQAJgIAKAAQALAAAIAIQAJAIgBALQABALgJAJQgIAIgLAAQgKAAgJgIg");
+	this.shape.graphics.f("rgba(102,204,0,0.008)").s().p("AgTAUQgIgJAAgLQAAgLAIgIQAJgIAKAAQALAAAIAIQAJAIgBALQABALgJAJQgIAIgLAAQgKAAgJgIg");
 	this.shape.setTransform(43.8,6.8);
 	this.shape._off = true;
 
@@ -555,7 +550,7 @@ p.nominalBounds = new cjs.Rectangle(-0.1,0,73.2,68.6);
 	this.timeline.addTween(cjs.Tween.get(this.rollo_mc).wait(2));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-1.3,-1.7,49.4,78.6);
+p.nominalBounds = new cjs.Rectangle(-0.5,-0.5,48.6,77.4);
 
 
 (lib.T1_Ventana_con_sus_contenidos_MC = function(mode,startPosition,loop) {
@@ -632,33 +627,30 @@ p.nominalBounds = new cjs.Rectangle(-1.3,-1.7,49.4,78.6);
 	this.instance.parent = this;
 	this.instance.setTransform(-285.1,199.9,1,1,0,0,0,19.5,19.5);
 
-	this.text = new cjs.Text("●\n●\n●\n●\n●\n●\n●", "16px 'Arial'");
+	this.text = new cjs.Text("● Productos\n● Personal\n● Infraestructura\n● Información\n● Finanzas", "16px 'Arial'");
 	this.text.lineHeight = 18;
-	this.text.lineWidth = 25;
+	this.text.lineWidth = 259;
 	this.text.parent = this;
-	this.text.setTransform(-326.7,193.3);
+	this.text.setTransform(-328.2,193.3);
 
-	this.text_1 = new cjs.Text("Productos\nPersonal\nInfraestructura\nInformación\nFinanzas", "16px 'Arial'", "#333333");
+	this.text_1 = new cjs.Text("Bienes tangibles:", "bold 16px 'Arial'", "#333333");
 	this.text_1.lineHeight = 19;
-	this.text_1.lineWidth = 259;
+	this.text_1.lineWidth = 199;
 	this.text_1.parent = this;
-	this.text_1.setTransform(-311.7,193.3);
+	this.text_1.setTransform(-326.7,145.3);
 
-	this.text_2 = new cjs.Text("Bienes tangibles:", "bold 16px 'Arial'", "#333333");
-	this.text_2.lineHeight = 19;
-	this.text_2.lineWidth = 199;
-	this.text_2.parent = this;
-	this.text_2.setTransform(-326.7,145.3);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance}]}).to({state:[{t:this.text_2,p:{text:"Bienes tangibles:"}},{t:this.text_1,p:{text:"Productos\nPersonal\nInfraestructura\nInformación\nFinanzas"}},{t:this.text,p:{text:"●\n●\n●\n●\n●\n●\n●"}}]},1).to({state:[{t:this.text_2,p:{text:"Bienes intangibles:"}},{t:this.text_1,p:{text:"Imagen\nReputación"}},{t:this.text,p:{text:"●\n●"}}]},1).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance}]}).to({state:[{t:this.text_1,p:{text:"Bienes tangibles:"}},{t:this.text,p:{x:-328.2,text:"● Productos\n● Personal\n● Infraestructura\n● Información\n● Finanzas"}}]},1).to({state:[{t:this.text_1,p:{text:"Bienes intangibles:"}},{t:this.text,p:{x:-326.7,text:"● Imagen\n● Reputación"}}]},1).wait(1));
 
 	// Sólo ventana
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#F3F3F3").s().p("A4SaaMAAAg0zMAwlAAAMAAAA0zg");
-	this.shape_1.setTransform(-193.6,286.2);
-	this.shape_1._off = true;
+	this.shape_1.graphics.f("#F5B436").s().p("A3HA5QADhxB2gBMAqeAAAQB1ABACBxg");
+	this.shape_1.setTransform(-199.9,127.6);
 
-	this.timeline.addTween(cjs.Tween.get(this.shape_1).wait(1).to({_off:false},0).wait(2));
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f("#E9E9E9").s().p("A1OQcQh5AAAAh4IAA+6IAAgFMAuOAAAIAAAFIAAe6QABB4h4AAg");
+	this.shape_2.setTransform(-199.9,238.5);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.shape_2},{t:this.shape_1}]},1).wait(2));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(-414.6,-48.6,134.1,391);
@@ -688,10 +680,6 @@ p.nominalBounds = new cjs.Rectangle(-414.6,-48.6,134.1,391);
 		var root = this;
 		quitaActivos();
 		var Secuencial = true;
-		if (parent.IDActual < parent.ULTIMO || parent.backdoor) {
-			console.log("es una pagina ya vista, contenido desbloqueado");
-			Secuencial = false;
-		}
 		// Para hacer que los botones sean secuenciales:
 		if (Secuencial) {
 			EnSecuencia();
@@ -716,8 +704,13 @@ p.nominalBounds = new cjs.Rectangle(-414.6,-48.6,134.1,391);
 				root["b" + (n + 1)].resalte.alpha = 100;
 				console.log("saca resalte al siguiente");
 			}
-			console.log("saca resaltes al actual");
-			root["b" + n].resalte.alpha = 0;
+			try {
+				console.log("saca resaltes al actual");
+				root["b" + n].resalte.alpha = 0;
+			} catch (error) {
+		
+			}
+		
 		}
 		
 		function TodasVistas() {
@@ -880,7 +873,7 @@ p.nominalBounds = new cjs.Rectangle(-414.6,-48.6,134.1,391);
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_1},{t:this.instance},{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.text_1},{t:this.text}]}).wait(2));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-141,34.8,348.2,398.3);
+p.nominalBounds = new cjs.Rectangle(-141,36.3,348.2,396.9);
 
 
 (lib.barratitulotema = function(mode,startPosition,loop) {
@@ -958,6 +951,7 @@ p.nominalBounds = new cjs.Rectangle(-187.4,-162.5,1441.8,896);
 		this.stop();
 		try{
 			parent.iniciar_tema(this);
+			parent.habilitarSiguiente();
 		}catch(err){
 			console.log(" El tema esta corriendo stand alone. INICIO TEMA ")
 		}
@@ -969,7 +963,7 @@ p.nominalBounds = new cjs.Rectangle(-187.4,-162.5,1441.8,896);
 		utiliza la siguiente funcion reemplazando seconds en la cantidad de segundos:
 		parent.retrasar_habilitar_siguiente(seconds);
 		*/
-		//parent.habilitarSiguiente();
+		
 		
 		
 		/* Para marcar tema completado :
@@ -977,11 +971,7 @@ p.nominalBounds = new cjs.Rectangle(-187.4,-162.5,1441.8,896);
 		banderillas tambien muestra la banderilla de final tema.
 		*/
 		
-		try{
-			parent.final_tema();
-		}catch(err){
-			console.log(" El tema esta corriendo stand alone. FINAL TEMA")
-		}
+		
 		
 		/*
 		Si necesitas utilizar la funcion final tema retrasandola con ciertos segundos
@@ -991,44 +981,7 @@ p.nominalBounds = new cjs.Rectangle(-187.4,-162.5,1441.8,896);
 		*/
 	}
 	this.frame_1 = function() {
-		/*Iniciar Tema:
-		Esta instruccion marca el tema como INICIADO en el trak y ademas envia el 
-		canvas al template, es INDISPENSABLE!!!
-		*/
 		this.stop();
-		try{
-			parent.iniciar_tema(this);
-		}catch(err){
-			console.log(" El tema esta corriendo stand alone. INICIO TEMA ")
-		}
-		/* Para habilitar el boton siguiente
-		Esta instruccion solo habilita el boton siguiente y si estan activadas las 
-		banderillas muestra la banderilla naranja de siguiente tema.
-		
-		Si necesitas habilitar el siguiente con un retraso en ciertos segundos
-		utiliza la siguiente funcion reemplazando seconds en la cantidad de segundos:
-		parent.retrasar_habilitar_siguiente(seconds);
-		*/
-		//parent.habilitarSiguiente();
-		
-		
-		/* Para marcar tema completado :
-		Esta instruccion tambien habilita el boton siguiente y si estan activadas las
-		banderillas tambien muestra la banderilla de final tema.
-		
-		
-		try{
-			parent.final_tema();
-		}catch(err){
-			console.log(" El tema esta corriendo stand alone. FINAL TEMA")
-		}
-		
-		/*
-		Si necesitas utilizar la funcion final tema retrasandola con ciertos segundos
-		utiliza la siguiente funcion en lugar de la anterior reemplazando la palabra
-		seconds por la cantidad de segundos a esperar:
-		parent.retrasar_final_tema(seconds);
-		*/
 	}
 
 	// actions tween:
@@ -1062,7 +1015,7 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/AC_IMCR_OV_05_atlas_.png?1573347703676", id:"AC_IMCR_OV_05_atlas_"}
+		{src:"images/AC_IMCR_OV_05_atlas_.png?1574208410687", id:"AC_IMCR_OV_05_atlas_"}
 	],
 	preloads: []
 };

@@ -24,7 +24,8 @@ var Total;
 var TRAKtmp = new Array();
 var Evals = new Array();
 var EvalInProgress = false;
-var ULTIMO = null;
+var ULTIMO = 0;
+var Avance = 0;
 var ONLINE = false;
 var xmlGlosario = "xml/glosario.xml"
 var IDActual = 0;
@@ -131,7 +132,6 @@ window.onresize = function () {
 }
 
 /**
- * 
  * @param {*} tipo Tipo de alerta. {1} para mensaje siguiente. {2} para mensaje tema terminado.
  * @param {*} texto Texto que contendra la alerta al mostrarse.
  * @returns Void
@@ -252,7 +252,6 @@ function populateMenu(jsonob) {
 					"<p class='reset' style='float: left; padding-top: 3px; padding-left: 0px; pointer-events:none; text-align:left'>" + jsonob.Modulos[index]['Mod' + (index + 1)][j] + "</p>" +
 					"</div>" +
 					"</div>");
-
 			}
 			// $("#temasContainer").append("<div id='" + (consecutivo + 1) + "' onclick='llamarTema(" + (consecutivo) + ")' onmouseover='rollover(" + (consecutivo + 1) + ")' onmouseout='rollout(" + (consecutivo + 1) + ")' class='col-xs-12 tituloTemaMenu'>" +
 			// 	"<div class='col-xs-1' style='padding-top: 8px'>" +
@@ -484,7 +483,7 @@ function initConfig(jsonob) {
 	initbarra(jsonob);
 	$("#NombreDelCurso").html(jsonob.NombreCurso);
 
-	if (ULTIMO > 0 || (ULTIMO === 0 && TRAK[0] == 2)) {
+	if (ULTIMO > 1 || (ULTIMO === 1 && TRAK[0] == 2)) {
 		mostrarUltimo();
 	}
 }
@@ -498,18 +497,7 @@ function llamarRetros() {
  * @description Actualiza el texto de la barraHTML que muestra el total de temas completados / total temas del curso
  */
 function actualizaTemasTerminados() {
-	// let completed = 0;
-	// for (let index = 0; index < TRAK.length; index++) {
-	// 	// completed = TRAK[index] > 1 ? completed++ : completed;
-	// 	if (TRAK[index] > 1) {
-	// 		completed++;
-	// 	}
-	// }
-	//estupido
-	// actualizar este valor en sig frame, anterior frame, siguiente pag, anterior pag, ir
-	// 
 	let text = currentPagina + "/" + PagTotal;
-	// let text = completed + "/" + TRAK.length;
 	actualizarProgressBarCDI();
 	return $("#numTemasCompletados").html(text);
 }
@@ -536,8 +524,6 @@ function actualizarProgressBar() {
  * @description Actualiza la barra de progreso que se encuentra en la barraHTML basandose en el avance del trak global.
  */
 function actualizarProgressBarCDI() {
-
-	// let total = 100 / Pag.length;
 	let progress = ((currentPagina * 100) / PagTotal);
 	$("#progressBar").css("width", progress + "%");
 	$("#percent").html(progress.toFixed(0) + "%");
@@ -575,8 +561,8 @@ function leeLocal() {
  * @description Establece los valores contenidos en el objeto JSON del curso que fue leido previamente del LocalStorage o el CMI SuspendData del LMS y los asigna a objetos locales para trabajarlos.
  */
 function setValues(ob) {
-
 	ULTIMO = ob.Ultimo;
+	Avance = ob.Avance;
 	oportunidades = ob.Evaluaciones[0].MaxIntentos; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
 	intentoAct = ob.Evaluaciones[0].IntentoActual; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
 	SCORE = ob.Evaluaciones[0].CalActual; // Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
@@ -595,7 +581,7 @@ function setValues(ob) {
 
 	for (let i = 0; i < ob.Pag.length; i++) {
 		PagTotal += parseInt(ob.Pag[i]);
-	}
+	}	
 }
 /**
  * @param NA
@@ -610,8 +596,8 @@ function setObject() {
 	obj.Evaluaciones[0]["MaxIntentos"] = oportunidades;  //Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
 	obj.Evaluaciones[0]["IntentoActual"] = intentoAct;  //Will be deprecated, not functional for multiple evals MUST BE AN ARRAY
 	obj.Evaluaciones[0].CalMinima = califMinima;  //Will be deprecated, not functional for multiple evals MUS BE AN ARRAY
-	// obj.Pag = Pag;
 	obj.Libre = libre;
+	obj.Avance = Avance;
 }
 
 /**
@@ -829,59 +815,68 @@ function recalcularPaginaActual(newID) {
  * @description Ejecuta las funciones necesarias para registrar el inicio de un tema. Colocar esta funcion en el primer frame de cada tema.
  */
 function iniciar_tema(canvasTema) {
+	
+	let reset = true; //valida si el usuario esta entrando el 
 	try {
 		let resp = obtenerFramePorPagina(_root.ULTIMO);
 		if (debug) { console.log("inicio_tema", _root.IDActual); }
 		getCanvas(canvasTema);
-		actualizarNavegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 		//se cambia el estado del tema a 1 lo que significa "tema iniciado"
 		if (TRAK[IDActual] < 1) {
 			TRAK[IDActual] = 1;
 		}
 		//en caso de venir desde la opcion de ultimo tema, va a la ultima pagina visitada
 		if (controlIrUltimo) {
-			debugger
 			if (debug) { console.log("llendo a la ultima pagina desde reset_navegacion"); }
-			
 			console.log("Frame al que navegara: " + resp[1])
 			// canvasContenido.gotoAndPlay(resp[1]-1); // esto funcionaba para TMR no tengo idea
-			if(resp[0] === 25){
+			if (resp[0] === 25) { //25 xk es el id de la evaluacion no la pagina
 				EvalInProgress = true;
 			}
 			if (!EvalInProgress) {
-				canvasContenido.gotoAndPlay(resp[1]);
+				canvasContenido.gotoAndStop(resp[1] - 1);
+				reset_navegacion(resp[1] - 1, canvasContenido.timeline.duration);
+				reset = false;
 			}
 			controlIrUltimo = false;
 		}
 		//si entra desde un tema adelante con el boton de atras o desde la opcion de ultimo tema ...lo manda a la ultima pagina
 		// if (controlAtras || controlIrUltimo) {
 		if (controlAtras) {
-			debugger
+
 			if (debug) { console.log("entro a control atras"); }
 			// canvasContenido.gotoAndStop(Pag[IDActual]);
 			// canvasContenido.gotoAndStop(canvasContenido.timeline.duration-1); //esto funcionaba par tmr no tengo idea
 			let frame = canvasContenido.timeline.duration;
-			if(resp[0] === 25){
+			if (resp[0] === 26) {
 				EvalInProgress = true;
 			}
-			if (!EvalInProgress) {
-				canvasContenido.gotoAndPlay(frame);
+			if (EvalInProgress == false) {
+				canvasContenido.gotoAndPlay(frame - 1);
 			}
 			controlAtras = false;
+		}
+		if(_root.ULTIMO >= _root.currentPagina){
+			habilitar_deshabilitar_btns(getBtnArray(btnSiguiente), "h","iniciar_tema");
 		}
 		// ULTIMO = IDActual;
 		if (IDActual !== 0) {
 			// _root.ULTIMO = _root.IDActual; // se actualiza el ultimo tema
 			_root.ULTIMO = _root.currentPagina; // se actualiza el ultimo tema			
 		}
-
+		_root.Avance = _root.currentPagina > _root.Avance ? _root.currentPagina : _root.Avance;
+		// actualizarNavegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 		guardarDatos();
 		if (debug) { console.log("fin inicio tema"); }
+	
 	} catch (error) {
 		if (debug) { console.warn("Error iniciando tema: " + error); }
 	}
 	actualizar_menuHTML(TRAK);
-	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+	
+	if(reset){
+		reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+	}
 }
 function obtenerFramePorPagina(pagDestino) {
 	// 
@@ -910,17 +905,15 @@ function final_tema() {
 	if (TRAK[IDActual] < 2) {
 		TRAK[IDActual] = 2;
 	}
-	// _root.ULTIMO = _root.IDActual; // se actualiza el ultimo tema
 	if (IDActual > 0) {
-		// _root.ULTIMO = _root.IDActual; // se actualiza el ultimo tema
-		_root.ULTIMO = _root.currentPagina; // se actualiza el ultimo tema			
+		_root.ULTIMO = _root.currentPagina; // se actualiza el ultimo tema
 	}
+	_root.Avance = _root.currentPagina > _root.Avance ? _root.currentPagina : _root.Avance;
 	if (debug) { console.log(_root.ULTIMO, _root.IDActual, TRAK, TRAK[_root.IDActual]); }
 	//activar boton siguiente
 	habilitar_deshabilitar_btns(getBtnArray(btnSiguiente), "h", "final_tema")
 	actualizar_menuHTML(TRAK); // actualizar el menu
 	guardarDatos();
-	// actualizaTemasTerminados();
 	actualizarProgressBar();
 	if (banderillas) {
 		alertas(2, "Tema Completo. Haz Clic en Siguiente para continuar.")
@@ -946,6 +939,9 @@ function retrasar_final_tema(seconds) {
 function retrasar_habilitar_siguiente(seconds) {
 	if (debug) { console.log("-habilitar siguiente retrasado por " + seconds); }
 	if (typeof seconds === 'number') { return }
+	if (banderillas) {
+		alertas(1, "Da clic en siguiente para continuar.");
+	}
 	seconds = seconds > 0 ? seconds : 1;
 	setTimeout(habilitarSiguiente, seconds * 1000);
 }
@@ -966,7 +962,6 @@ function glosarioX() {
  * @description Carga el ultimo tema visitado por el usuario
  */
 function irUltimo() {
-	// 
 	let resp = obtenerFramePorPagina(ULTIMO);
 	ir(resp[0]);
 	controlIrUltimo = true;
@@ -1581,22 +1576,19 @@ function habilitar_deshabilitar_eval(action) {
  * */
 //Función para cambio de frame dentro del div contenido
 function siguiente_frame() {
-	// 
 	//Para ocultar o mostrar el canvas de siguiente frame o siguiente tema
 	if ($('#div_sim').show()) {
 		$('#div_sim').hide();// Esconder el iframe de las evaluaciones
 		limpiarSim();// Limpiar el frame de las simulaciones
 	}
-	debugger
 	if (!EvalInProgress) {
-		if (pagActual < numPags - 1) { paginaSiguiente(); currentPagina += 1; ULTIMO = currentPagina; } //  en este caso se avanza a la siguiente pagina 
-		else { siguienteTema(); } // en este caso avanza al siguiente tema 
+		if (pagActual < numPags - 1) { currentPagina += 1; ULTIMO = currentPagina; paginaSiguiente(); } // Avanza a la siguiente pagina 
+		else { siguienteTema(); } // Avanza al siguiente tema 
 	} else {
 		siguienteTema();
 		EvalInProgress = false;
 	}
-	// habilitar_deshabilitar_btns()
-	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
+	_root.Avance = _root.currentPagina > _root.Avance ? _root.currentPagina : _root.Avance;
 	actualizaTemasTerminados();
 }
 /**
@@ -1606,22 +1598,15 @@ function siguiente_frame() {
  * 
  * *///Función para retroceder frames dentro del div contenido
 function anterior_frame() {
-	// 
-	// $('#div_sim').hide();
-	// limpiarSim();
-	// if (debug) { console.log("Funcion Siguiente(); " + estadoSim) }
-	debugger
 	if (!EvalInProgress) {
-		if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina -= 1; ULTIMO = currentPagina; }// retrocede una pagina 
+		// if (pagActual > 0) {  currentPagina -= 1; ULTIMO = currentPagina; temaAnterior(IDActual + 1) }// retrocede una pagina 
+		if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1 );  currentPagina -= 1; ULTIMO = currentPagina; }// retrocede una pagina 
 		else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 	 
-	} else {
+	} else { //canvasContenido.gotoAndStop(pagActual - 1);
 		temaAnterior();
 		EvalInProgress = false;
 	}
-	// if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina -= 1; ULTIMO = currentPagina; }// retrocede una pagina 
-	// else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 
 	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
-	// ULTIMO = currentPagina - 1;
 	actualizaTemasTerminados();
 }
 /**
@@ -1632,9 +1617,9 @@ function anterior_frame() {
  * */
 function paginaSiguiente() {
 	pagActual += 1;
+	reset_navegacion(pagActual, canvasContenido.timeline.duration);
 	canvasContenido.gotoAndStop(pagActual);
 	guardarDatos();
-	reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 	actualizaTemasTerminados();
 }
 /**
@@ -1663,9 +1648,6 @@ function paginaAnterior() {
  * 
  * */
 function siguienteTema() {
-	// $('#div_contenido').fadeOut("slow", function () {
-	// 	ir(_root.IDActual + 1);
-	// });
 	ir(_root.IDActual + 1);
 }
 /**
@@ -1674,7 +1656,17 @@ function siguienteTema() {
  * @description Navega al tema anterior del contenido.
  * 
  * */
-function temaAnterior() {
+function temaAnterior(id) {
+	
+	// if(id){
+	// 	// controlAtras = true; //setear en true para al iniciar tema enviar a ultima pagina
+	// 	currentPagina = ULTIMO - 1;
+	// 	actualizaTemasTerminados();		
+	// 	let op = obtenerFramePorPagina(ULTIMO);
+	// 	return ir(op[0]);
+
+	// }
+
 	ir(IDActual - 1);
 	controlAtras = true; //setear en true para al iniciar tema enviar a ultima pagina
 	currentPagina = ULTIMO - 1;
@@ -1687,36 +1679,30 @@ function actualizarNavegacion(currentPage, totalPages) {
 }
 var sumaPag = 0;
 //#endregion BARRAHTML
-//-------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------
-//inicia un nuevo archivo 
-function reset_navegacion(pagin, cantPag) { // Usandose provisionalmente sera reelevada a legacy--- se validara al cambiar de pag
+/**
+ * @param {*}Pagina Actual(Frame Actual).
+ * @param {*}CantidadPaginas Total de paginas del tema Actual
+ * @returns void
+ * @description Actualiza la navegacion y lleva a cabo validaciones para botones en cada frame.
+ * */
+function reset_navegacion(pagin, cantPag) {
+	
+	pagin = pagin < 0 ? 0 : pagin;
 	stopAlertas();
-	// 
 	pagActual = pagin; //pagina actual del tema
 	numPags = cantPag; //cantidad total de las paginas del tema
-	// if(currentPagina > 1 && IDActual > 0){
-	// 	ULTIMO = currentPagina;
-	// }
-
 	this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "d", "reset_navegacion");
 	if (pagActual == 0 && IDActual == 0) {
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras), "d", "reset_navegacion");
 	} else {
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras), "h", "reset_navegacion");
 	}
-	// if (ULTIMO > IDActual || Pag[IDActual] > pagin) {
-	// 	this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "h", "reset_navegacion");
-	// }
-	if (ULTIMO > currentPagina || libre) {
+	if (ULTIMO > currentPagina || libre || Avance > ULTIMO) {
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnSiguiente), "h", "reset_navegacion");
 	}
 	if (backdoor) {
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras, this.btnSiguiente), "h", "reset_navegacion");
 	}
-	// if (Pag[IDActual] < pagin) {
-	// 	Pag[IDActual] = pagin;
-	// }
 	guardarDatos();
 }
 /**
@@ -1861,28 +1847,3 @@ function actualizar_menuHTML(TrakCurso) {
 		return nModulo;
 	}
 }
-
-// FULLSCREEM
-// function isFullscreen(){ return 1 >= outerHeight - innerHeight };
-
-// if(isFullscreen()){
-// 	console.log("ESTAS EN FULLSCREEN")
-// }
-
-//  this.fullScreenMode = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
-//     console.log("initial fullScreenMode: " + this.fullScreenMode);
-
-//     $(document).on("webkitfullscreenchange", function() { //mozfullscreenchange fullscreenchange
-//         console.log('fullscreenchange Event fired');
-//         this.fullScreenMode = !this.fullScreenMode; 
-//         console.log('fullScreenMode: ' + this.fullScreenMode);
-
-//         if (!this.fullScreenMode) {
-//             console.log('we are not in fullscreen, do stuff');
-
-//         }
-//     });
-
-// 	$(document).on("keypress", function(){
-// 		alert("asdas")
-// 	});

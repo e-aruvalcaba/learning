@@ -1188,7 +1188,7 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/AC_IMCR_OV_10_atlas_.png?1574031414552", id:"AC_IMCR_OV_10_atlas_"}
+		{src:"images/AC_IMCR_OV_10_atlas_.png?1574010350363", id:"AC_IMCR_OV_10_atlas_"}
 	],
 	preloads: []
 };

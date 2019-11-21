@@ -5,13 +5,7 @@ lib.ssMetadata = [];
 
 
 // symbols:
-
-
-
-(lib.Mapadebits4 = function() {
-	this.initialize(img.Mapadebits4);
-}).prototype = p = new cjs.Bitmap();
-p.nominalBounds = new cjs.Rectangle(0,0,646,399);// helper functions:
+// helper functions:
 
 function mc_symbol_clone() {
 	var clone = this._cloneProps(new this.constructor(this.mode, this.startPosition, this.loop));
@@ -28,19 +22,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	prototype.frameBounds = frameBounds;
 	return prototype;
 	}
-
-
-(lib.imagenmc = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// Capa 1
-	this.instance = new lib.Mapadebits4();
-	this.instance.parent = this;
-	this.instance.setTransform(0,0,1.86,1.86);
-
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
-
-}).prototype = getMCSymbolPrototype(lib.imagenmc, new cjs.Rectangle(0,0,1201.8,742.3), null);
 
 
 (lib.Page = function(mode,startPosition,loop) {
@@ -75,7 +56,7 @@ p.nominalBounds = new cjs.Rectangle(-15.1,-14.5,29.4,29.8);
 
 	// Capa 1
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#000000").s().p("AABBtIgbg3IgkAaQgDACgCgBQgDgBAAgEIAAi1QAAgEADgBQADgBADACICDCDQACADgBADQgCACgDAAIgqAAIAaA2QADAFgFACIgpAUIgCABQgDAAgBgDgAgXApQAAAAABAAQAAAAAAABQABAAAAABQAAAAABABIAbA4IAggQIgcg4QgCgCACgDQAAgBABAAQAAgBABAAQAAAAABAAQABAAABAAIAmAAIhyhyIAACfIAggYQAAAAABgBQAAAAABAAQAAgBABAAQAAAAABAAg");
+	this.shape.graphics.f("#FFFFFF").s().p("AABBtIgbg3IgkAaQgDACgCgBQgDgBAAgEIAAi1QAAgEADgBQADgBADACICDCDQACADgBADQgCACgDAAIgqAAIAaA2QADAFgFACIgpAUIgCABQgDAAgBgDgAgXApQAAAAABAAQAAAAAAABQABAAAAABQAAAAABABIAbA4IAggQIgcg4QgCgCACgDQAAgBABAAQAAgBABAAQAAAAABAAQABAAABAAIAmAAIhyhyIAACfIAggYQAAAAABgBQAAAAABAAQAAgBABAAQAAAAABAAg");
 	this.shape.setTransform(7.1,11.2);
 
 	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
@@ -465,7 +446,7 @@ p.nominalBounds = new cjs.Rectangle(-173.1,-114.8,172.8,220.8);
 	this.timeline.addTween(cjs.Tween.get(this).wait(12).call(this.frame_12).wait(1));
 
 	// Capa 3
-	this.text = new cjs.Text("Haz clic en las páginas del libro", "16px 'Arial'");
+	this.text = new cjs.Text("Haz clic en las páginas del libro", "16px 'Arial'", "#FFFFFF");
 	this.text.lineHeight = 20;
 	this.text.lineWidth = 345;
 	this.text.parent = this;
@@ -485,35 +466,35 @@ p.nominalBounds = new cjs.Rectangle(-173.1,-114.8,172.8,220.8);
 
 	// Capa 1
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#000000").ss(1.5,1,1).p("AAnAAQAAAQgLAMQgMALgQAAQgPAAgLgLQgMgMAAgQQAAgPAMgLQALgMAPAAQAQAAAMAMQALALAAAPg");
+	this.shape.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AAnAAQAAAQgLAMQgMALgQAAQgPAAgLgLQgMgMAAgQQAAgPAMgLQALgMAPAAQAQAAAMAMQALALAAAPg");
 	this.shape.setTransform(19.5,19.5);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#000000").ss(1.5,1,1).p("Ag3AAQAAgWARgQQAQgRAWAAQAYAAAQARQAQAQAAAWQAAAYgQAQQgQAQgYAAQgWAAgQgQQgRgQAAgYg");
+	this.shape_1.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("Ag3AAQAAgWARgQQAQgRAWAAQAYAAAQARQAQAQAAAWQAAAYgQAQQgQAQgYAAQgWAAgQgQQgRgQAAgYg");
 	this.shape_1.setTransform(19,19);
 
 	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f().s("#000000").ss(1.5,1,1).p("AhIAAQAAgdAVgWQAWgVAdAAQAfAAAVAVQAWAWAAAdQAAAfgWAVQgVAWgfAAQgdAAgWgWQgVgVAAgfg");
+	this.shape_2.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AhIAAQAAgdAVgWQAWgVAdAAQAfAAAVAVQAWAWAAAdQAAAfgWAVQgVAWgfAAQgdAAgWgWQgVgVAAgfg");
 	this.shape_2.setTransform(18.6,18.6);
 
 	this.shape_3 = new cjs.Shape();
-	this.shape_3.graphics.f().s("#000000").ss(1.5,1,1).p("AhaAAQAAgkAbgbQAbgbAkAAQAmAAAbAbQAaAbAAAkQAAAmgaAbQgbAagmAAQgkAAgbgaQgbgbAAgmg");
+	this.shape_3.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AhaAAQAAgkAbgbQAbgbAkAAQAmAAAbAbQAaAbAAAkQAAAmgaAbQgbAagmAAQgkAAgbgaQgbgbAAgmg");
 	this.shape_3.setTransform(18.1,18.1);
 
 	this.shape_4 = new cjs.Shape();
-	this.shape_4.graphics.f().s("#000000").ss(1.5,1,1).p("AhsAAQAAgsAgggQAgggAsAAQAtAAAgAgQAgAgAAAsQAAAtggAgQggAggtAAQgsAAggggQggggAAgtg");
+	this.shape_4.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AhsAAQAAgsAgggQAgggAsAAQAtAAAgAgQAgAgAAAsQAAAtggAgQggAggtAAQgsAAggggQggggAAgtg");
 	this.shape_4.setTransform(17.6,17.6);
 
 	this.shape_5 = new cjs.Shape();
-	this.shape_5.graphics.f().s("#000000").ss(1.5,1,1).p("Ah9AAQAAgzAlglQAlglAzAAQA0AAAmAlQAkAlAAAzQAAA0gkAmQgmAkg0AAQgzAAglgkQglgmAAg0g");
+	this.shape_5.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("Ah9AAQAAgzAlglQAlglAzAAQA0AAAmAlQAkAlAAAzQAAA0gkAmQgmAkg0AAQgzAAglgkQglgmAAg0g");
 	this.shape_5.setTransform(17.1,17.1);
 
 	this.shape_6 = new cjs.Shape();
-	this.shape_6.graphics.f().s("#000000").ss(1.5,1,1).p("AiPAAQAAg7AqgqQAqgqA7AAQA7AAArAqQAqAqAAA7QAAA7gqArQgrAqg7AAQg7AAgqgqQgqgrAAg7g");
+	this.shape_6.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AiPAAQAAg7AqgqQAqgqA7AAQA7AAArAqQAqAqAAA7QAAA7gqArQgrAqg7AAQg7AAgqgqQgqgrAAg7g");
 	this.shape_6.setTransform(16.6,16.6);
 
 	this.shape_7 = new cjs.Shape();
-	this.shape_7.graphics.f().s("#000000").ss(1.5,1,1).p("AChAAQAABDgvAvQgvAvhDAAQhCAAgvgvQgvgvAAhDQAAhCAvgvQAvgvBCAAQBDAAAvAvQAvAvAABCg");
+	this.shape_7.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AChAAQAABDgvAvQgvAvhDAAQhCAAgvgvQgvgvAAhDQAAhCAvgvQAvgvBCAAQBDAAAvAvQAvAvAABCg");
 	this.shape_7.setTransform(16.1,16.1);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_1}]},1).to({state:[{t:this.shape_2}]},1).to({state:[{t:this.shape_3}]},1).to({state:[{t:this.shape_4}]},1).to({state:[{t:this.shape_5}]},1).to({state:[{t:this.shape_6}]},1).to({state:[{t:this.shape_7}]},1).wait(6));
@@ -1290,7 +1271,7 @@ p.nominalBounds = new cjs.Rectangle(8.9,-147.2,189.2,237.3);
 	this.text.parent = this;
 	this.text.setTransform(-86.6,54.1);
 
-	this.text_1 = new cjs.Text("Una mañana el gerente de la planta llega y se encuentra con la visita de las autoridades sanitarias que viene a una inspección.\n\nDesde hace meses las autoridades están recibiendo denuncias de algunos consumidores sobre productos contaminados.  \n", "italic 12px 'Arial'", "#793A26");
+	this.text_1 = new cjs.Text("Una mañana el gerente de la planta llega y se encuentra con la visita de las autoridades sanitarias que viene a una inspección.\n\nDesde hace meses las autoridades están recibiendo denuncias de algunos consumidores sobre productos con olor raro.  \n", "italic 12px 'Arial'", "#793A26");
 	this.text_1.textAlign = "center";
 	this.text_1.lineHeight = 13;
 	this.text_1.lineWidth = 165;
@@ -1353,7 +1334,7 @@ p.nominalBounds = new cjs.Rectangle(8.9,-147.2,189.2,237.3);
 	this.text_3.lineHeight = 13;
 	this.text_3.lineWidth = 168;
 	this.text_3.parent = this;
-	this.text_3.setTransform(98,-115.8);
+	this.text_3.setTransform(98,-106.2);
 
 	var maskedShapeInstanceList = [this.instance_2,this.text_2,this.text_3];
 
@@ -1406,7 +1387,7 @@ p.nominalBounds = new cjs.Rectangle(8.9,-147.2,189.2,237.3);
 	this.text_4.parent = this;
 	this.text_4.setTransform(-86.6,54.1);
 
-	this.text_5 = new cjs.Text("¿Cómo es que el gerente no sabía nada de esta situación?\n\n¿En el corporativo están enterados?\n\n¿Este incidente se pudo evitar?", "italic 12px 'Arial'", "#793A26");
+	this.text_5 = new cjs.Text("¿Cómo es que el gerente no sabe nada de esta situación?\n\n¿En el corporativo están enterados?\n\n¿Este incidente se pudo evitar?", "italic 12px 'Arial'", "#793A26");
 	this.text_5.textAlign = "center";
 	this.text_5.lineHeight = 13;
 	this.text_5.lineWidth = 168;
@@ -1455,7 +1436,7 @@ p.nominalBounds = new cjs.Rectangle(8.9,-147.2,189.2,237.3);
 	// pagina 4
 	this.shape_1 = new cjs.Shape();
 	this.shape_1.graphics.f("#94602C").s().p("AAcA4QgGgBgDgDIgMgNIAOgPIAHAIQADADADgBIACgCIAVgVIAVAAQABAAABAAQABAAAAABQABAAAAAAQAAABAAAAIAAACIgkAjQgGAHgHAAIgFgBgAgqAwIgigjQgIgJAEgJIAFgIIAlglQAKgIAKADIAHAEIAMAOIgOANIgIgIQgDgCgDACIgdAdQgDADABABIACADIAVAVIAAAVQAAAAgBABQAAABAAAAQgBABAAAAQgBAAAAAAIgEgBgAgMAwIgBgCIAAgVIAVgVQADgDgCgCIgCgDIAOgOIAHAIQAGAJgDAIQgCAEgDADIggAhIgEACIgCgBgAgUAMQgGgJAEgKIAGgIIAjgjQAJgHAJACIAHAEIAmAkQAAABAAAAQAAABAAAAQAAABgBAAQAAABgBAAIgDABIgUABIgVgWQgEgDgCABIgCACIgcAcQgDADADADIABACIgOAPg");
-	this.shape_1.setTransform(95,85.5);
+	this.shape_1.setTransform(98.9,89.1);
 
 	this.instance_4 = new lib.av02();
 	this.instance_4.parent = this;
@@ -1468,12 +1449,12 @@ p.nominalBounds = new cjs.Rectangle(8.9,-147.2,189.2,237.3);
 	this.text_6.parent = this;
 	this.text_6.setTransform(-86.6,54.1);
 
-	this.text_7 = new cjs.Text("En cualquier momento se puede desarrollar un incidente que puede impactar el negocio.\n\nEs responsabilidad de TODOS los que formamos ARCA CONTINENTAL detectar las primeras señales y comunicarlas a los equipos de IMCR para que que les den un manejo adecuado.\n\nDe esta forma protegemos nuestro negocio.", "italic 12px 'Arial'", "#793A26");
+	this.text_7 = new cjs.Text("En cualquier momento se puede desarrollar un incidente que tenga impactos negativos sobre el negocio.\n\nEs responsabilidad de TODOS los que formamos ARCA CONTINENTAL detectar las primeras señales y comunicarlas a los equipos de IMCR para que que les den un manejo adecuado.\n\nDe esta forma protegemos nuestro negocio.", "italic 12px 'Arial'", "#793A26");
 	this.text_7.textAlign = "center";
 	this.text_7.lineHeight = 13;
 	this.text_7.lineWidth = 168;
 	this.text_7.parent = this;
-	this.text_7.setTransform(98,-115.8);
+	this.text_7.setTransform(98,-116.3);
 
 	var maskedShapeInstanceList = [this.shape_1,this.instance_4,this.text_6,this.text_7];
 
@@ -1498,12 +1479,12 @@ p.nominalBounds = new cjs.Rectangle(13.3,-128.2,189.1,237.3);
 	this.initialize(mode,startPosition,loop,{});
 
 	// timeline functions:
-	this.frame_52 = function() {
+	this.frame_37 = function() {
 		this.stop();
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).wait(52).call(this.frame_52).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).wait(37).call(this.frame_37).wait(1));
 
 	// Capa 3
 	this.instance = new lib.instruccionclic();
@@ -1511,27 +1492,18 @@ p.nominalBounds = new cjs.Rectangle(13.3,-128.2,189.1,237.3);
 	this.instance.setTransform(380.8,472.7,1,1,0,0,0,19.5,19.5);
 	this.instance._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(52).to({_off:false},0).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(37).to({_off:false},0).wait(1));
 
 	// Capa 4
 	this.Book = new lib.tcClassicBook();
 	this.Book.parent = this;
 	this.Book.setTransform(350.6,243.1,1.663,1.663,0,0,0,0.1,0.1);
 	this.Book.alpha = 0;
-	this.Book._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.Book).wait(15).to({_off:false},0).to({alpha:1},10,cjs.Ease.get(1)).wait(13).to({x:510.6},14,cjs.Ease.get(1)).wait(1));
-
-	// Capa 5
-	this.instance_1 = new lib.imagenmc();
-	this.instance_1.parent = this;
-	this.instance_1.setTransform(524,275.3,1.2,1.2,0,0,0,600.9,371.2);
-	this.instance_1.alpha = 0;
-
-	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({scaleX:1,scaleY:1,x:523.9,y:275.2,alpha:1},14).wait(39));
+	this.timeline.addTween(cjs.Tween.get(this.Book).to({alpha:1},10,cjs.Ease.get(1)).wait(13).to({x:510.6},14,cjs.Ease.get(1)).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-197.1,-170.2,1442.2,890.8);
+p.nominalBounds = new cjs.Rectangle(372.7,29.6,314.6,394.7);
 
 
 // stage content:
@@ -1591,7 +1563,7 @@ p.nominalBounds = new cjs.Rectangle(-197.1,-170.2,1442.2,890.8);
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(480.9,262.6,1442.2,890.8);
+p.nominalBounds = new cjs.Rectangle(600,279.5,1200,577.6);
 // library properties:
 lib.properties = {
 	width: 1200,
@@ -1599,9 +1571,7 @@ lib.properties = {
 	fps: 24,
 	color: "#FFFFFF",
 	opacity: 1.00,
-	manifest: [
-		{src:"images/Mapadebits4.png?1573319987677", id:"Mapadebits4"}
-	],
+	manifest: [],
 	preloads: []
 };
 

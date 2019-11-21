@@ -164,20 +164,19 @@ p.nominalBounds = new cjs.Rectangle(86.1,86.1,35.7,35.7);
 	this.initialize(mode,startPosition,loop,{});
 
 	// timeline functions:
-	this.frame_40 = function() {
+	this.frame_14 = function() {
 		this.stop();
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).wait(40).call(this.frame_40).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).wait(14).call(this.frame_14).wait(1));
 
 	// Capa 4
 	this.instance = new lib.animaciontitulo();
 	this.instance.parent = this;
-	this.instance.setTransform(833.7,417.2,0.8,0.8,0,0,0,104,104);
-	this.instance._off = true;
+	this.instance.setTransform(833.7,377.2,0.8,0.8,0,0,0,104,104);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(21).to({_off:false},0).wait(20));
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(15));
 
 	// Capa 1
 	this.instance_1 = new lib.text01();
@@ -185,7 +184,7 @@ p.nominalBounds = new cjs.Rectangle(86.1,86.1,35.7,35.7);
 	this.instance_1.setTransform(132,143.3,1.2,1.2,0,0,0,257.9,241.2);
 	this.instance_1.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({regY:241.3,scaleX:1,scaleY:1,x:172,y:143.4,alpha:1},14,cjs.Ease.get(1)).wait(27));
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({regY:241.3,scaleX:1,scaleY:1,x:172,y:143.4,alpha:1},14,cjs.Ease.get(1)).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(-177.5,-146.1,1452.9,822.3);
@@ -257,7 +256,7 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/Mapadebits3.png?1573343930539", id:"Mapadebits3"}
+		{src:"images/Mapadebits3.png?1574008732056", id:"Mapadebits3"}
 	],
 	preloads: []
 };

@@ -8,10 +8,10 @@ lib.ssMetadata = [];
 
 
 
-(lib.Mapadebits4 = function() {
-	this.initialize(img.Mapadebits4);
+(lib.new2 = function() {
+	this.initialize(img.new2);
 }).prototype = p = new cjs.Bitmap();
-p.nominalBounds = new cjs.Rectangle(0,0,646,399);// helper functions:
+p.nominalBounds = new cjs.Rectangle(0,0,810,503);// helper functions:
 
 function mc_symbol_clone() {
 	var clone = this._cloneProps(new this.constructor(this.mode, this.startPosition, this.loop));
@@ -34,62 +34,64 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("●\n\n\n●", "16px 'Arial'", "#FFFFFF");
-	this.text.lineHeight = 18;
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#FFFFFF").s().p("AgaEWQgEgBgCgEIhNivQhHgHgxg1Qgyg2AAhIQAAhPA4g2QA3g4BOAAQBOAAA2A4QA3A2AABPIgBASICxAhQAFABACAEQABAGgEADIhcBcIAHBnIAAABIAAACIgBABIgBABIAAABIAAAAIgCACIgBAAIgDABIhvACIhbBcQgDADgDAAgAgVD/IBOhRIjIjeQgDgDAAgDQABgDACgDQAGgGAGAHIDMDhIBWgBIjri0QgDgDAAgEQgBgDADgDQACgCADgBQAEAAADACIDvC3IgGhSIkXiLQgDgBgBgDQgCgDACgDQABgDAEgCQADgBADABIEXCKIBPhPImyhSgAh1BPIhVjAQgCgEADgFQAEgEAFABIEQAzIAAgOQAAhIgygyQgxgyhHAAQhHAAgyAyQgzAyAABIQAAA/AqAvQApAwA+AJg");
+	this.shape.setTransform(364.2,-32.7);
+
+	this.text = new cjs.Text("●\n\n\n●", "18px 'Arial'", "#FFFFFF");
+	this.text.lineHeight = 20;
 	this.text.lineWidth = 25;
 	this.text.parent = this;
 	this.text.setTransform(2,40.6);
 
-	this.text_1 = new cjs.Text("Conocer la metodología de IMCR, su funcionamiento y aplicación.\n\nIdentificar y reportar a los equipos de IMCR los incidentes que suceden o pueden llegar a suceder en su unidad operativa.", "16px 'Arial'", "#FFFFFF");
-	this.text_1.lineHeight = 18;
+	this.text_1 = new cjs.Text("Conocer la metodología de IMCR, su funcionamiento y aplicación.\n\nIdentificar y reportar a los equipos de IMCR los incidentes que suceden o pueden llegar a suceder en su unidad operativa.", "18px 'Arial'", "#FFFFFF");
+	this.text_1.lineHeight = 20;
 	this.text_1.lineWidth = 360;
 	this.text_1.parent = this;
 	this.text_1.setTransform(22,40.6);
 
-	this.text_2 = new cjs.Text("Al finalizar este curso podrás:", "16px 'Arial'", "#FFFFFF");
-	this.text_2.lineHeight = 18;
+	this.text_2 = new cjs.Text("En este curso podrás:", "18px 'Arial'", "#FFFFFF");
+	this.text_2.lineHeight = 20;
 	this.text_2.lineWidth = 394;
 	this.text_2.parent = this;
 	this.text_2.setTransform(2,2);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.text_2},{t:this.text_1},{t:this.text}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.text_2},{t:this.text_1},{t:this.text},{t:this.shape}]}).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.textoobjetivosgr, new cjs.Rectangle(0,0,397.9,282.9), null);
+}).prototype = getMCSymbolPrototype(lib.textoobjetivosgr, new cjs.Rectangle(0,-60.5,397.9,343.5), null);
 
 
 (lib.textocontenidogr = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("El contenido del curso es el siguiente:", "16px 'Arial'", "#FFFFFF");
-	this.text.lineHeight = 18;
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#FFFFFF").s().p("AjIEYQgIAAAAgJIAAoeQAAgIAIAAIEoAAIACAAIABABIACABIBqBqIACACIAAACIAAACIAAG0QAAAEgCACQgCADgEAAgAi/EHIF/AAIAAmjIhhAAQgIAAAAgJIAAhhIkWAAgAC0itIhMhNIAABNIBMAAgAh1DYQgEAAgCgDQgDgCAAgEIAAgyQAAgEADgDQACgCAEAAIAzAAQADAAADACQACADAAAEIAAAyQAAAEgCACQgDADgDAAgAhtDHIAiAAIAAgiIgiAAgAgYC+QgIABAAgJQAAgJAIABICQAAQAJgBAAAJQAAADgDADQgCACgEAAgAh1ByQgEAAgCgCQgDgDAAgEQAAgDADgDQACgCAEAAICpAAQAJAAAAAIQAAAEgDADQgCACgEAAgAh1A/QgJAAAAgJIAAgyQAAgHAJAAIAzAAQAIAAAAAHIAAAyQAAAJgIAAgAhtAuIAiAAIAAghIgiAAgAgYAmQgIAAAAgJQAAgJAIABICQAAQAEAAACACQADADAAADQAAADgDADQgCADgEAAgAh1gmQgEAAgCgCQgDgCAAgEQAAgJAJAAIDUAAQAIAAAAAJQAAAIgIAAgAh1hZQgJABAAgJIAAgzQAAgDADgDQACgDAEABIAzAAQADgBADADQACADAAADIAAAzQAAAJgIgBgAhthqIAiAAIAAghIgiAAgAgYhyQgIAAAAgIQAAgJAIAAICQAAQAEAAACADQADACAAAEQAAADgDACQgCADgEAAgAh1i/QgEAAgCgCQgDgCAAgEQAAgIAJAAIB/AAQAJAAAAAIQAAAEgDACQgCACgEAAg");
+	this.shape.setTransform(369,-33.9);
+
+	this.text = new cjs.Text("El contenido del curso es el siguiente:", "18px 'Arial'", "#FFFFFF");
+	this.text.lineHeight = 20;
 	this.text.lineWidth = 394;
 	this.text.parent = this;
 	this.text.setTransform(2,2);
 
-	this.text_1 = new cjs.Text("●\n●\n●\n●\n●\n●\n●", "16px 'Arial'", "#FFFFFF");
-	this.text_1.lineHeight = 18;
-	this.text_1.lineWidth = 25;
+	this.text_1 = new cjs.Text("● Metodología IMCR\n● Tipos de eventos\n● Taxonomía de IMCR\n● Proceso y herramientas de gestión\n● Equipos de IMCR\n● Reporte de incidentes\n● Casos prácticos\n● Evaluación", "18px 'Arial'", "#FFFFFF");
+	this.text_1.lineHeight = 20;
+	this.text_1.lineWidth = 304;
 	this.text_1.parent = this;
-	this.text_1.setTransform(2,36.6);
+	this.text_1.setTransform(1.6,38);
 
-	this.text_2 = new cjs.Text("Metodología IMCR\nTipos de eventos\nTaxonomía de IMCR\nProceso y herramientas de gestión\nEquipos de IMCR\nReporte de incidentes\nCasos prácticos", "16px 'Arial'", "#FFFFFF");
-	this.text_2.lineHeight = 18;
-	this.text_2.lineWidth = 304;
-	this.text_2.parent = this;
-	this.text_2.setTransform(22,38);
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.text_1},{t:this.text},{t:this.shape}]}).wait(1));
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.text_2},{t:this.text_1},{t:this.text}]}).wait(1));
-
-}).prototype = getMCSymbolPrototype(lib.textocontenidogr, new cjs.Rectangle(0,0,397.9,276.8), null);
+}).prototype = getMCSymbolPrototype(lib.textocontenidogr, new cjs.Rectangle(-0.4,-61.9,398.3,282.9), null);
 
 
 (lib.textoboenvgr = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("Bienvenido(a) al curso IMCR Manejo de Incidentes y Resolución de Crisis.\n\nAquí aprenderás en qué consiste esta metodología y cómo puedes colaborar en la prevención y manejo de incidentes, de modo que protejamos a nuestros consumidores, los bienes del negocio y a nuestros colaboradores.\n\n¡Adelante!", "16px 'Arial'", "#FFFFFF");
-	this.text.lineHeight = 18;
+	this.text = new cjs.Text("Bienvenido(a) al curso de Inducción IMCR Manejo de Incidentes y Resolución de Crisis.\n\nAquí aprenderás en qué consiste esta metodología y cómo puedes colaborar en la prevención y manejo de incidentes, de modo que protejamos a nuestros consumidores, los bienes del negocio y a nuestros colaboradores.\n\n¡Adelante!", "18px 'Arial'", "#FFFFFF");
+	this.text.lineHeight = 20;
 	this.text.lineWidth = 394;
 	this.text.parent = this;
 	this.text.setTransform(2,2);
@@ -103,13 +105,13 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.instance = new lib.Mapadebits4();
+	this.instance = new lib.new2();
 	this.instance.parent = this;
-	this.instance.setTransform(0,0,1.86,1.86);
+	this.instance.setTransform(0,0,1.481,1.481);
 
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.imagenmc, new cjs.Rectangle(0,0,1201.8,742.3), null);
+}).prototype = getMCSymbolPrototype(lib.imagenmc, new cjs.Rectangle(0,0,1200,745.2), null);
 
 
 (lib.flechacursor = function(mode,startPosition,loop) {
@@ -117,7 +119,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	// Capa 1
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#000000").s().p("AABBtIgbg3IgkAaQgDACgCgBQgDgBAAgEIAAi1QAAgEADgBQADgBADACICDCDQACADgBADQgCACgDAAIgqAAIAaA2QADAFgFACIgpAUIgCABQgDAAgBgDgAgXApQAAAAABAAQAAAAAAABQABAAAAABQAAAAABABIAbA4IAggQIgcg4QgCgCACgDQAAgBABAAQAAgBABAAQAAAAABAAQABAAABAAIAmAAIhyhyIAACfIAggYQAAAAABgBQAAAAABAAQAAgBABAAQAAAAABAAg");
+	this.shape.graphics.f("#FFFFFF").s().p("AABBtIgbg3IgkAaQgDACgCgBQgDgBAAgEIAAi1QAAgEADgBQADgBADACICDCDQACADgBADQgCACgDAAIgqAAIAaA2QADAFgFACIgpAUIgCABQgDAAgBgDgAgXApQAAAAABAAQAAAAAAABQABAAAAABQAAAAABABIAbA4IAggQIgcg4QgCgCACgDQAAgBABAAQAAgBABAAQAAAAABAAQABAAABAAIAmAAIhyhyIAACfIAggYQAAAAABgBQAAAAABAAQAAgBABAAQAAAAABAAg");
 	this.shape.setTransform(7.1,11.2);
 
 	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
@@ -163,7 +165,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,144.3,48.6);
 	this.timeline.addTween(cjs.Tween.get(this.instance).to({y:140.2,alpha:1},14,cjs.Ease.get(1)).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(0,45,397.9,276.8);
+p.nominalBounds = new cjs.Rectangle(-0.4,-16.9,398.3,282.8);
 
 
 (lib.textobjetivos = function(mode,startPosition,loop) {
@@ -186,7 +188,7 @@ p.nominalBounds = new cjs.Rectangle(0,45,397.9,276.8);
 	this.timeline.addTween(cjs.Tween.get(this.instance).to({y:141.5,alpha:1},14,cjs.Ease.get(1)).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(0,45,397.9,282.9);
+p.nominalBounds = new cjs.Rectangle(0,-15.5,397.9,343.5);
 
 
 (lib.textobienv = function(mode,startPosition,loop) {
@@ -224,7 +226,7 @@ p.nominalBounds = new cjs.Rectangle(0,45,397.9,244.3);
 	this.timeline.addTween(cjs.Tween.get(this).wait(12).call(this.frame_12).wait(1));
 
 	// Capa 3
-	this.text = new cjs.Text("Haz clic en cada botón para \nver la descripción", "16px 'Arial'");
+	this.text = new cjs.Text("Haz clic en cada botón para \nver la descripción", "16px 'Arial'", "#FFFFFF");
 	this.text.lineHeight = 20;
 	this.text.lineWidth = 345;
 	this.text.parent = this;
@@ -244,35 +246,35 @@ p.nominalBounds = new cjs.Rectangle(0,45,397.9,244.3);
 
 	// Capa 1
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#000000").ss(1.5,1,1).p("AAnAAQAAAQgLAMQgMALgQAAQgPAAgLgLQgMgMAAgQQAAgPAMgLQALgMAPAAQAQAAAMAMQALALAAAPg");
+	this.shape.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AAnAAQAAAQgLAMQgMALgQAAQgPAAgLgLQgMgMAAgQQAAgPAMgLQALgMAPAAQAQAAAMAMQALALAAAPg");
 	this.shape.setTransform(19.5,19.5);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#000000").ss(1.5,1,1).p("Ag3AAQAAgWARgQQAQgRAWAAQAYAAAQARQAQAQAAAWQAAAYgQAQQgQAQgYAAQgWAAgQgQQgRgQAAgYg");
+	this.shape_1.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("Ag3AAQAAgWARgQQAQgRAWAAQAYAAAQARQAQAQAAAWQAAAYgQAQQgQAQgYAAQgWAAgQgQQgRgQAAgYg");
 	this.shape_1.setTransform(19,19);
 
 	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f().s("#000000").ss(1.5,1,1).p("AhIAAQAAgdAVgWQAWgVAdAAQAfAAAVAVQAWAWAAAdQAAAfgWAVQgVAWgfAAQgdAAgWgWQgVgVAAgfg");
+	this.shape_2.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AhIAAQAAgdAVgWQAWgVAdAAQAfAAAVAVQAWAWAAAdQAAAfgWAVQgVAWgfAAQgdAAgWgWQgVgVAAgfg");
 	this.shape_2.setTransform(18.6,18.6);
 
 	this.shape_3 = new cjs.Shape();
-	this.shape_3.graphics.f().s("#000000").ss(1.5,1,1).p("AhaAAQAAgkAbgbQAbgbAkAAQAmAAAbAbQAaAbAAAkQAAAmgaAbQgbAagmAAQgkAAgbgaQgbgbAAgmg");
+	this.shape_3.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AhaAAQAAgkAbgbQAbgbAkAAQAmAAAbAbQAaAbAAAkQAAAmgaAbQgbAagmAAQgkAAgbgaQgbgbAAgmg");
 	this.shape_3.setTransform(18.1,18.1);
 
 	this.shape_4 = new cjs.Shape();
-	this.shape_4.graphics.f().s("#000000").ss(1.5,1,1).p("AhsAAQAAgsAgggQAgggAsAAQAtAAAgAgQAgAgAAAsQAAAtggAgQggAggtAAQgsAAggggQggggAAgtg");
+	this.shape_4.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AhsAAQAAgsAgggQAgggAsAAQAtAAAgAgQAgAgAAAsQAAAtggAgQggAggtAAQgsAAggggQggggAAgtg");
 	this.shape_4.setTransform(17.6,17.6);
 
 	this.shape_5 = new cjs.Shape();
-	this.shape_5.graphics.f().s("#000000").ss(1.5,1,1).p("Ah9AAQAAgzAlglQAlglAzAAQA0AAAmAlQAkAlAAAzQAAA0gkAmQgmAkg0AAQgzAAglgkQglgmAAg0g");
+	this.shape_5.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("Ah9AAQAAgzAlglQAlglAzAAQA0AAAmAlQAkAlAAAzQAAA0gkAmQgmAkg0AAQgzAAglgkQglgmAAg0g");
 	this.shape_5.setTransform(17.1,17.1);
 
 	this.shape_6 = new cjs.Shape();
-	this.shape_6.graphics.f().s("#000000").ss(1.5,1,1).p("AiPAAQAAg7AqgqQAqgqA7AAQA7AAArAqQAqAqAAA7QAAA7gqArQgrAqg7AAQg7AAgqgqQgqgrAAg7g");
+	this.shape_6.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AiPAAQAAg7AqgqQAqgqA7AAQA7AAArAqQAqAqAAA7QAAA7gqArQgrAqg7AAQg7AAgqgqQgqgrAAg7g");
 	this.shape_6.setTransform(16.6,16.6);
 
 	this.shape_7 = new cjs.Shape();
-	this.shape_7.graphics.f().s("#000000").ss(1.5,1,1).p("AChAAQAABDgvAvQgvAvhDAAQhCAAgvgvQgvgvAAhDQAAhCAvgvQAvgvBCAAQBDAAAvAvQAvAvAABCg");
+	this.shape_7.graphics.f().s("#FFFFFF").ss(1.5,1,1).p("AChAAQAABDgvAvQgvAvhDAAQhCAAgvgvQgvgvAAhDQAAhCAvgvQAvgvBCAAQBDAAAvAvQAvAvAABCg");
 	this.shape_7.setTransform(16.1,16.1);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_1}]},1).to({state:[{t:this.shape_2}]},1).to({state:[{t:this.shape_3}]},1).to({state:[{t:this.shape_4}]},1).to({state:[{t:this.shape_5}]},1).to({state:[{t:this.shape_6}]},1).to({state:[{t:this.shape_7}]},1).wait(6));
@@ -404,7 +406,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,445.9,675);
 	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({scaleX:1,scaleY:1,x:523.9,y:275.2,alpha:1},14).wait(12));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-197.1,-170.2,1442.2,890.8);
+p.nominalBounds = new cjs.Rectangle(-197.1,-170.2,1440,894.3);
 
 
 // stage content:
@@ -464,7 +466,7 @@ p.nominalBounds = new cjs.Rectangle(-197.1,-170.2,1442.2,890.8);
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(480.9,262.6,1442.2,890.8);
+p.nominalBounds = new cjs.Rectangle(480.9,262.6,1440,894.3);
 // library properties:
 lib.properties = {
 	width: 1200,
@@ -473,7 +475,7 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/Mapadebits4.png?1573348828514", id:"Mapadebits4"}
+		{src:"images/new2.jpg?1574008430084", id:"new2"}
 	],
 	preloads: []
 };
