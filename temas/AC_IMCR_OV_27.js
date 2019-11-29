@@ -140,6 +140,7 @@ p.nominalBounds = new cjs.Rectangle(-161.6,-198.8,1365.3,848.5);
 		
 		try{
 			parent.final_tema();
+			parent.deshabilitarSiguiente();
 		}catch(err){
 			console.log(" El tema esta corriendo stand alone. FINAL TEMA")
 		}
@@ -172,7 +173,7 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/Mapadebits26.png?1574041306621", id:"Mapadebits26"}
+		{src:"images/Mapadebits26.png?1575054606104", id:"Mapadebits26"}
 	],
 	preloads: []
 };

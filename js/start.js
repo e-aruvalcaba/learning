@@ -1705,6 +1705,15 @@ function reset_navegacion(pagin, cantPag) {
 	}
 	guardarDatos();
 }
+
+function getTotalPaginas(){
+	let suma = 0;
+
+	for (let i = 0; i < obj.Pag.length; i++) {
+		suma+=obj.Pag[i];
+	}
+	return suma;
+}
 /**
  * @param NA
  * @returns Bool
