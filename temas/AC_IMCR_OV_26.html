@@ -24,7 +24,7 @@
 <!-- 
 <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script> -->
 <script src="js/libs/createjs-2015.11.26.min.js"></script>
-<script src="AC_IMCR_OV_26.js?1575052618097"></script>
+<script src="AC_IMCR_OV_26.js?1576442912329"></script>
 <script>
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
 function init() {
@@ -32,6 +32,7 @@ function init() {
 	anim_container = document.getElementById("animation_container");
 	dom_overlay_container = document.getElementById("dom_overlay_container");
 	images = images||{};
+	ss = ss||{};
 	var loader = new createjs.LoadQueue(false);
 	loader.addEventListener("fileload", handleFileLoad);
 	loader.addEventListener("complete", handleComplete);

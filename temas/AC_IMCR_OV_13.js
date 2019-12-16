@@ -29,20 +29,16 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	// Capa 1
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#67CF44").ss(4,1,1).p("Atl5OIbLAAQCWAAAACWIAAGRMAAAAngQAACWiWAAI7LAAQiWAAAAiWMAAAgngIAAmRQAAiWCWAAg");
-	this.shape.setTransform(102,161.5);
+	this.shape.graphics.f("#BCE7AE").s().p("AtlU7QiWAAAAiWMAAAgnfIf3AAMAAAAnfQAACWiWAAg");
+	this.shape.setTransform(102,189);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#F4F4F4").s().p("AtlU7QiWAAAAiWMAAAgnfIf3AAMAAAAnfQAACWiWAAg");
-	this.shape_1.setTransform(102,189);
+	this.shape_1.graphics.f("#67CF44").s().p("Av7ETIAAmPQAAiWCWAAIbLAAQCWAAAACWIAAGPg");
+	this.shape_1.setTransform(102,27.5);
 
-	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#67CF44").s().p("Av7ETIAAmPQAAiWCWAAIbLAAQCWAAAACWIAAGPg");
-	this.shape_2.setTransform(102,27.5);
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).wait(1));
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1},{t:this.shape}]}).wait(1));
-
-}).prototype = getMCSymbolPrototype(lib.tarjetonvde, new cjs.Rectangle(-2,-2,208,326.9), null);
+}).prototype = getMCSymbolPrototype(lib.tarjetonvde, new cjs.Rectangle(0,0,204,322.9), null);
 
 
 (lib.tarjeton_ama = function(mode,startPosition,loop) {
@@ -50,35 +46,37 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	// Capa 1
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#FFCC00").ss(4,1,1).p("Atl5OIbLAAQCWAAAACWIAAGGMAAAAnrQAACWiWAAI7LAAQiWAAAAiWMAAAgnrIAAmGQAAiWCWAAg");
-	this.shape.setTransform(102,161.5);
+	this.shape.graphics.f("#F9EAAD").s().p("AtlVBQiWgBAAiWMAAAgnqIf3AAMAAAAnqQAACWiWABg");
+	this.shape.setTransform(102,188.5);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#F4F4F4").s().p("AtlVBQiWgBAAiWMAAAgnqIf3AAMAAAAnqQAACWiWABg");
-	this.shape_1.setTransform(102,188.5);
+	this.shape_1.graphics.f("#FFCC00").s().p("Av7EOIAAmFQAAiWCWAAIbLAAQCWAAAACWIAAGFg");
+	this.shape_1.setTransform(102,27);
 
-	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#FFCC00").s().p("Av7EOIAAmFQAAiWCWAAIbLAAQCWAAAACWIAAGFg");
-	this.shape_2.setTransform(102,27);
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).wait(1));
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1},{t:this.shape}]}).wait(1));
-
-}).prototype = getMCSymbolPrototype(lib.tarjeton_ama, new cjs.Rectangle(-2,-2,208,326.9), null);
+}).prototype = getMCSymbolPrototype(lib.tarjeton_ama, new cjs.Rectangle(0,0,204,322.9), null);
 
 
 (lib.Símbolo1 = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("El IMCR se aplica a través de un proceso ordenado que consta de dos fases: una preventiva y otra correctiva. Conoce el proceso general y las actividades que se realizan en cada fase.", "18px 'Arial'");
+	this.text = new cjs.Text("Conoce el proceso general y las actividades que se realizan en cada fase.", "18px 'Arial'");
 	this.text.lineHeight = 22;
 	this.text.lineWidth = 1066;
 	this.text.parent = this;
-	this.text.setTransform(2,22);
+	this.text.setTransform(2,49);
 
-	this.timeline.addTween(cjs.Tween.get(this.text).wait(1));
+	this.text_1 = new cjs.Text("El IMCR se aplica a través de un proceso ordenado que consta de dos fases: una preventiva y otra correctiva. ", "bold 18px 'Arial'");
+	this.text_1.lineHeight = 22;
+	this.text_1.lineWidth = 1066;
+	this.text_1.parent = this;
+	this.text_1.setTransform(2,22);
 
-}).prototype = getMCSymbolPrototype(lib.Símbolo1, new cjs.Rectangle(0,20,1069.7,74), null);
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.text_1},{t:this.text}]}).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.Símbolo1, new cjs.Rectangle(0,20,1069.7,52.3), null);
 
 
 (lib.flechamc = function(mode,startPosition,loop) {
@@ -117,7 +115,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("Esta actividad comprende:\n\n● Evaluar las lecciones \n   aprendidas\n● Compartir las lecciones \n   aprendidas.", "16px 'Arial'");
+	this.text = new cjs.Text("Esta actividad comprende:\n\n● Evaluar las lecciones \n   aprendidas.\n● Compartir las lecciones \n   aprendidas.", "16px 'Arial'");
 	this.text.lineHeight = 18;
 	this.text.lineWidth = 186;
 	this.text.parent = this;
@@ -136,7 +134,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance},{t:this.text_1},{t:this.text}]}).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.tarj05, new cjs.Rectangle(-2,-2,208,326.9), null);
+}).prototype = getMCSymbolPrototype(lib.tarj05, new cjs.Rectangle(0,0,204,322.9), null);
 
 
 (lib.tarj04 = function(mode,startPosition,loop) {
@@ -162,14 +160,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance},{t:this.text_1},{t:this.text}]}).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.tarj04, new cjs.Rectangle(-2,-2,208,326.9), null);
+}).prototype = getMCSymbolPrototype(lib.tarj04, new cjs.Rectangle(0,0,204,322.9), null);
 
 
 (lib.tarj03 = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("Esta actividad comprende:\n\n● Analizar el problema.\n● Analizar la sensibilidad \n   del mercado\n● Analizar el impacto\n● Definir la estrategia de \n   comunicación.", "16px 'Arial'");
+	this.text = new cjs.Text("Esta actividad comprende:\n\n● Analizar el problema.\n● Analizar la sensibilidad \n   del mercado.\n● Analizar el impacto.\n● Definir la estrategia de \n   comunicación.", "16px 'Arial'");
 	this.text.lineHeight = 18;
 	this.text.lineWidth = 186;
 	this.text.parent = this;
@@ -188,14 +186,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance},{t:this.text_1},{t:this.text}]}).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.tarj03, new cjs.Rectangle(-2,-2,208,326.9), null);
+}).prototype = getMCSymbolPrototype(lib.tarj03, new cjs.Rectangle(0,0,204,322.9), null);
 
 
 (lib.tarj02 = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("Esta actividad comprende:\n\n● Identificar señales \n   relevantes para el \n   negocio\n● Comunicar señales al \n   equipo de IMCR.\n", "16px 'Arial'");
+	this.text = new cjs.Text("Esta actividad comprende:\n\n● Identificar señales \n   relevantes para el \n   negocio.\n● Comunicar señales al \n   equipo de IMCR.\n", "16px 'Arial'");
 	this.text.lineHeight = 18;
 	this.text.lineWidth = 186;
 	this.text.parent = this;
@@ -214,14 +212,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance},{t:this.text_1},{t:this.text}]}).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.tarj02, new cjs.Rectangle(-2,-2,208,326.9), null);
+}).prototype = getMCSymbolPrototype(lib.tarj02, new cjs.Rectangle(0,0,204,322.9), null);
 
 
 (lib.tarj01 = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("Esta actividad comprende:\n\n● Identificar riesgos   \n   potenciales para el \n   negocio.\n● Hacer análisis y \n   evaluación de riesgos\n● Generar planes de \n   acción.\n● Monitorear los eventos \n   de riesgo.", "16px 'Arial'");
+	this.text = new cjs.Text("Esta actividad comprende:\n\n● Identificar riesgos   \n   potenciales para el \n   negocio.\n● Hacer análisis y \n   evaluación de riesgos.\n● Generar planes de \n   acción.\n● Monitorear los eventos \n   de riesgo.", "16px 'Arial'");
 	this.text.lineHeight = 18;
 	this.text.lineWidth = 186;
 	this.text.parent = this;
@@ -240,7 +238,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance},{t:this.text_1},{t:this.text}]}).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.tarj01, new cjs.Rectangle(-2,-2,208,326.9), null);
+}).prototype = getMCSymbolPrototype(lib.tarj01, new cjs.Rectangle(0,0,204,322.9), null);
 
 
 (lib.mc01 = function(mode,startPosition,loop) {
@@ -255,9 +253,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this).wait(136).call(this.frame_136).wait(1));
 
 	// Capa 2
-	this.text = new cjs.Text("Para facilitar la realización de estas actividades contamos con algunas herramientas muy útiles. A continuación te las presentamos.", "16px 'Arial'");
+	this.text = new cjs.Text("Para facilitar la realización de estas actividades contamos con algunas herramientas muy útiles. A continuación te las presentamos.", "bold 16px 'Arial'");
 	this.text.lineHeight = 18;
-	this.text.lineWidth = 922;
+	this.text.lineWidth = 1066;
 	this.text.parent = this;
 	this.text.setTransform(9.3,480.1);
 	this.text._off = true;
@@ -389,7 +387,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.instance_7).to({alpha:1},10).wait(127));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(10.7,20,1069.6,74);
+p.nominalBounds = new cjs.Rectangle(10.7,20,1069.6,52.3);
 
 
 (lib.MC_pag1 = function(mode,startPosition,loop) {
@@ -411,7 +409,7 @@ p.nominalBounds = new cjs.Rectangle(10.7,20,1069.6,74);
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(41));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-10,-6,1069.7,74);
+p.nominalBounds = new cjs.Rectangle(-10,-6,1069.7,52.3);
 
 
 (lib.barratitulotema = function(mode,startPosition,loop) {
@@ -509,7 +507,7 @@ p.nominalBounds = new cjs.Rectangle(0,-58,1200,58.6);
 	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(600,279.5,1200,221.3);
+p.nominalBounds = new cjs.Rectangle(600,279.5,1200,199.6);
 // library properties:
 lib.properties = {
 	width: 1200,

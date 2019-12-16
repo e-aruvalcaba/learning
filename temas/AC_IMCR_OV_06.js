@@ -2,7 +2,7 @@
 
 var p; // shortcut to reference prototypes
 lib.ssMetadata = [
-		{name:"AC_IMCR_OV_06_atlas_", frames: [[0,403,337,175],[0,0,709,401]]}
+		{name:"AC_IMCR_OV_06_atlas_", frames: [[0,0,1206,680],[1208,0,51,45]]}
 ];
 
 
@@ -10,14 +10,14 @@ lib.ssMetadata = [
 
 
 
-(lib.Mapadebits3 = function() {
+(lib._0601 = function() {
 	this.spriteSheet = ss["AC_IMCR_OV_06_atlas_"];
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.Mapadebits4 = function() {
+(lib.chunk = function() {
 	this.spriteSheet = ss["AC_IMCR_OV_06_atlas_"];
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
@@ -44,7 +44,23 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("Manejo de incidentes y resolución de crisis", "bold 20px 'Arial'", "#FF0000");
+	this.shape = new cjs.Shape();
+	this.shape.graphics.lf(["#E52520","#CCCCCC"],[0.357,1],-116.2,0,116.1,0).s().p("AyICNIerAAIAJgBQALgCAJgFQAggOAHghQAMg0Bzm4ICkAAIgHAaIiKIPQgLAngcAmQg5BOhQAAI8lAAIgbBmIgBADg");
+	this.shape.setTransform(249.7,108.5);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#E52520").s().p("ACXDsQhUgdgYhKQgeheBPiSIAagfQAiglAogZQB+hSCEA7IguCqQgKgMgQgLQgggXgdABQgnACggAjQgkAogCA9QgBAfAWANQAUALAhgDQAegDAdgMQAdgMALgNIg0CtQgVALghAHQgbAFgZAAQgmAAgigMgAKBDsIgpiWIglCWIikAAICAnZID0AAIAUACQAYAEATALQA7AigPBYQgQBYg5AhQgSALgTAEIgRACIBGDEgAKZhxIgLABIgTBZIAlAAIAUgNQAVgSADgbQADgbgggFIgNAAIgJAAgAjMDsIAnkDIiNEDIhiAAIAAj6IhkD6IigAAIDNnZICnAAIAADtICIjtICfAAIgzHZgAtwDsICBnZICnAAIiCHZg");
+	this.shape_1.setTransform(249.3,92.1);
+
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.lf(["#CCCCCC","#E52520"],[0,0.576],-116.1,0,116.2,0).s().p("AxsGXIgdAAICRopIAJgYQANgdASgYQA4hOBQAAIclAAIAchpIAUAjIB9DnI+sAAQgOAAgQAIQgeAOgIAgQgIAhg8DpIg7Djg");
+	this.shape_2.setTransform(252.1,73.9);
+
+	this.shape_3 = new cjs.Shape();
+	this.shape_3.graphics.f("#1D1D1B").s().p("AwkImIAbhnIclAAQBQAAA5hNQAcgnALgnICKoPIAXAAIiQIpQgNAngcAnQg4BNhQAAI8kAAIgdBqgAyIDrIAHgcICHAAIA6jjQA9jpAIghQAHggAfgPQAPgHAOgBIetAAIh9jmIABgHICREKI+sAAQgOAAgQAIQgfAOgHAhIhEEJIg7Djg");
+	this.shape_3.setTransform(254.2,93.9);
+
+	this.text = new cjs.Text("Manejo de incidentes y resolución de crisis", "bold 20px 'Arial'", "#E52520");
 	this.text.lineHeight = 24;
 	this.text.lineWidth = 432;
 	this.text.parent = this;
@@ -56,15 +72,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.text_1.parent = this;
 	this.text_1.setTransform(22,208);
 
-	this.instance = new lib.Mapadebits3();
-	this.instance.parent = this;
-	this.instance.setTransform(73,-1);
+	this.shape_4 = new cjs.Shape();
+	this.shape_4.graphics.f("#FFFFFF").s().p("EgloAhlQh4AAAAh4MAAAg/ZQAAh4B4AAMBLRAAAQB4AAAAB4MAAAA/ZQAAB4h4AAg");
+	this.shape_4.setTransform(246.9,209.6);
 
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#FFFFFF").s().rr(-252.9,-214.95,505.8,429.9,12);
-	this.shape.setTransform(246.9,209.6);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.instance},{t:this.text_1},{t:this.text}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_4},{t:this.text_1},{t:this.text},{t:this.shape_3},{t:this.shape_2},{t:this.shape_1},{t:this.shape}]}).wait(1));
 
 }).prototype = getMCSymbolPrototype(lib.text01, new cjs.Rectangle(-6,-5.3,505.8,456.4), null);
 
@@ -73,13 +85,13 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.instance = new lib.Mapadebits4();
+	this.instance = new lib._0601();
 	this.instance.parent = this;
-	this.instance.setTransform(-723,-99,1.694,1.694);
+	this.instance.setTransform(478,-102,1,1,0,0,180);
 
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.imag01, new cjs.Rectangle(-723,-99,1200.9,679.2), null);
+}).prototype = getMCSymbolPrototype(lib.imag01, new cjs.Rectangle(-728,-102,1206,680), null);
 
 
 (lib.barratitulotemagr = function(mode,startPosition,loop) {
@@ -112,24 +124,32 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).wait(33).call(this.frame_33).wait(1));
 
-	// Capa 1
-	this.instance = new lib.text01();
+	// Capa 3
+	this.instance = new lib.chunk();
 	this.instance.parent = this;
-	this.instance.setTransform(257.9,241.3,1.133,1.133,0,0,0,257.9,241.3);
-	this.instance.alpha = 0;
+	this.instance.setTransform(1149,-95);
+	this.instance._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(19).to({y:261.3},0).to({scaleX:1,scaleY:1,y:281.3,alpha:1},14,cjs.Ease.get(1)).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(33).to({_off:false},0).wait(1));
 
-	// Capa 2
-	this.instance_1 = new lib.imag01();
+	// Capa 1
+	this.instance_1 = new lib.text01();
 	this.instance_1.parent = this;
-	this.instance_1.setTransform(847.6,244.6,1.134,1.134,0,0,0,199.8,237.9);
+	this.instance_1.setTransform(257.9,241.3,1.133,1.133,0,0,0,257.9,241.3);
 	this.instance_1.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({regX:199.9,scaleX:1,scaleY:1,x:847.7,alpha:1},14,cjs.Ease.get(1)).wait(20));
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(19).to({x:805.7,y:261.3},0).to({scaleX:1,scaleY:1,x:817.7,y:281.3,alpha:1},14,cjs.Ease.get(1)).wait(1));
+
+	// Capa 2
+	this.instance_2 = new lib.imag01();
+	this.instance_2.parent = this;
+	this.instance_2.setTransform(847.6,244.6,1.134,1.134,0,0,0,199.8,237.9);
+	this.instance_2.alpha = 0;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance_2).to({regX:199.9,scaleX:1,scaleY:1,x:847.7,alpha:1},14,cjs.Ease.get(1)).wait(20));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-199.3,-137.6,1362.3,770.5);
+p.nominalBounds = new cjs.Rectangle(-205,-141,1368.2,771.4);
 
 
 (lib.barratitulotema = function(mode,startPosition,loop) {
@@ -218,7 +238,7 @@ p.nominalBounds = new cjs.Rectangle(0,-58,1200,58.6);
 	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(478.7,279.5,1362.3,786.2);
+p.nominalBounds = new cjs.Rectangle(473,279.5,1368.2,783.7);
 // library properties:
 lib.properties = {
 	width: 1200,
@@ -227,7 +247,7 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/AC_IMCR_OV_06_atlas_.png?1573493864158", id:"AC_IMCR_OV_06_atlas_"}
+		{src:"images/AC_IMCR_OV_06_atlas_.jpg?1576260600702", id:"AC_IMCR_OV_06_atlas_"}
 	],
 	preloads: []
 };

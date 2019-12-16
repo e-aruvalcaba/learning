@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<manifest identifier="NLSC26"
+<manifest identifier="FLNC01"
 version="1.4" 
 xmlns="https://www.imsglobal.org/xsd/imscp_v1p1"
 xmlns:adlcp="https://www.adlnet.org/xsd/adlcp_v1p3"
@@ -20,9 +20,9 @@ https://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd">
 </metadata>
   <organizations default="Freelance_Learning">
     <organization identifier="Freelance_Learning">
-      <title>Arca Continental ISMR Overview</title>
+      <title>Arca Continental IMCR Overview</title>
       <item identifier="SCORM_ITEM_SAP" identifierref="SCORM_RESOURCE_SAP" isvisible="true">
-        <title>Arca Continental ISMR Overview</title>
+        <title>Arca Continental IMCR Overview</title>
 		<adlcp:masteryscore>80</adlcp:masteryscore>
       </item>
     </organization>

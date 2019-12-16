@@ -1,17 +1,27 @@
 (function (lib, img, cjs, ss, an) {
 
 var p; // shortcut to reference prototypes
-lib.ssMetadata = [];
+lib.ssMetadata = [
+		{name:"AC_IMCR_OV_24_atlas_", frames: [[0,0,521,395],[523,0,51,45]]}
+];
 
 
 // symbols:
 
 
 
-(lib.Mapadebits25 = function() {
-	this.initialize(img.Mapadebits25);
-}).prototype = p = new cjs.Bitmap();
-p.nominalBounds = new cjs.Rectangle(0,0,413,353);// helper functions:
+(lib._2401 = function() {
+	this.spriteSheet = ss["AC_IMCR_OV_24_atlas_"];
+	this.gotoAndStop(0);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.chunk = function() {
+	this.spriteSheet = ss["AC_IMCR_OV_24_atlas_"];
+	this.gotoAndStop(1);
+}).prototype = p = new cjs.Sprite();
+// helper functions:
 
 function mc_symbol_clone() {
 	var clone = this._cloneProps(new this.constructor(this.mode, this.startPosition, this.loop));
@@ -34,20 +44,20 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.instance = new lib.Mapadebits25();
+	this.instance = new lib._2401();
 	this.instance.parent = this;
-	this.instance.setTransform(11,24,1.187,1.187);
+	this.instance.setTransform(11,38);
 
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.text01, new cjs.Rectangle(11,24,490.2,419), null);
+}).prototype = getMCSymbolPrototype(lib.text01, new cjs.Rectangle(11,38,521,395), null);
 
 
 (lib.imag01 = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Capa 1
-	this.text = new cjs.Text("Si detectas señales de incidentes, repórtalos inmediatamente a tu equipo local de IMCR.\n\ncorreo@correo.com", "18px 'Arial'");
+	this.text = new cjs.Text("Si detectas señales de incidentes, repórtalos inmediatamente a tu equipo local de IMCR.\n\nIMCR@arcacontal.com", "18px 'Arial'");
 	this.text.lineHeight = 22;
 	this.text.lineWidth = 448;
 	this.text.parent = this;
@@ -88,25 +98,33 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).wait(40).call(this.frame_40).wait(1));
 
-	// Capa 2
-	this.instance = new lib.imag01();
+	// Capa 3
+	this.instance = new lib.chunk();
 	this.instance.parent = this;
-	this.instance.setTransform(847.6,244.6,1.134,1.134,0,0,0,199.8,237.9);
-	this.instance.alpha = 0;
+	this.instance.setTransform(1132,-86);
 	this.instance._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(21).to({_off:false},0).to({regX:199.9,scaleX:1,scaleY:1,x:847.7,alpha:1},14,cjs.Ease.get(1)).wait(6));
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(40).to({_off:false},0).wait(1));
+
+	// Capa 2
+	this.instance_1 = new lib.imag01();
+	this.instance_1.parent = this;
+	this.instance_1.setTransform(847.6,244.6,1.134,1.134,0,0,0,199.8,237.9);
+	this.instance_1.alpha = 0;
+	this.instance_1._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(21).to({_off:false},0).to({regX:199.9,scaleX:1,scaleY:1,x:847.7,alpha:1},14,cjs.Ease.get(1)).wait(6));
 
 	// Capa 1
-	this.instance_1 = new lib.text01();
-	this.instance_1.parent = this;
-	this.instance_1.setTransform(257.9,241.3,1.133,1.133,0,0,0,257.9,241.3);
-	this.instance_1.alpha = 0;
+	this.instance_2 = new lib.text01();
+	this.instance_2.parent = this;
+	this.instance_2.setTransform(257.9,241.3,1.133,1.133,0,0,0,257.9,241.3);
+	this.instance_2.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(14).to({scaleX:1,scaleY:1,alpha:1},14,cjs.Ease.get(1)).wait(13));
+	this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(14).to({scaleX:1,scaleY:1,alpha:1},14,cjs.Ease.get(1)).wait(13));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-21.7,-4.8,555.2,474.5);
+p.nominalBounds = new cjs.Rectangle(-21.7,11.1,590.1,447.4);
 
 
 (lib.barratitulotema = function(mode,startPosition,loop) {
@@ -204,7 +222,7 @@ p.nominalBounds = new cjs.Rectangle(0,-58,1200,58.6);
 	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(600,279.5,1200,623);
+p.nominalBounds = new cjs.Rectangle(600,279.5,1200,611.8);
 // library properties:
 lib.properties = {
 	width: 1200,
@@ -213,7 +231,7 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/Mapadebits25.png?1574041234146", id:"Mapadebits25"}
+		{src:"images/AC_IMCR_OV_24_atlas_.jpg?1576257944353", id:"AC_IMCR_OV_24_atlas_"}
 	],
 	preloads: []
 };

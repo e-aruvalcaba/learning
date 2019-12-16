@@ -7,7 +7,7 @@ Notas:
 */
 //Variables Globales
 window.start = this;
-var NombreCurso = "ARCA_CONTINENTAL_OVERVIEW_ANIMATECC";
+var NombreCurso = "ARCA_CONTINENTAL_IMCR_OVERVIEW_ANIMATECC";
 var termino = false;
 var banderillas = false;
 var Rutas = new Array();
@@ -23,6 +23,7 @@ var fullscreen = false;
 var Total;
 var TRAKtmp = new Array();
 var Evals = new Array();
+var EvalID = 24;
 var EvalInProgress = false;
 var ULTIMO = 0;
 var Avance = 0;
@@ -205,7 +206,7 @@ function mostrarTemaCompletado(texto) {
  * @description Crea dinamicamente los elementos mostrados en el menuHTML ademas les asigna su evento clic y los elementos como el titulo del curso evaluaciones etc.
  */
 function populateMenu(jsonob) {
-	let modulosbreak = [0, 3, 8, 11, 18, 20];
+	let modulosbreak = [0, 3, 6, 8, 11, 18, 20, EvalID, 25];
 	// Agregar Nombre del Curso
 	// 
 	// $("#menuContainer").append("<div id='menuTitle' class='col-xs-12 menuTitle'>Menú del curso </div>");
@@ -435,7 +436,7 @@ function IdentificarEstado() {
 		console.log("------Identificado la Ejecucion del Curso------");
 	}
 	//se determina si el curso corre en local o en linea
-	if (String(URLactual).indexOf("http://localhost") == 0) {
+	if (String(URLactual).indexOf("http://localhost") == 0 || String(URLactual).indexOf("lumicmedia.com") > 0) {
 		leeLocal();
 		ONLINE = false;
 	} else {
@@ -830,11 +831,15 @@ function iniciar_tema(canvasTema) {
 			if (debug) { console.log("llendo a la ultima pagina desde reset_navegacion"); }
 			console.log("Frame al que navegara: " + resp[1])
 			// canvasContenido.gotoAndPlay(resp[1]-1); // esto funcionaba para TMR no tengo idea
-			if (resp[0] === 25) { //25 xk es el id de la evaluacion no la pagina
+		debugger
+			if (resp[0] === EvalID) { //24 xk es el id de la evaluacion no la pagina
 				EvalInProgress = true;
 			}
 			if (!EvalInProgress) {
-				canvasContenido.gotoAndStop(resp[1] - 1);
+				
+				if(resp[1] > 1){	
+					canvasContenido.gotoAndStop(resp[1] - 1);					
+				}
 				reset_navegacion(resp[1] - 1, canvasContenido.timeline.duration);
 				reset = false;
 			}
@@ -848,7 +853,7 @@ function iniciar_tema(canvasTema) {
 			// canvasContenido.gotoAndStop(Pag[IDActual]);
 			// canvasContenido.gotoAndStop(canvasContenido.timeline.duration-1); //esto funcionaba par tmr no tengo idea
 			let frame = canvasContenido.timeline.duration;
-			if (resp[0] === 26) {
+			if (resp[0] === (EvalID + 1)) {
 				EvalInProgress = true;
 			}
 			if (EvalInProgress == false) {
