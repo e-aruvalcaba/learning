@@ -2,13 +2,20 @@
 E-Learning AnimateHTML5 programado por Adrian Ruvalcaba Garcia 
 v1.0 salida a produccion: Enero 2019.
 v2.0 terminada 20 Octubre 2019
-Notas:
--Json (ConfigurationJson.js) generado por EXCEL (configuration.xlsx) con un addin programado en C#
+
+E-Learning Animate HTML5 Template © Copyright and Disclaimer Notice:
+
+Copyright ©2019. Adrian Ruvalcaba Garcia. All Rights Reserved. You do not have permission to use, copy, modify, and distribute this software and its documentation for educational, research, and not-for-profit purposes, without fee and without a signed licensing agreement, is hereby granted, provided that the above copyright notice, this paragraph and the following two paragraphs appear in all copies, modifications, and distributions. Contact Adrian Ruvalcaba Garcia on adrian.ruvalcaba.sistemas@hotmail.com or adrian.ruvalacaba@sistemas.tecsanpedro.edu.mx for commercial licensing opportunities.
+IN NO EVENT SHALL REGENTS BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF REGENTS HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+REGENTS SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED "AS IS". REGENTS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+*Other Notes: In 2020 was first published as well as any subsequent years when a modified version is published. Publication is defined in the U.S. and MX Copyright Act as the distribution or offer of distribution of a work to the public by sale or other transfer of ownership or by rental, lease, or lending. Since some keyboards or fonts cannot reproduce the © symbol, the symbol (c) may be used instead, although the latter will not always be accepted as a substitute for the former. Use of the symbol "©" in combination with certain other requirements affords copyright protection in some foreign countries.
+
 */
 //Variables Globales
 window.start = this;
-var NombreCurso = "ARCA_CONTINENTAL_IMCR_OVERVIEW_ANIMATECC";
+// var NombreCurso = "ARCA_CONTINENTAL_OVERVIEW_ANIMATECC";
 var termino = false;
+var bloqueoSiguiente = false;
 var banderillas = false;
 var Rutas = new Array();
 var Pag = new Array();
@@ -23,7 +30,7 @@ var fullscreen = false;
 var Total;
 var TRAKtmp = new Array();
 var Evals = new Array();
-var EvalID = 24;
+var EvalID = 99; //no lleva eval
 var EvalInProgress = false;
 var ULTIMO = 0;
 var Avance = 0;
@@ -38,9 +45,6 @@ var contador = 0;
 //Al guardar un canvas puedes acceder a las funciones del archivo animate (en realidad no captas el canvas sino su archivo js)
 var canvasContenido;
 var estadoMenu = false;
-// var edoEvaluacion;
-// var edoSiguiente;
-// var edoAtras;
 var terminado = false;
 var LastMCVid = false;
 var VidLast = false;
@@ -122,8 +126,14 @@ window.onresize = function () {
 		console.log("--------------------------------------"); console.log($("#menuHTML").height());	// console.log($("#div_contenido").height());	// console.log("--------------------------------------");
 	}
 	// $("#menuHTML").height($("#div_contenido").height() - 30);
+	// var nav = getBrowserInfo().split(" ")[0];
+	var design = 80;
+	if(getBrowserInfo().split(" ")[0] == "IE"){
+		design = 95;
+	}
+
 	$("#menuHTML").height($("#div_contenido").height() - 30);
-	$("#temasContainer").height($("#menuHTML").height() - 100);
+	$("#temasContainer").height($("#menuHTML").height() - design);
 	$("#barraInferior").width($("#div_contenido").width());
 	$("#mensajesHTML").width($("#div_contenido").width());
 	$("#ultimoContainer").width($("#div_contenido").width());
@@ -131,6 +141,16 @@ window.onresize = function () {
 	let diff = h - $("#content").height();
 	$("#content").css("margin-top", (((diff / 2)).toString() + "px"));
 }
+/**
+ * @param NA.
+ * @returns boolean
+ * @description Regresa true si el curso se esta corriendo en un navegador mobile o tablet.
+ */
+function detectarMovil() {
+	var check = false;
+	(function (a) { if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true; })(navigator.userAgent || navigator.vendor || window.opera);
+	return check;
+};
 
 /**
  * @param {*} tipo Tipo de alerta. {1} para mensaje siguiente. {2} para mensaje tema terminado.
@@ -160,6 +180,8 @@ function inicializaMensajes() {
 	tl = new TimelineMax({ repeat: 0, onComplete: stopAlertas });
 	tl.from($("#mensajesHTML"), 1, { opacity: 0, left: '400px' })
 	tl.to($("#mensajesHTML"), 1, { opacity: 0, left: '400px', delay: 5 });
+	$("#div_contenido").css("min-width", "800px");
+	$("#temasContainer").css("padding-bottom", "36px");
 }
 
 /**
@@ -206,7 +228,7 @@ function mostrarTemaCompletado(texto) {
  * @description Crea dinamicamente los elementos mostrados en el menuHTML ademas les asigna su evento clic y los elementos como el titulo del curso evaluaciones etc.
  */
 function populateMenu(jsonob) {
-	let modulosbreak = [0, 3, 6, 8, 11, 18, 20, EvalID, 25];
+	let modulosbreak = [0, 1, 2, 7, 11, 17, 21, 26];
 	// Agregar Nombre del Curso
 	// 
 	// $("#menuContainer").append("<div id='menuTitle' class='col-xs-12 menuTitle'>Menú del curso </div>");
@@ -385,26 +407,18 @@ if (debug) {
 }
 function initialize() {
 
-	// var myVar = setInterval(myTimer, 30);
-	setTimeout(inicializar, 2000);
-	setTimeout(function () {
-		clearInterval(myVar);
-	}, 1999);
-	window.onresize();
-
-/**
- * jQuery.browser.mobile (http://detectmobilebrowser.com/)
- *
- * jQuery.browser.mobile will be true if the browser is a mobile device
- *
- **/
-(function(a){(jQuery.browser=jQuery.browser||{}).mobile=/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))})(navigator.userAgent||navigator.vendor||window.opera);
-
-if (jQuery.browser.mobile ) {
-	//alert("Mobile");
-	$("#barraInferior").css("position", "fixed")
-}
-
+	if (!detectarMovil()) { //bloquear curso si se detecta un navegador mobile 
+		// var myVar = setInterval(myTimer, 30);
+		setTimeout(inicializar, 2000);
+		setTimeout(function () {
+			clearInterval(myVar);
+		}, 1999);
+		window.onresize();
+	} else {
+		//Bloquear curso
+		$("#blocked").html("Este curso no es compatible con navegadores moviles, favor de lanzarlo en PC o Laptop. Error code: x00001");
+		$("#coursebl").css("display", "block");
+	}
 }
 function myTimer() {
 	document.getElementById("loaderText").innerHTML = "Cargando <br /> <br /> " + contador + "%";
@@ -448,8 +462,8 @@ function IdentificarEstado() {
 	if (debug) {
 		console.log("------Identificado la Ejecucion del Curso------");
 	}
-	//se determina si el curso corre en local o en linea
-	if (String(URLactual).indexOf("http://localhost") == 0 || String(URLactual).indexOf("lumicmedia.com") > 0) {
+	//se determina si el curso corre en local o en lineahttp://clientes.cdilearning.com/
+	if (String(URLactual).indexOf("http://localhost") == 0 || String(URLactual).indexOf("lumicmedia.com") > 0 || String(URLactual).indexOf("clientes.cdilearning.com") > 0) {
 		leeLocal();
 		ONLINE = false;
 	} else {
@@ -595,7 +609,7 @@ function setValues(ob) {
 
 	for (let i = 0; i < ob.Pag.length; i++) {
 		PagTotal += parseInt(ob.Pag[i]);
-	}	
+	}
 }
 /**
  * @param NA
@@ -829,12 +843,19 @@ function recalcularPaginaActual(newID) {
  * @description Ejecuta las funciones necesarias para registrar el inicio de un tema. Colocar esta funcion en el primer frame de cada tema.
  */
 function iniciar_tema(canvasTema) {
-	
+	debugger
 	let reset = true; //valida si el usuario esta entrando el 
 	try {
 		let resp = obtenerFramePorPagina(_root.ULTIMO);
 		if (debug) { console.log("inicio_tema", _root.IDActual); }
+
 		getCanvas(canvasTema);
+
+		// Parche para entrar desde atras de un tema
+		if (canvasContenido.timeline.duration > 1 && resp[1] == canvasContenido.timeline.duration) {
+			canvasContenido.gotoAndStop(resp[1] - 1);
+		}
+		
 		//se cambia el estado del tema a 1 lo que significa "tema iniciado"
 		if (TRAK[IDActual] < 1) {
 			TRAK[IDActual] = 1;
@@ -844,15 +865,14 @@ function iniciar_tema(canvasTema) {
 			if (debug) { console.log("llendo a la ultima pagina desde reset_navegacion"); }
 			console.log("Frame al que navegara: " + resp[1])
 			// canvasContenido.gotoAndPlay(resp[1]-1); // esto funcionaba para TMR no tengo idea
-		debugger
-			if (resp[0] === EvalID) { //24 xk es el id de la evaluacion no la pagina
+			if (resp[0] === EvalID) { //25 xk es el id de la evaluacion no la pagina
 				EvalInProgress = true;
 			}
 			if (!EvalInProgress) {
-				
-				if(resp[1] > 1){	
-					canvasContenido.gotoAndStop(resp[1] - 1);					
+				if (resp[1] > 1) {
+					canvasContenido.gotoAndStop(resp[1] - 1);
 				}
+
 				reset_navegacion(resp[1] - 1, canvasContenido.timeline.duration);
 				reset = false;
 			}
@@ -870,12 +890,14 @@ function iniciar_tema(canvasTema) {
 				EvalInProgress = true;
 			}
 			if (EvalInProgress == false) {
-				canvasContenido.gotoAndPlay(frame - 1);
+				if (canvasContenido.timeline.duration > 1) {
+					canvasContenido.gotoAndPlay(frame - 1);
+				}
 			}
 			controlAtras = false;
 		}
-		if(_root.ULTIMO >= _root.currentPagina){
-			habilitar_deshabilitar_btns(getBtnArray(btnSiguiente), "h","iniciar_tema");
+		if (_root.ULTIMO >= _root.currentPagina) {
+			habilitar_deshabilitar_btns(getBtnArray(btnSiguiente), "h", "iniciar_tema");
 		}
 		// ULTIMO = IDActual;
 		if (IDActual !== 0) {
@@ -886,13 +908,13 @@ function iniciar_tema(canvasTema) {
 		// actualizarNavegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 		guardarDatos();
 		if (debug) { console.log("fin inicio tema"); }
-	
+
 	} catch (error) {
 		if (debug) { console.warn("Error iniciando tema: " + error); }
 	}
 	actualizar_menuHTML(TRAK);
-	
-	if(reset){
+
+	if (reset) {
 		reset_navegacion(canvasContenido.timeline.position, canvasContenido.timeline.duration);
 	}
 }
@@ -1586,6 +1608,12 @@ function habilitar_deshabilitar_eval(action) {
 	}
 
 }
+function partialdisabled(){
+	$("#btnSiguiente").attr("disabled") = true;
+	setTimeout(function(){
+		$("#btnSiguiente").attr("disabled") = false;
+	}, 100);
+}
 /**
  * @params NA
  * @returns void
@@ -1594,20 +1622,30 @@ function habilitar_deshabilitar_eval(action) {
  * */
 //Función para cambio de frame dentro del div contenido
 function siguiente_frame() {
-	//Para ocultar o mostrar el canvas de siguiente frame o siguiente tema
-	if ($('#div_sim').show()) {
-		$('#div_sim').hide();// Esconder el iframe de las evaluaciones
-		limpiarSim();// Limpiar el frame de las simulaciones
+	// console.log("estado del bloquepo")
+	// console.log(bloqueoSiguiente)
+	if(!bloqueoSiguiente){
+		bloqueoSiguiente = true;
+		habilitar_deshabilitar_btns(getBtnArray(btnSiguiente));
+		//Para ocultar o mostrar el canvas de siguiente frame o siguiente tema
+		if ($('#div_sim').show()) {
+			$('#div_sim').hide();// Esconder el iframe de las evaluaciones
+			limpiarSim();// Limpiar el frame de las simulaciones
+		}
+		if (!EvalInProgress) {
+			if (pagActual < numPags - 1) { currentPagina += 1; ULTIMO = currentPagina; paginaSiguiente(); } // Avanza a la siguiente pagina 
+			else { siguienteTema(); } // Avanza al siguiente tema 
+		} else {
+			siguienteTema();
+			EvalInProgress = false;
+		}
+		_root.Avance = _root.currentPagina > _root.Avance ? _root.currentPagina : _root.Avance;
+		actualizaTemasTerminados();
+
+		setTimeout(function(){
+			bloqueoSiguiente = false;			
+		}, 100);
 	}
-	if (!EvalInProgress) {
-		if (pagActual < numPags - 1) { currentPagina += 1; ULTIMO = currentPagina; paginaSiguiente(); } // Avanza a la siguiente pagina 
-		else { siguienteTema(); } // Avanza al siguiente tema 
-	} else {
-		siguienteTema();
-		EvalInProgress = false;
-	}
-	_root.Avance = _root.currentPagina > _root.Avance ? _root.currentPagina : _root.Avance;
-	actualizaTemasTerminados();
 }
 /**
  * @params NA
@@ -1618,7 +1656,7 @@ function siguiente_frame() {
 function anterior_frame() {
 	if (!EvalInProgress) {
 		// if (pagActual > 0) {  currentPagina -= 1; ULTIMO = currentPagina; temaAnterior(IDActual + 1) }// retrocede una pagina 
-		if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1 );  currentPagina -= 1; ULTIMO = currentPagina; }// retrocede una pagina 
+		if (pagActual > 0) { canvasContenido.gotoAndStop(pagActual - 1); currentPagina -= 1; ULTIMO = currentPagina; }// retrocede una pagina 
 		else { if (IDActual > 0) { temaAnterior(); } } //retrocede un tema 	 
 	} else { //canvasContenido.gotoAndStop(pagActual - 1);
 		temaAnterior();
@@ -1675,7 +1713,7 @@ function siguienteTema() {
  * 
  * */
 function temaAnterior(id) {
-	
+
 	// if(id){
 	// 	// controlAtras = true; //setear en true para al iniciar tema enviar a ultima pagina
 	// 	currentPagina = ULTIMO - 1;
@@ -1704,7 +1742,7 @@ var sumaPag = 0;
  * @description Actualiza la navegacion y lleva a cabo validaciones para botones en cada frame.
  * */
 function reset_navegacion(pagin, cantPag) {
-	
+
 	pagin = pagin < 0 ? 0 : pagin;
 	stopAlertas();
 	pagActual = pagin; //pagina actual del tema
@@ -1722,15 +1760,6 @@ function reset_navegacion(pagin, cantPag) {
 		this.habilitar_deshabilitar_btns(getBtnArray(this.btnAtras, this.btnSiguiente), "h", "reset_navegacion");
 	}
 	guardarDatos();
-}
-
-function getTotalPaginas(){
-	let suma = 0;
-
-	for (let i = 0; i < obj.Pag.length; i++) {
-		suma+=obj.Pag[i];
-	}
-	return suma;
 }
 /**
  * @param NA
@@ -1873,4 +1902,4 @@ function actualizar_menuHTML(TrakCurso) {
 		}
 		return nModulo;
 	}
-}
+}// end of the way 
